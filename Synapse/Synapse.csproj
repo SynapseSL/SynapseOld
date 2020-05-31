@@ -35,8 +35,12 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\Exiled Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp_publicized.SynapseMod">
-      <HintPath>..\..\Exiled Verweise\Assembly-CSharp_publicized.SynapseMod.dll</HintPath>
+    <Reference Include="Assembly-CSharp.SynapseModLoader">
+      <HintPath>..\..\Synaps Verweise\Assembly-CSharp.SynapseModLoader.dll</HintPath>
+    </Reference>
+    <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Synaps Verweise\Mirror.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
