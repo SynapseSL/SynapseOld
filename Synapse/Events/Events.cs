@@ -49,6 +49,7 @@ namespace Synapse.Events
 
         //Speak Event
         public delegate void Speak(ref SpeakEvent ev);
+        /// <summary>A Event which is activated when a user press any voice hotkey</summary>
         public static event Speak SpeakEvent;
         public static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
         {
@@ -74,6 +75,7 @@ namespace Synapse.Events
 
         //Scp049RecallEvent
         public delegate void Scp049Recall(ref Scp049RecallEvent ev);
+        /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
         public static event Scp049Recall Scp049RecallEvent;
         public static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
         {
