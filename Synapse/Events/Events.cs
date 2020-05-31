@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets._Scripts.Dissonance;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -44,6 +45,31 @@ namespace Synapse.Events
             RemoteCommandEvent.Invoke(ref ev);
 
             allow = ev.Allow;
+        }
+
+        //Speak Event
+        public delegate void Speak(ref SpeakEvent ev);
+        public static event Speak SpeakEvent;
+        public static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
+        {
+            if (SpeakEvent == null) return;
+
+            SpeakEvent ev = new SpeakEvent(dissonance.gameObject.GetComponent<ReferenceHub>(), dissonance)
+            {
+                IntercomTalk = intercom,
+                RadioTalk = radio,
+                Scp939Talk = scp939,
+                ScpChat = scpchat,
+                SpectatorChat = spectator
+            };
+
+            SpeakEvent.Invoke(ref ev);
+
+            intercom = ev.IntercomTalk;
+            radio = ev.RadioTalk;
+            scp939 = ev.Scp939Talk;
+            scpchat = ev.ScpChat;
+            spectator = ev.SpectatorChat;
         }
     }
 }
