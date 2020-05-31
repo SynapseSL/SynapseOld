@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace Synapse.Events
 {
-    public class Events
+    public static class Events
     {
         //JoinEvent
-        public delegate void Playerjoin(ref PlayerJoinEvent ev);
+        public delegate void PlayerJoin(ref PlayerJoinEvent ev);
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
-        public static event Playerjoin PlayerjoinEvent;
-        public static void InvokePlayerjoinEvent(ReferenceHub player,ref string nick)
+        public static event PlayerJoin PlayerJoinEvent;
+        public static void InvokePlayerJoinEvent(ReferenceHub player,ref string nick)
         {
-            if (PlayerjoinEvent == null) return;
+            if (PlayerJoinEvent == null) return;
             var ev = new PlayerJoinEvent(player)
             {
                 Nick = nick,
             };
 
-            PlayerjoinEvent.Invoke(ref ev);
+            PlayerJoinEvent.Invoke(ref ev);
 
             nick = ev.Nick;
         }

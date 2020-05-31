@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Synapse.Events
 {
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class PlayerJoinEvent : EventArgs
     {
-        //Eigenschaften
+        // Properties
         public ReferenceHub Player { get; private set; }
 
         public string Nick { get; set; }
 
-        //Konstruktor
+        // Constructor
         public PlayerJoinEvent(ReferenceHub player)
         {
             Player = player;
