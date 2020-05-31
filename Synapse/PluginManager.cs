@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Synapse.Events.Patches;
-using Loader;
 
 namespace Synapse
 {
@@ -30,7 +29,7 @@ namespace Synapse
 
             if (!Directory.Exists(serverPluginDirectory))
                 Directory.CreateDirectory(serverPluginDirectory);
-
+            
             var plugins = Directory.GetFiles(serverPluginDirectory);
 
             foreach (var plugin in plugins)
@@ -77,7 +76,7 @@ namespace Synapse
             Log.Info($"Loading {pluginPath}");
             try
             {
-                var file = ModLoader.ReadFile(pluginPath);
+                var file = ReadFile(pluginPath);
                 var assembly = Assembly.Load(file);
 
                 foreach (var type in assembly.GetTypes())
@@ -131,6 +130,19 @@ namespace Synapse
             {
                 Log.Error($"PatchError: {e}");
             }
+        }
+        
+        public static byte[] ReadFile(string path)
+        {
+            FileStream fileStream = File.Open(path, FileMode.Open);
+            byte[] result;
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                fileStream.CopyTo(memoryStream);
+                result = memoryStream.ToArray();
+            }
+            fileStream.Close();
+            return result;
         }
     }
 }
