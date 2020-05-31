@@ -6,11 +6,11 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(NicknameSync), nameof(NicknameSync.UpdateNickname))]
     public static class PlayerJoinPatch
     {
-        public static bool Prefix(NicknameSync instance, ref string n)
+        public static bool Prefix(NicknameSync __instance, ref string n)
         {
             try
             {
-                var player = instance.GetComponent<ReferenceHub>();
+                var player = __instance.GetComponent<ReferenceHub>();
 
                 if (!string.IsNullOrEmpty(player.characterClassManager.UserId))
                     Events.InvokePlayerJoinEvent(player, ref n);
