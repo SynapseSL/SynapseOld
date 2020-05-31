@@ -12,12 +12,13 @@ namespace Synapse.Events
         public delegate void Playerjoin(PlayerJoinEvent ev);
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         public static event Playerjoin PlayerjoinEvent;
-        public static void InvokePlayerjoinEvent(ReferenceHub player)
+        public static void InvokePlayerjoinEvent(ReferenceHub player,ref string nick)
         {
             if (PlayerjoinEvent == null) return;
             var ev = new PlayerJoinEvent()
             {
                 Player = player,
+                Nick = nick,
             };
 
             PlayerjoinEvent.Invoke(ev);
