@@ -4,8 +4,15 @@ namespace Synapse.Events
 {
     public class PlayerJoinEvent : EventArgs
     {
-        public ReferenceHub Player { get; set; }
+        //Eigenschaften
+        public ReferenceHub Player { get; private set; }
 
         public string Nick { get; set; }
+
+        //Konstruktor
+        public PlayerJoinEvent(ReferenceHub player)
+        {
+            Player = player;
+        }
     }
 }
