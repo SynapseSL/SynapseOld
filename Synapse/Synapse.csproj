@@ -58,6 +58,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\AmmoType.cs" />
+    <Compile Include="Api\ZoneType.cs" />
+    <Compile Include="Api\Room.cs" />
+    <Compile Include="Api\Player.cs" />
+    <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Eventargs.cs" />
     <Compile Include="Events\Events.cs" />

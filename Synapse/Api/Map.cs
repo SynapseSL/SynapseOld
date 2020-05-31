@@ -1,11 +1,15 @@
 ﻿using System.Linq;
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
 
 namespace Synapse.Api
 {
     public static class Map
     {
+		//Variablen
+		private static List<Room> _rooms = new List<Room>();
+		//Methoden
 		/// <summary>Gives you the Position of the Door</summary>
 		/// <param name="Doorname">Name of the Door you want</param>
 		/// <returns></returns>
@@ -93,9 +97,47 @@ namespace Synapse.Api
 			return position;
 		}
 
+		/// <param name="name">The name of the Room you want</param>
+		/// <returns>Gives you the Position of the Room</returns>
+		public static Vector3 GetRoomPos(string name) => Rooms.Where(room => room.Name.ToUpper() == name.ToUpper()).FirstOrDefault().Position;
+
 		/// <summary>Gives you the Spawn Position of a Role</summary>
 		/// <param name="type">The Role you want to get s spawn position</param>
 		/// <returns></returns>
 		public static Vector3 GetRandomSpawnpoint(this RoleType type) => UnityEngine.Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
+
+		/// <summary>Gives You a List with all Rooms on the Server</summary>
+		public static List<Room> Rooms
+        {
+            get
+            {
+				if (_rooms == null || _rooms.Count == 0)
+					_rooms = Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room")).Select(obj => new Room { Name = obj.name, Position = obj.position, Transform = obj.transform }).ToList();
+
+				return _rooms;
+            }
+        }
+
+		/// <summary>Starts the AlphaWarhead</summary>
+		public static void StartNuke()
+        {
+			var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
+			alpha.InstantPrepare();
+			alpha.StartDetonation();
+        }
+
+		/// <summary>Stops the AlphaWarhead</summary>
+		public static void StopNuke()
+        {
+			var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
+			alpha.CancelDetonation();
+		}
+
+		/// <summary>Detonate the AlphaWarhead instantly</summary>
+		public static void DetonateNuke()
+        {
+			var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
+			alpha.Detonate();
+		}
 	}
 }
