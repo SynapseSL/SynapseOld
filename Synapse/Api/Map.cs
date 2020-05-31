@@ -2,6 +2,8 @@
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using CustomPlayerEffects;
+using LightContainmentZoneDecontamination;
 
 namespace Synapse.Api
 {
@@ -139,5 +141,11 @@ namespace Synapse.Api
 			var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
 			alpha.Detonate();
 		}
+
+		/// <summary>Gets The Status of is the NukeDetonated</summary>
+		public static bool IsNukeDetonated => PlayerManager.localPlayer.GetComponent<AlphaWarheadController>().detonated;
+
+		/// <summary>Gets The Status of is the NukeInProgress</summary>
+		public static bool IsNukeInProgress => PlayerManager.localPlayer.GetComponent<AlphaWarheadController>().inProgress;
 	}
 }

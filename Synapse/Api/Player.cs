@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Synapse.Api
 {
@@ -56,5 +57,37 @@ namespace Synapse.Api
 		/// <param name="player">The User you want the Id of</param>
 		/// <returns>The User ID (1234@steam) of the User</returns>
 		public static string GetUserId(this ReferenceHub player) => player.characterClassManager.UserId;
+
+		/// <summary>Gives you The Position of the User</summary>
+		/// <param name="player">The User which Position you want to have</param>
+		public static Vector3 GetPosition(this ReferenceHub player) => player.playerMovementSync.transform.position;
+
+		/// <summary>Gives You the Current Room the user is in</summary>
+		/// <returns></returns>
+		public static Room GetCurrentRoom(this ReferenceHub player)
+        {
+			Vector3 playerpos = player.GetPosition();
+			Vector3 end = playerpos - new Vector3(0f, 10f, 0f);
+			bool flag = Physics.Linecast(playerpos, end, out RaycastHit raycastHit, -84058629);
+
+			if (!flag || raycastHit.transform == null)
+				return null;
+
+			Transform transform = raycastHit.transform;
+
+			while (transform.parent != null && transform.parent.parent != null)
+				transform = transform.parent;
+
+			foreach (Room room in Map.Rooms)
+				if (room.Position == transform.position)
+					return room;
+
+			return new Room
+			{
+				Name = transform.name,
+				Position = transform.position,
+				Transform = transform
+			};
+		}
 	}
 }
