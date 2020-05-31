@@ -1,9 +1,6 @@
 ﻿using System.Linq;
 using UnityEngine;
-using Mirror;
 using System.Collections.Generic;
-using CustomPlayerEffects;
-using LightContainmentZoneDecontamination;
 
 namespace Synapse.Api
 {

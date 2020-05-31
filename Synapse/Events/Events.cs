@@ -25,5 +25,25 @@ namespace Synapse.Events
 
             nick = ev.Nick;
         }
+
+
+        //RemoteCommandEvent
+        public delegate void RemoteCommand(ref RemoteCommandEvent ev);
+        /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
+        /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
+        public static event RemoteCommand RemoteCommandEvent;
+        public static void InvokeRemoteCommandEvent(CommandSender sender,string command,ref bool allow)
+        {
+            if (RemoteCommandEvent == null) return;
+
+            var ev = new RemoteCommandEvent(sender, command)
+            {
+                Allow = allow,
+            };
+
+            RemoteCommandEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
     }
 }

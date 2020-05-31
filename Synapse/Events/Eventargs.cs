@@ -17,4 +17,26 @@ namespace Synapse.Events
             Player = player;
         }
     }
+
+    public class RemoteCommandEvent : EventArgs
+    {
+        //Eigenschaften
+        public CommandSender Sender { get; private set; }
+
+        public ReferenceHub Player
+        {
+            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : ReferenceHub.GetHub(int.Parse(Sender.SenderId));
+        }
+
+        public bool Allow { get; set; }
+
+        public string Command { get; private set; }
+
+        //Konstruktor
+        public RemoteCommandEvent(CommandSender sender,string command)
+        {
+            Sender = sender;
+            Command = command;
+        }
+    }
 }
