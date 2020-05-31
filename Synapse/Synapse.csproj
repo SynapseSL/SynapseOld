@@ -68,6 +68,7 @@
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Eventargs.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\Scp049RecallPatch.cs" />
     <Compile Include="Events\Patches\SpeakPatch.cs" />
     <Compile Include="Events\Patches\ServerNamePatch.cs" />
     <Compile Include="Events\Patches\RemoteAdminPatch.cs" />

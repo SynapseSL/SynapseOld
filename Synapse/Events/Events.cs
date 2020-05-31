@@ -71,5 +71,30 @@ namespace Synapse.Events
             scpchat = ev.ScpChat;
             spectator = ev.SpectatorChat;
         }
+
+        //Scp049RecallEvent
+        public delegate void Scp049Recall(ref Scp049RecallEvent ev);
+        public static event Scp049Recall Scp049RecallEvent;
+        public static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
+        {
+            if (Scp049RecallEvent == null) return;
+
+            Scp049RecallEvent ev = new Scp049RecallEvent(player)
+            {
+                Allow = allow,
+                Ragdoll = ragdoll,
+                Target = target,
+                RespawnRole = role,
+                TargetHealth = lives,
+            };
+
+            Scp049RecallEvent.Invoke(ref ev);
+
+            ragdoll = ev.Ragdoll;
+            target = ev.Target;
+            role = ev.RespawnRole;
+            lives = ev.TargetHealth;
+            allow = ev.Allow;
+        }
     }
 }

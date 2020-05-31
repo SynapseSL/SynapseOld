@@ -63,4 +63,24 @@ namespace Synapse.Events
             DissonanceUserSetup = setup;
         }
     }
+
+    public class Scp049RecallEvent : EventArgs
+    {
+        public ReferenceHub Player { get; set; }
+
+        public ReferenceHub Target { get; set; }
+
+        public bool Allow { get; set; }
+
+        public RoleType RespawnRole { get; set; }
+
+        public float TargetHealth { get; set; }
+
+        public Ragdoll Ragdoll { get; set; }
+
+        public Scp049RecallEvent(ReferenceHub player)
+        {
+            Player = player;
+        }
+    }
 }
