@@ -28,7 +28,7 @@ namespace SynapseModLoader
             {
                 return;
             }
-            ServerConsole.AddLog("Synpase Mod-Loader is now intialising.. :)", ConsoleColor.Blue);
+            ServerConsole.AddLog("Synapse Mod-Loader is now intialising.. :)", ConsoleColor.Blue);
             string text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
             if (!Directory.Exists(text))
             {
