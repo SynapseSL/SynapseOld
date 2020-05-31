@@ -42,11 +42,15 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\Synaps Verweise\UnityEngine.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>..\..\Exiled Verweise\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Map.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PluginManager.cs" />

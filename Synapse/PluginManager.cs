@@ -26,13 +26,13 @@ namespace Synapse
 
             LoadDependencies();
 
-            List<string> plugins = Directory.GetFiles(ServerPluginDirectory).Where(plugin => plugin.EndsWith(".dll")).ToList();
+            string[] plugins = Directory.GetFiles(ServerPluginDirectory);
 
             foreach (string plugin in plugins)
             {
                 if (plugin.EndsWith("Synapse.dll")) continue;
 
-                LoadPlugin(plugin);
+                if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
             }
 
             OnEnable();
