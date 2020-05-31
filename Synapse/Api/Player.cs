@@ -12,7 +12,8 @@ namespace Synapse.Api
         /// <param name="message">The Message you want to send</param>
         /// <param name="success">True = green the command is right you have permission and execute it successfully</param>
         /// <param name="type">In Which Category should you see it too?</param>
-        public static void RaMessage(this CommandSender sender, string pluginName,string message, bool success = true, RaCategory type = RaCategory.None)
+        public static void RaMessage(this CommandSender sender, string pluginName, string message, bool success = true,
+            RaCategory type = RaCategory.None)
         {
             var category = "";
             switch (type)
@@ -48,8 +49,9 @@ namespace Synapse.Api
         /// <param name="rh">The User you want to send a Broadcast</param>
         /// <param name="time">How Long should he see it?</param>
         /// <param name="message">The message you send</param>
-        public static void Broadcast(this ReferenceHub rh, ushort time, string message) => 
-            rh.GetComponent<Broadcast>().TargetAddElement(rh.scp079PlayerScript.connectionToClient, message, time, new Broadcast.BroadcastFlags());
+        public static void Broadcast(this ReferenceHub rh, ushort time, string message) =>
+            rh.GetComponent<Broadcast>().TargetAddElement(rh.scp079PlayerScript.connectionToClient, message, time,
+                new Broadcast.BroadcastFlags());
 
         /// <summary>Sends a broadcast to the user and delete all previous so that he see it instantly</summary>
         /// <param name="rh">The user</param>
@@ -63,7 +65,8 @@ namespace Synapse.Api
 
         /// <summary>Clears all of the current Broadcast the user has</summary>
         /// <param name="player">The Player which Broadcast should be cleared</param>
-        public static void ClearBroadcasts(this ReferenceHub player) => player.GetComponent<Broadcast>().TargetClearElements(player.scp079PlayerScript.connectionToClient);
+        public static void ClearBroadcasts(this ReferenceHub player) => player.GetComponent<Broadcast>()
+            .TargetClearElements(player.scp079PlayerScript.connectionToClient);
 
         /// <returns>A List of all Players on the Server which are not the Server</returns>
         public static IEnumerable<ReferenceHub> GetHubs() => ReferenceHub.Hubs.Values.Where(h => !h.isLocalPlayer);
@@ -103,7 +106,7 @@ namespace Synapse.Api
                 Transform = transform
             };
         }
-        
+
         /// <summary>
         /// Gets' a players overwatch status
         /// </summary>
@@ -118,7 +121,39 @@ namespace Synapse.Api
         /// <param name="newStatus">new status to modify</param>
         public static void SetOverwatch(this ReferenceHub player, bool newStatus) =>
             player.serverRoles.SetOverwatchStatus(newStatus);
+
+        /// <summary>
+        /// Get the active role that the player currently is.
+        /// </summary>
+        /// <param name="player">The Player to be checked</param>
+        /// <returns>A RoleType identifier</returns>
+        public static RoleType GetRole(this ReferenceHub player) => player.characterClassManager.CurClass;
+
+        /// <summary>
+        /// Setting the player as a different Role
+        /// </summary>
+        /// <param name="player">the player to be changed</param>
+        /// <param name="roleType">the role the player should change to</param>
+        public static void SetRole(this ReferenceHub player, RoleType roleType) =>
+            player.characterClassManager.SetPlayersClass(roleType, player.gameObject);
         
-        
+        /// <summary>
+        /// Setting the player as a different Role
+        /// </summary>
+        /// <param name="player">the player to be changed</param>
+        /// <param name="roleType">the role the player should change to</param>
+        /// <param name="stayAtPosition">set the player to the current position on the screen.</param>
+        public static void SetRole(this ReferenceHub player, RoleType roleType, bool stayAtPosition)
+        {
+            if (stayAtPosition)
+            {
+                player.characterClassManager.NetworkCurClass = roleType;
+                player.playerStats.SetHPAmount(player.characterClassManager.Classes.SafeGet(player.GetRole()).maxHP);
+            }
+            else
+            {
+                SetRole(player, roleType);
+            }
+        }
     }
 }
