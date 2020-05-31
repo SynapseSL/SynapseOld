@@ -5,19 +5,19 @@ namespace Synapse.Events.Patches
 {
     public class PatchHandler
     {
-        //Variablen
-        private HarmonyInstance instance;
-        private int patchFixer = 0;
+        // Variables
+        private HarmonyInstance _instance;
+        private int _patchFixer = 0;
 
-        //Methoden
+        // Methods
         public void PatchMethods()
         {
             Log.Info("Harmony Patching started!");
             try
             {
-                patchFixer++;
-                instance = HarmonyInstance.Create($"SynapsEvents.patches.{patchFixer}");
-                instance.PatchAll();
+                _patchFixer++;
+                _instance = HarmonyInstance.Create($"SynapseEvents.patches.{_patchFixer}");
+                _instance.PatchAll();
                 Log.Info("Harmony Patching Done!");
             }
             catch (Exception e)
@@ -28,7 +28,7 @@ namespace Synapse.Events.Patches
 
         public void UnPatchMethods()
         {
-            instance.UnpatchAll();
+            _instance.UnpatchAll();
         }
     }
 }

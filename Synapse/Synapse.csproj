@@ -32,29 +32,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>..\..\Synaps Verweise\0Harmony.dll</HintPath>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>..\..\Exiled Verweise\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp_publicized.SynapseMod, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Synaps Verweise\Assembly-CSharp_publicized.SynapseMod.dll</HintPath>
+    <Reference Include="Assembly-CSharp_publicized.SynapseMod">
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Assembly-CSharp_publicized.SynapseMod.dll</HintPath>
     </Reference>
-    <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Synaps Verweise\Mirror.dll</HintPath>
+    <Reference Include="Mirror">
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Mirror.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\Synaps Verweise\UnityEngine.dll</HintPath>
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\Exiled Verweise\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

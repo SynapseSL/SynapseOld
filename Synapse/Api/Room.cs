@@ -9,7 +9,7 @@ namespace Synapse.Api
 {
     public class Room
     {
-        private ZoneType zone = ZoneType.Unspecified;
+        private ZoneType _zone = ZoneType.Unspecified;
         public string Name { get; set; }
         public Transform Transform { get; set; }
         public Vector3 Position { get; set; }
@@ -18,25 +18,25 @@ namespace Synapse.Api
         {
             get
             {
-                if (zone != ZoneType.Unspecified)
-                    return zone;
+                if (_zone != ZoneType.Unspecified)
+                    return _zone;
 
                 if (Position.y == -1997f)
-                    zone = ZoneType.Unspecified;
+                    _zone = ZoneType.Unspecified;
 
                 else if (Position.y >= 0f && Position.y < 500f)
-                    zone = ZoneType.LightContainment;
+                    _zone = ZoneType.LightContainment;
 
                 else if (Position.y < -100 && Position.y > -1000f)
-                    zone = ZoneType.HeavyContainment;
+                    _zone = ZoneType.HeavyContainment;
 
                 else if (Name.Contains("ENT") || Name.Contains("INTERCOM"))
-                    zone = ZoneType.Entrance;
+                    _zone = ZoneType.Entrance;
 
                 else if (Position.y >= 5)
-                    zone = ZoneType.Surface;
+                    _zone = ZoneType.Surface;
 
-                return zone;
+                return _zone;
             }
         }
     }

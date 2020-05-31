@@ -9,17 +9,17 @@ namespace Synapse.Api
 {
     public static class Map
     {
-		//Variablen
+		// Variables
 		private static List<Room> _rooms = new List<Room>();
-		//Methoden
+		// Methods
 		/// <summary>Gives you the Position of the Door</summary>
-		/// <param name="Doorname">Name of the Door you want</param>
+		/// <param name="doorName">Name of the Door you want</param>
 		/// <returns></returns>
-		public static Vector3 GetDoorpos(string Doorname)
+		public static Vector3 GetDoorPos(string doorName)
 		{
-			Vector3 vector = Vector3.down;
-			Door door = UnityEngine.Object.FindObjectsOfType<Door>().FirstOrDefault((Door dr) => dr.DoorName.ToUpper() == Doorname);
-			vector = door.transform.position;
+			var door = Object.FindObjectsOfType<Door>().FirstOrDefault((dr) => dr.DoorName.ToUpper() == doorName);
+			if (door == null) return Vector3.one;
+			var vector = door.transform.position;
 			vector.y += 2.5f;
 			for (byte b = 0; b < 21; b += 1)
 			{
@@ -83,15 +83,15 @@ namespace Synapse.Api
 		}
 
 		/// <summary>Gives you the Position of the cubes you can see when you write "showrids" in the console!</summary>
-		/// <param name="Room"></param>
+		/// <param name="room"></param>
 		/// <returns></returns>
-		public static Vector3 GetRidPos(string Room)
+		public static Vector3 GetRidPos(string room)
 		{
-			Vector3 position = new Vector3(53f, 1020f, -44f);
-			GameObject[] array = GameObject.FindGameObjectsWithTag("RoomID");
-			foreach (GameObject gameObject2 in array)
+			var position = new Vector3(53f, 1020f, -44f);
+			var array = GameObject.FindGameObjectsWithTag("RoomID");
+			foreach (var gameObject2 in array)
 			{
-				if (gameObject2.GetComponent<Rid>().id == Room)
+				if (gameObject2.GetComponent<Rid>().id == room)
 				{
 					position = gameObject2.transform.position;
 				}
@@ -106,8 +106,8 @@ namespace Synapse.Api
 		/// <summary>Gives you the Spawn Position of a Role</summary>
 		/// <param name="type">The Role you want to get s spawn position</param>
 		/// <returns></returns>
-		public static Vector3 GetRandomSpawnpoint(this RoleType type) => UnityEngine.Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
-
+		public static Vector3 GetRandomSpawnPoint(this RoleType type) => UnityEngine.Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
+		
 		/// <summary>Gives You a List with all Rooms on the Server</summary>
 		public static List<Room> Rooms
         {

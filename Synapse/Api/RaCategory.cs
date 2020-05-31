@@ -9,11 +9,11 @@ namespace Synapse.Api
     public enum RaCategory
     {
         None = 0,
-        Playerinfo,
+        PlayerInfo,
         ServerEvents,
         DoorsManagement,
         AdminTools,
         ServerConfigs,
-        PlayersManamgement,
+        PlayersManagement,
     }
 }
