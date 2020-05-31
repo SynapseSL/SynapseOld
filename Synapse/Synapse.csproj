@@ -60,6 +60,7 @@
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Eventargs.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Log.cs" />
