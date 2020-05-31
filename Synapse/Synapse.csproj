@@ -32,11 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\Exiled Verweise\Assembly-CSharp.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\Exiled Verweise\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp_publicized.SynapseMod">
+      <HintPath>..\..\Exiled Verweise\Assembly-CSharp_publicized.SynapseMod.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,6 +47,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Log.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="MainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
