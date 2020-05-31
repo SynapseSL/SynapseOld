@@ -1,6 +1,6 @@
 ﻿namespace Synapse
 {
-    public class Class1
+    public class MainLoader
     {
     }
 }
