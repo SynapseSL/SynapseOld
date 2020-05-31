@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MEC;
 using System.IO;
 using System.Reflection;
-using System.Linq;
+using Synapse.Events.Patches;
 
 namespace Synapse
 {
@@ -35,6 +35,7 @@ namespace Synapse
                 if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
             }
 
+            HarmonyPatch();
             OnEnable();
         }
 
@@ -52,6 +53,7 @@ namespace Synapse
 
                 Assembly assembly = Assembly.LoadFrom(dll);
                 LoadedDependencies.Add(assembly);
+                Log.Info($"Succesfully loaded {dll}");
             }
         }
 
@@ -110,6 +112,19 @@ namespace Synapse
                 {
                     Log.Error($"Plugin {plugin.getName} threw an exception while enabling {e}");
                 }
+            }
+        }
+
+        private static void HarmonyPatch()
+        {
+            try
+            {
+                var PatchHandler = new PatchHandler();
+                PatchHandler.PatchMethods();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"PatchError: {e}");
             }
         }
 

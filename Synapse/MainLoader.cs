@@ -8,6 +8,8 @@ namespace Synapse
         /// <summary>This method is called by the Scp Server in the assembly-csharp</summary>
         public static void LoaderExecutionCode()
         {
+            Log.Info("Checking Files");
+
             if (!Directory.Exists(PluginManager.ConfigDirectory))
                 Directory.CreateDirectory(PluginManager.ConfigDirectory);
 
@@ -24,7 +26,14 @@ namespace Synapse
                 Directory.CreateDirectory(PluginManager.DependenciesDirectory);
 
             CustomNetworkManager.Modded = true;
-            Timing.RunCoroutine(PluginManager.LoadPlugins());
+            try
+            {
+                Timing.RunCoroutine(PluginManager.LoadPlugins());
+            }
+            catch
+            {
+                Log.Error("PluginManager failed to Start restart the Server");
+            }
         }
     }
 }

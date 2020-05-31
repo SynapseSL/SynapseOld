@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\Synaps Verweise\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\Exiled Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
@@ -55,12 +58,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Eventargs.cs" />
+    <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\PatchHandler.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="MainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
