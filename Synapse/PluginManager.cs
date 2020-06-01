@@ -53,7 +53,11 @@ namespace Synapse
                 {
                     Log.Error($"NameRefreh Error : {e}");
                 }
-                var configPath = Path.Combine(ConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
+                ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
+                if (!Directory.Exists(ServerConfigDirectory))
+                    Directory.CreateDirectory(ServerConfigDirectory);
+
+                var configPath = Path.Combine(ServerConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
 
                 if (!File.Exists(configPath))
                     File.Create(configPath).Close();
