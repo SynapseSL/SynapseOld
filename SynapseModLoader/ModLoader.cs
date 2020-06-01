@@ -24,7 +24,7 @@ namespace SynapseModLoader
         // Token: 0x060027B4 RID: 10164 RVA: 0x000C1828 File Offset: 0x000BFA28
         public static void LoadModSystem()
         {
-            if (loaded)
+            if (_loaded)
             {
                 return;
             }
@@ -39,16 +39,16 @@ namespace SynapseModLoader
                 ServerConsole.AddLog("Error while loading Synapse! The Synapse.dll is missing!", ConsoleColor.Red);
                 return;
             }
-            MethodInfo methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes().SelectMany((Type p) => p.GetMethods()).FirstOrDefault((MethodInfo f) => f.Name == "LoaderExecutionCode");
+            var methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes().SelectMany((p) => p.GetMethods()).FirstOrDefault((f) => f.Name == "LoaderExecutionCode");
             if (!(methodInfo != null))
             {
                 return;
             }
             methodInfo.Invoke(null, null);
-            loaded = true;
+            _loaded = true;
         }
 
         // Token: 0x040022BC RID: 8892
-        private static bool loaded;
+        private static bool _loaded;
     }
 }

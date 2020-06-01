@@ -8,7 +8,7 @@ namespace Synapse.Events.Patches
         public static void Postfix()
         {
             ServerConsole._serverName = ServerConsole._serverName.Replace("<size=1>SM119.0.0</size>", "");
-            ServerConsole._serverName += $" <color=#00000000><size=1>Synapse-Alpha.v0.1.0</size></color>";
+            ServerConsole._serverName += $" <color=#66ff33ff><size=1>Synapse-Alpha.v0.1.0</size></color>";
         }
     }
 }

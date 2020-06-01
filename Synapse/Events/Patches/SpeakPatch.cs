@@ -7,7 +7,8 @@ namespace Synapse.Events.Patches
 	[HarmonyPatch(typeof(DissonanceUserSetup), nameof(DissonanceUserSetup.CallCmdAltIsActive))]
 	public class SpeakPatch
     {
-		public static bool Prefix(DissonanceUserSetup __instance, bool value)
+	    // ReSharper disable once InconsistentNaming
+	    public static bool Prefix(DissonanceUserSetup __instance, bool value)
 		{
 			try
 			{

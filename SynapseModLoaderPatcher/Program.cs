@@ -3,6 +3,7 @@ using System.Linq;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
 using dnlib.DotNet.Writer;
+// ReSharper disable UnusedVariable
 
 namespace SynapseModLoaderPatcher
 {

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Synapse.Events.Patches
 {
     public static class PlayerLeavePatch
     {
+        // ReSharper disable once InconsistentNaming
         public static bool Prefix(ReferenceHub __instance)
         {
             try

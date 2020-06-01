@@ -7,7 +7,7 @@ namespace Synapse.Events.Patches
     {
         // Variables
         private HarmonyInstance _instance;
-        private int _patchFixer = 0;
+        private int _patchFixer;
 
         // Methods
         public void PatchMethods()

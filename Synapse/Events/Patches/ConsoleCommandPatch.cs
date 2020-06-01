@@ -7,6 +7,7 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(QueryProcessor), nameof(QueryProcessor.ProcessGameConsoleQuery))]
     public class ConsoleCommandPatch
     {
+        // ReSharper disable once InconsistentNaming
         public static bool Prefix(QueryProcessor __instance,ref string query, bool encrypted)
         {
             try
