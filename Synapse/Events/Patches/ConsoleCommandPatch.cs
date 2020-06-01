@@ -12,7 +12,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokeConsoleCommandEvent(__instance.GetComponent<ReferenceHub>(),query,out string color, out string returning);
+                Events.InvokeConsoleCommandEvent(__instance.GetComponent<ReferenceHub>(),query,out var color, out var returning);
 
                 if (string.IsNullOrEmpty(color))
                     color = "red";
