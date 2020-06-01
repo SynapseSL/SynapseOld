@@ -22,8 +22,7 @@ namespace Synapse.Events
 
     public class RemoteCommandEvent : EventArgs
     {
-        //Eigenschaften
-        public CommandSender Sender { get; private set; }
+        public CommandSender Sender { get; internal set; }
 
         public ReferenceHub Player
         {
@@ -32,21 +31,14 @@ namespace Synapse.Events
 
         public bool Allow { get; set; }
 
-        public string Command { get; private set; }
-
-        //Konstruktor
-        public RemoteCommandEvent(CommandSender sender,string command)
-        {
-            Sender = sender;
-            Command = command;
-        }
+        public string Command { get; internal set; }
     }
 
     public class SpeakEvent : EventArgs
     {
-        public ReferenceHub Player { get; }
+        public ReferenceHub Player { get; internal set; }
 
-        public DissonanceUserSetup DissonanceUserSetup { get; }
+        public DissonanceUserSetup DissonanceUserSetup { get; internal set; }
 
         public bool Scp939Talk { get; set; }
 
@@ -57,17 +49,11 @@ namespace Synapse.Events
         public bool ScpChat { get; set; }
 
         public bool SpectatorChat { get; set; }
-
-        public SpeakEvent(ReferenceHub player, DissonanceUserSetup setup)
-        {
-            Player = player;
-            DissonanceUserSetup = setup;
-        }
     }
 
     public class Scp049RecallEvent : EventArgs
     {
-        public ReferenceHub Player { get; private set; }
+        public ReferenceHub Player { get; internal set; }
 
         public ReferenceHub Target { get; set; }
 
@@ -78,11 +64,6 @@ namespace Synapse.Events
         public float TargetHealth { get; set; }
 
         public Ragdoll Ragdoll { get; set; }
-
-        public Scp049RecallEvent(ReferenceHub player)
-        {
-            Player = player;
-        }
     }
 
     public class ConsoleCommandEvent
@@ -94,5 +75,10 @@ namespace Synapse.Events
         public string ReturnMessage { get; set; }
 
         public string Color { get; set; }
+    }
+
+    public class PlayerLeaveEvent
+    {
+        public ReferenceHub Player { get; internal set; }
     }
 }

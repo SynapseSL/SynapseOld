@@ -37,15 +37,18 @@ namespace Synapse.Events
         {
             if (RemoteCommandEvent == null) return;
 
-            var ev = new RemoteCommandEvent(sender, command)
+            var ev = new RemoteCommandEvent()
             {
                 Allow = allow,
+                Sender = sender,
+                Command = command,
             };
 
             RemoteCommandEvent.Invoke(ref ev);
 
             allow = ev.Allow;
         }
+
 
         //ConsoleCommandEvent
         public delegate void ConsoleCommand(ref ConsoleCommandEvent ev);
@@ -69,7 +72,8 @@ namespace Synapse.Events
             returning = ev.ReturnMessage;
         }
 
-        //Speak Event
+
+        //SpeakEvent
         public delegate void Speak(ref SpeakEvent ev);
         /// <summary>A Event which is activated when a user press any voice hotkey</summary>
         public static event Speak SpeakEvent;
@@ -77,13 +81,15 @@ namespace Synapse.Events
         {
             if (SpeakEvent == null) return;
 
-            SpeakEvent ev = new SpeakEvent(dissonance.gameObject.GetComponent<ReferenceHub>(), dissonance)
+            var ev = new SpeakEvent()
             {
                 IntercomTalk = intercom,
                 RadioTalk = radio,
                 Scp939Talk = scp939,
                 ScpChat = scpchat,
-                SpectatorChat = spectator
+                SpectatorChat = spectator,
+                DissonanceUserSetup = dissonance,
+                Player = dissonance.gameObject.GetComponent<ReferenceHub>(),
             };
 
             SpeakEvent.Invoke(ref ev);
@@ -95,6 +101,7 @@ namespace Synapse.Events
             spectator = ev.SpectatorChat;
         }
 
+
         //Scp049RecallEvent
         public delegate void Scp049Recall(ref Scp049RecallEvent ev);
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
@@ -103,13 +110,14 @@ namespace Synapse.Events
         {
             if (Scp049RecallEvent == null) return;
 
-            Scp049RecallEvent ev = new Scp049RecallEvent(player)
+            Scp049RecallEvent ev = new Scp049RecallEvent()
             {
                 Allow = allow,
                 Ragdoll = ragdoll,
                 Target = target,
                 RespawnRole = role,
                 TargetHealth = lives,
+                Player = player
             };
 
             Scp049RecallEvent.Invoke(ref ev);
@@ -119,6 +127,24 @@ namespace Synapse.Events
             role = ev.RespawnRole;
             lives = ev.TargetHealth;
             allow = ev.Allow;
+        }
+
+
+        //PlayerLeaveEvent
+        public delegate void PlayerLeave(PlayerLeaveEvent ev);
+        /// <summary>
+        /// A Event which is activated when a User leave the server
+        /// </summary>
+        public static event PlayerLeave PlayerLeaveEvent;
+        public static void InvokePlayerLeaveEvent(ReferenceHub player)
+        {
+            if (PlayerLeaveEvent == null) return;
+
+            var ev = new PlayerLeaveEvent()
+            {
+                Player = player,
+            };
+            PlayerLeaveEvent.Invoke(ev);
         }
     }
 }
