@@ -141,5 +141,35 @@ namespace Synapse.Events
             };
             PlayerLeaveEvent.Invoke(ev);
         }
+        
+        // RoundStartEvent
+        public delegate void OnRoundStart();
+        public static event OnRoundStart RoundStartEvent;
+
+        public static void InvokeRoundStart() => RoundStartEvent?.Invoke();
+
+        // PlayerBanEvent
+        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
+
+        public static event OnPlayerBanEvent PlayerBanEvent;
+
+        public static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
+            string reason, ReferenceHub issuer)
+        {
+            if (PlayerBanEvent == null) return;
+            
+            var ev = new PlayerBanEvent()
+            {
+                Issuer = issuer,
+                Duration = duration,
+                Reason = reason,
+                BannedPlayer =  player,
+                UserId = userId
+            };
+            
+            PlayerBanEvent.Invoke(ref ev);
+
+            allow = ev.Allowed;
+        }
     }
 }
