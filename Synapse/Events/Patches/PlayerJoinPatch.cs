@@ -6,6 +6,7 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(NicknameSync), nameof(NicknameSync.UpdateNickname))]
     public static class PlayerJoinPatch
     {
+        // ReSharper disable once InconsistentNaming
         public static bool Prefix(NicknameSync __instance, ref string n)
         {
             try

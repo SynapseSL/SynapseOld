@@ -4,7 +4,7 @@ namespace Synapse
 {
     public abstract class Plugin
     {
-        private string ownPluginFolder; 
+        private string _ownPluginFolder; 
 
         public static YamlConfig Config;
 
@@ -12,12 +12,12 @@ namespace Synapse
         { 
             get
             {
-                if (!Directory.Exists(ownPluginFolder))
-                    Directory.CreateDirectory(ownPluginFolder);
+                if (!Directory.Exists(_ownPluginFolder))
+                    Directory.CreateDirectory(_ownPluginFolder);
 
-                return ownPluginFolder + Path.DirectorySeparatorChar.ToString();
+                return _ownPluginFolder + Path.DirectorySeparatorChar.ToString();
             } 
-            internal set => ownPluginFolder = value;
+            internal set => _ownPluginFolder = value;
         }
 
         public abstract string GetName { get; }

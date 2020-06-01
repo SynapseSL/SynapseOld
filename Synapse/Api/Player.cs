@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -89,7 +88,7 @@ namespace Synapse.Api
         {
             foreach (ReferenceHub hub in GetHubs())
             {
-                if (hub.GetPlayerID() == id)
+                if (hub.GetPlayerId() == id)
                     return hub;
             }
             return null;
@@ -119,7 +118,7 @@ namespace Synapse.Api
 
         /// <param name="player"></param>
         /// <returns>The PlayerID of the User</returns>
-        public static int GetPlayerID(this ReferenceHub player) => player.queryProcessor.NetworkPlayerId; 
+        public static int GetPlayerId(this ReferenceHub player) => player.queryProcessor.NetworkPlayerId; 
 
         /// <param name="player">The User you want the Id of</param>
         /// <returns>The User ID (1234@steam) of the User</returns>

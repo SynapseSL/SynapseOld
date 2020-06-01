@@ -1,5 +1,4 @@
 ﻿using Assets._Scripts.Dissonance;
-using Synapse.Api;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -26,7 +25,7 @@ namespace Synapse.Events
 
         public ReferenceHub Player
         {
-            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : Synapse.Api.Player.GetPlayer(Sender.SenderId);
+            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : Api.Player.GetPlayer(Sender.SenderId);
         }
 
         public bool Allow { get; set; }

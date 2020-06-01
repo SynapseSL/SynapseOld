@@ -103,7 +103,7 @@ namespace Synapse.Api
 		/// <summary>Gives you the Spawn Position of a Role</summary>
 		/// <param name="type">The Role you want to get s spawn position</param>
 		/// <returns></returns>
-		public static Vector3 GetRandomSpawnPoint(this RoleType type) => UnityEngine.Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
+		public static Vector3 GetRandomSpawnPoint(this RoleType type) => Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
 		
 		/// <summary>Gives You a List with all Rooms on the Server</summary>
 		public static List<Room> Rooms
