@@ -18,7 +18,7 @@ namespace Synapse
         public static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         public static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
         public static string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
-        public static string ServerPluginDirectoty { get; internal set; }
+        public static string ServerPluginDirectory { get; internal set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
@@ -27,8 +27,8 @@ namespace Synapse
 
             LoadDependencies();
 
-            var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerConsole.Port} Plugins");
-            ServerPluginDirectoty = serverPluginDirectory;
+            var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
+            ServerPluginDirectory = serverPluginDirectory;
 
             if (!Directory.Exists(serverPluginDirectory))
                 Directory.CreateDirectory(serverPluginDirectory);
@@ -52,7 +52,7 @@ namespace Synapse
                 Log.Error($"NameRefreh Error : {e}");
             }
 
-            var configPath = Path.Combine(ConfigDirectory, $"Server{ServerConsole.Port}-config.yml");
+            var configPath = Path.Combine(ConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
 
             if (!File.Exists(configPath))
                 File.Create(configPath).Close();
@@ -67,7 +67,7 @@ namespace Synapse
             Log.Info("Loading Dependencies...");
             var depends = Directory.GetFiles(DependenciesDirectory);
 
-            foreach (string dll in depends)
+            foreach (var dll in depends)
             {
                 if (!dll.EndsWith(".dll")) continue;
 
@@ -124,7 +124,7 @@ namespace Synapse
             {
                 try
                 {
-                    plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectoty, plugin.GetName);
+                    plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
                     plugin.OnEnable();
                 }
                 catch (Exception e)
