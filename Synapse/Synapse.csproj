@@ -59,8 +59,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Synaps Verweise\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
-    <Reference Include="YamlDotNet">
-      <HintPath>..\..\Synaps Verweise\YamlDotNet.dll</HintPath>
+    <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
+      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,8 +72,10 @@
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Eventargs.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\PlayerBanPatch.cs" />
     <Compile Include="Events\Patches\PlayerLeavePatch.cs" />
     <Compile Include="Events\Patches\ConsoleCommandPatch.cs" />
+    <Compile Include="Events\Patches\RoundStartPatch.cs" />
     <Compile Include="Events\Patches\Scp049RecallPatch.cs" />
     <Compile Include="Events\Patches\SpeakPatch.cs" />
     <Compile Include="Events\Patches\ServerNamePatch.cs" />
