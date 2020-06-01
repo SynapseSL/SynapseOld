@@ -81,7 +81,7 @@
     <Compile Include="Events\Classes\Scp049RecallClass.cs" />
     <Compile Include="Events\Classes\SpeakEventClass.cs" />
     <Compile Include="Events\Classes\SyncDataClass.cs" />
-    <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\MapEvents.cs" />
     <Compile Include="Events\Patches\DoorInteractPatch.cs" />
     <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
     <Compile Include="Events\Patches\RoundEndPatch.cs" />
@@ -96,6 +96,9 @@
     <Compile Include="Events\Patches\RemoteAdminPatch.cs" />
     <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
+    <Compile Include="Events\PlayerEvents.cs" />
+    <Compile Include="Events\ScpEvents.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Permissions\PermissionReader.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Log.cs" />
