@@ -17,6 +17,7 @@ namespace Synapse
         public static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         public static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
         public static string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
+        public static string ServerPluginDirectoty { get; internal set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
@@ -26,6 +27,7 @@ namespace Synapse
             LoadDependencies();
 
             var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerConsole.Port} Plugins");
+            ServerPluginDirectoty = serverPluginDirectory;
 
             if (!Directory.Exists(serverPluginDirectory))
                 Directory.CreateDirectory(serverPluginDirectory);
@@ -40,12 +42,15 @@ namespace Synapse
             }
 
             HarmonyPatch();
-            OnEnable();
 
             var configPath = Path.Combine(ConfigDirectory, $"Server{ServerConsole.Port}-config.yml");
 
             if (!File.Exists(configPath))
                 File.Create(configPath).Close();
+
+            Plugin.Config = new YamlConfig(configPath);
+
+            OnEnable();
         }
 
         private static void LoadDependencies()
@@ -111,6 +116,7 @@ namespace Synapse
                 try
                 {
                     plugin.OnEnable();
+                    plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectoty, plugin.GetName);
                 }
                 catch (Exception e)
                 {
