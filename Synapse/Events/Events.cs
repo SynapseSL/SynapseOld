@@ -1,5 +1,4 @@
 ﻿using Assets._Scripts.Dissonance;
-using UnityEngine;
 
 namespace Synapse.Events
 {
