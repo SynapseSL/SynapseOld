@@ -47,6 +47,28 @@ namespace Synapse.Events
             allow = ev.Allow;
         }
 
+        //ConsoleCommandEvent
+        public delegate void ConsoleCommand(ref ConsoleCommandEvent ev);
+        /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
+        public static event ConsoleCommand ConsoleCommandEvent;
+        public static void InvokeConsoleCommandEvent(ReferenceHub player,string command,out string color,out string returning)
+        {
+            color = "red";
+            returning = "";
+            if (ConsoleCommandEvent == null) return;
+
+            var ev = new ConsoleCommandEvent()
+            {
+                Command = command,
+                Player = player,
+            };
+
+            ConsoleCommandEvent.Invoke(ref ev);
+
+            color = ev.Color;
+            returning = ev.ReturnMessage;
+        }
+
         //Speak Event
         public delegate void Speak(ref SpeakEvent ev);
         /// <summary>A Event which is activated when a user press any voice hotkey</summary>

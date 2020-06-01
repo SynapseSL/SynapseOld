@@ -69,7 +69,57 @@ namespace Synapse.Api
             .TargetClearElements(player.scp079PlayerScript.connectionToClient);
 
         /// <returns>A List of all Players on the Server which are not the Server</returns>
-        public static IEnumerable<ReferenceHub> GetHubs() => ReferenceHub.Hubs.Values.Where(h => !h.isLocalPlayer);
+        public static IEnumerable<ReferenceHub> GetHubs()
+        {
+            List<ReferenceHub> list = new List<ReferenceHub>();
+
+            foreach (GameObject gameObject in PlayerManager.players)
+            {
+                if (gameObject == PlayerManager.localPlayer || gameObject == null) continue;
+
+                list.Add(gameObject.GetComponent<ReferenceHub>());
+            }
+
+            return list;
+        }
+
+        /// <param name="id">PlayerId of the User</param>
+        /// <returns>Object Referncehub from the USer with the id</returns>
+        public static ReferenceHub GetPlayer(int id)
+        {
+            foreach (ReferenceHub hub in GetHubs())
+            {
+                if (hub.GetPlayerID() == id)
+                    return hub;
+            }
+            return null;
+        }
+
+        public static ReferenceHub GetPlayer(string args)
+        {
+            if (short.TryParse(args, out short playerid))
+                return GetPlayer(playerid);
+
+            if (args.EndsWith("@steam") || args.EndsWith("@discord") || args.EndsWith("@northwood") || args.EndsWith("@patreon"))
+            {
+                foreach (ReferenceHub player in GetHubs())
+                    if (player.GetUserId() == args)
+                        return player;
+            }
+
+            foreach (ReferenceHub hub in GetHubs())
+                if (hub.GetNickName().ToLower().Contains(args.ToLower()))
+                    return hub;
+
+            return null;
+                
+        }
+
+        public static string GetNickName(this ReferenceHub player) => player.nicknameSync.MyNick;
+
+        /// <param name="player"></param>
+        /// <returns>The PlayerID of the User</returns>
+        public static int GetPlayerID(this ReferenceHub player) => player.queryProcessor.NetworkPlayerId; 
 
         /// <param name="player">The User you want the Id of</param>
         /// <returns>The User ID (1234@steam) of the User</returns>
@@ -78,6 +128,8 @@ namespace Synapse.Api
         /// <summary>Gives you The Position of the User</summary>
         /// <param name="player">The User which Position you want to have</param>
         public static Vector3 GetPosition(this ReferenceHub player) => player.playerMovementSync.transform.position;
+
+        public static void SetPosition(this ReferenceHub player, Vector3 position, bool forceground = false) => player.playerMovementSync.OverridePosition(position, 0f, forceground);
 
         /// <summary>Gives You the Current Room the user is in</summary>
         /// <returns></returns>

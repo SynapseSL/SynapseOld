@@ -1,4 +1,5 @@
 ﻿using Assets._Scripts.Dissonance;
+using Synapse.Api;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -26,7 +27,7 @@ namespace Synapse.Events
 
         public ReferenceHub Player
         {
-            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : ReferenceHub.GetHub(int.Parse(Sender.SenderId));
+            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : Synapse.Api.Player.GetPlayer(Sender.SenderId);
         }
 
         public bool Allow { get; set; }
@@ -66,7 +67,7 @@ namespace Synapse.Events
 
     public class Scp049RecallEvent : EventArgs
     {
-        public ReferenceHub Player { get; set; }
+        public ReferenceHub Player { get; private set; }
 
         public ReferenceHub Target { get; set; }
 
@@ -82,5 +83,16 @@ namespace Synapse.Events
         {
             Player = player;
         }
+    }
+
+    public class ConsoleCommandEvent
+    {
+        public ReferenceHub Player { get; internal set; }
+
+        public string Command { get; internal set; }
+
+        public string ReturnMessage { get; set; }
+
+        public string Color { get; set; }
     }
 }
