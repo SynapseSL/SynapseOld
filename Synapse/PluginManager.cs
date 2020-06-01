@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Synapse.Events.Patches;
+using UnityEngine;
 
 namespace Synapse
 {
@@ -44,7 +45,7 @@ namespace Synapse
             HarmonyPatch();
             try
             {
-                PlayerManager.localPlayer.GetComponent<ServerConsole>().RefreshServerName();
+                ServerConsole.ReloadServerName();
             }
             catch (Exception e)
             {
