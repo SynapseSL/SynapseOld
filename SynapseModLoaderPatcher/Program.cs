@@ -1,8 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
 using dnlib.DotNet.Writer;
+using FieldAttributes = dnlib.DotNet.FieldAttributes;
+using MethodAttributes = dnlib.DotNet.MethodAttributes;
+using MethodImplAttributes = dnlib.DotNet.MethodImplAttributes;
+using TypeAttributes = dnlib.DotNet.TypeAttributes;
+
 // ReSharper disable UnusedVariable
 
 namespace SynapseModLoaderPatcher
@@ -93,7 +99,43 @@ namespace SynapseModLoaderPatcher
             body.Instructions.Add(OpCodes.Ret.ToInstruction());
 
             module.Write("Assembly-CSharp-Synapse.dll");
+
             Console.WriteLine("Synapse: Patch Complete!");
+
+            Console.WriteLine("Synapse-Public: Creating Publicized DLL");
+
+            var allTypes = module.Assembly.Modules.SelectMany(t => t.Types);
+            var allMethods = allTypes.SelectMany(t => t.Methods);
+            var allFields = allTypes.SelectMany(t => t.Fields);
+
+            foreach (var type in allTypes)
+            {
+                if (!type?.IsPublic ?? false && !type.IsNestedPublic)
+                {
+                    type.Attributes = type.IsNested ? TypeAttributes.NestedPublic : TypeAttributes.Public;
+                }
+            }
+
+            foreach (var method in allMethods)
+            {
+                if (!method?.IsPublic ?? false)
+                {
+                    method.Access = MethodAttributes.Public;
+                }
+            }
+
+
+            foreach (var field in allFields)
+            {
+                if (!field?.IsPublic ?? false)
+                {
+                    field.Access = FieldAttributes.Public;
+                }
+            }
+            
+            module.Write("Assembly-CSharp-Synapse_publizied.dll");
+
+            Console.WriteLine("Synapse-Public: Created Publizied DLL");
         }
         
         private static MethodDef FindMethod(TypeDef type, string methodName)
