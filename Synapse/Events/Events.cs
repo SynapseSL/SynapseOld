@@ -1,18 +1,19 @@
 ﻿using Assets._Scripts.Dissonance;
+using Synapse.Events.Classes;
 
 namespace Synapse.Events
 {
     public static class Events
     {
         //JoinEvent
-        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
+        public delegate void OnPlayerJoin(ref PlayerJoinClass ev);
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
         public static event OnPlayerJoin PlayerJoinEvent;
         internal static void InvokePlayerJoinEvent(ReferenceHub player, ref string nick)
         {
             if (PlayerJoinEvent == null) return;
-            var ev = new PlayerJoinEvent(player)
+            var ev = new PlayerJoinClass(player)
             {
                 Nick = nick,
             };
@@ -24,7 +25,7 @@ namespace Synapse.Events
 
 
         //RemoteCommandEvent
-        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
+        public delegate void OnRemoteCommand(ref RemoteCommandClass ev);
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
         public static event OnRemoteCommand RemoteCommandEvent;
@@ -32,7 +33,7 @@ namespace Synapse.Events
         {
             if (RemoteCommandEvent == null) return;
 
-            var ev = new RemoteCommandEvent()
+            var ev = new RemoteCommandClass()
             {
                 Allow = allow,
                 Sender = sender,
@@ -46,7 +47,7 @@ namespace Synapse.Events
 
 
         //ConsoleCommandEvent
-        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
+        public delegate void OnConsoleCommand(ref ConsoleCommandClass ev);
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         public static event OnConsoleCommand ConsoleCommandEvent;
         internal static void InvokeConsoleCommandEvent(ReferenceHub player, string command, out string color, out string returning)
@@ -55,7 +56,7 @@ namespace Synapse.Events
             returning = "";
             if (ConsoleCommandEvent == null) return;
 
-            var ev = new ConsoleCommandEvent()
+            var ev = new ConsoleCommandClass()
             {
                 Command = command,
                 Player = player,
@@ -69,14 +70,14 @@ namespace Synapse.Events
 
 
         //SpeakEvent
-        public delegate void OnSpeak(ref SpeakEvent ev);
+        public delegate void OnSpeak(ref SpeakEventClass ev);
         /// <summary>A Event which is activated when a user press any voice hotkey</summary>
         public static event OnSpeak SpeakEvent;
         internal static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
         {
             if (SpeakEvent == null) return;
 
-            var ev = new SpeakEvent()
+            var ev = new SpeakEventClass()
             {
                 IntercomTalk = intercom,
                 RadioTalk = radio,
@@ -98,14 +99,14 @@ namespace Synapse.Events
 
 
         //Scp049RecallEvent
-        public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
+        public delegate void OnScp049Recall(ref Scp049RecallClass ev);
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
         public static event OnScp049Recall Scp049RecallEvent;
         internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
         {
             if (Scp049RecallEvent == null) return;
 
-            Scp049RecallEvent ev = new Scp049RecallEvent()
+            Scp049RecallClass ev = new Scp049RecallClass()
             {
                 Allow = allow,
                 Ragdoll = ragdoll,
@@ -126,7 +127,7 @@ namespace Synapse.Events
 
 
         //PlayerLeaveEvent
-        public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
+        public delegate void OnPlayerLeave(PlayerLeaveClass ev);
         /// <summary>
         /// A Event which is activated when a User leave the server
         /// </summary>
@@ -135,7 +136,7 @@ namespace Synapse.Events
         {
             if (PlayerLeaveEvent == null) return;
 
-            var ev = new PlayerLeaveEvent()
+            var ev = new PlayerLeaveClass()
             {
                 Player = player,
             };
@@ -149,14 +150,14 @@ namespace Synapse.Events
 
 
         // PlayerBanEvent
-        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
+        public delegate void OnPlayerBanEvent(ref PlayerBanClass ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
         internal static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
             string reason, ReferenceHub issuer)
         {
             if (PlayerBanEvent == null) return;
 
-            var ev = new PlayerBanEvent()
+            var ev = new PlayerBanClass()
             {
                 Issuer = issuer,
                 Duration = duration,
@@ -185,7 +186,7 @@ namespace Synapse.Events
         {
             if (PlayerDeathEvent == null) return;
 
-            var ev = new PlayerDeathEvent()
+            var ev = new PlayerDeathClass()
             {
                 Info = infos,
                 Killer = killer,
@@ -202,7 +203,7 @@ namespace Synapse.Events
         {
             if (PlayerHurtEvent == null) return;
 
-            var ev = new PlayerHurtEvent()
+            var ev = new PlayerHurtClass()
             {
                 Player = player,
                 Attacker = attacker,
@@ -220,13 +221,13 @@ namespace Synapse.Events
         internal static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
 
         // DoorInteractEvent
-        public delegate void OnDoorInteract(ref DoorInteractEvent ev);
+        public delegate void OnDoorInteract(ref DoorInteractClass ev);
         public static event OnDoorInteract DoorInteractEvent;
         internal static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
         {
             if (DoorInteractEvent == null) return;
 
-            var ev = new DoorInteractEvent()
+            var ev = new DoorInteractClass()
             {
                 Player = player,
                 Allow = allow,
