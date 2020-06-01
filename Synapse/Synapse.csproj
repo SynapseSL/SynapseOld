@@ -70,6 +70,7 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\PlayerCuffedClass.cs" />
     <Compile Include="Events\Classes\ConsoleCommandClass.cs" />
     <Compile Include="Events\Classes\DoorInteractClass.cs" />
     <Compile Include="Events\Classes\PlayerBanClass.cs" />
@@ -82,6 +83,8 @@
     <Compile Include="Events\Classes\SpeakEventClass.cs" />
     <Compile Include="Events\Classes\SyncDataClass.cs" />
     <Compile Include="Events\MapEvents.cs" />
+    <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
     <Compile Include="Events\Patches\DoorInteractPatch.cs" />
     <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
     <Compile Include="Events\Patches\RoundEndPatch.cs" />
