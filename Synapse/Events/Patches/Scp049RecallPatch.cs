@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Harmony;
+using MEC;
 using Mirror;
 using PlayableScps;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -85,7 +87,11 @@ namespace Synapse.Events.Patches
 
 						GameCore.Console.AddDebugLog("SCPCTRL", "SCP-049 | Request 'finish recalling' accepted", MessageImportance.LessImportant);
 						RoundSummary.changed_into_zombies++;
-						referenceHub.characterClassManager.SetClassID(role);
+
+						var pos3 = component.transform.position;
+						pos3.y += 2;
+						referenceHub.SetRole(role,true);
+						Timing.CallDelayed(0.5f, () => referenceHub.SetPosition(pos3));
 						referenceHub.GetComponent<PlayerStats>().Health = live;
 						if (component.CompareTag("Ragdoll"))
 						{
