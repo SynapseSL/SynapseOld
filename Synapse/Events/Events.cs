@@ -1,4 +1,5 @@
 ﻿using Assets._Scripts.Dissonance;
+using UnityEngine;
 
 namespace Synapse.Events
 {
@@ -179,20 +180,20 @@ namespace Synapse.Events
         public static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
 
         //PlayerDieEvent
-        public delegate void OnPlayerDie(ref PlayerDieEvent ev);
-        public static event OnPlayerDie PlayerDieEvent;
+        public delegate void OnPlayerDeath(ref PlayerDeathEvent ev);
+        public static event OnPlayerDeath PlayerDeathEvent;
         public static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
         {
-            if (PlayerDieEvent == null) return;
+            if (PlayerDeathEvent == null) return;
 
-            var ev = new PlayerDieEvent()
+            var ev = new PlayerDeathEvent()
             {
                 Info = infos,
                 Killer = killer,
                 Player = player,
             };
 
-            PlayerDieEvent.Invoke(ref ev);
+            PlayerDeathEvent.Invoke(ref ev);
 
             infos = ev.Info;
         }
@@ -203,5 +204,26 @@ namespace Synapse.Events
         public static event OnRoundRestart RoundRestartEvent;
 
         public static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
+        
+        // DoorInteractEvent
+        public delegate void OnDoorInteract(ref DoorInteractEvent ev);
+
+        public static event OnDoorInteract DoorInteractEvent;
+
+        public static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
+        {
+            if (DoorInteractEvent == null) return;
+
+            var ev = new DoorInteractEvent()
+            {
+                Player = player,
+                Allow = allow,
+                Door = door
+            };
+            
+            DoorInteractEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
     }
 }

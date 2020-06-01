@@ -33,7 +33,7 @@
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp.dll</HintPath>
+          <HintPath>D:\Assemblies\Assembly-CSharp.Vanilla.dll</HintPath>
         </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />

@@ -96,12 +96,21 @@ namespace Synapse.Events
         public string Reason { get; internal set; }
     }
 
-    public class PlayerDieEvent
+    public class PlayerDeathEvent
     {
         public ReferenceHub Player { get; internal set; }
 
         public ReferenceHub Killer { get; internal set; }
 
         public PlayerStats.HitInfo Info { get; internal set; }
+    }
+
+    public class DoorInteractEvent
+    {
+        public ReferenceHub Player { get; internal set; }
+
+        public bool Allow { get; set; } = true;
+        
+        public Door Door { get; internal set; }
     }
 }
