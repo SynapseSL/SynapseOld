@@ -115,8 +115,8 @@ namespace Synapse
             {
                 try
                 {
-                    plugin.OnEnable();
                     plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectoty, plugin.GetName);
+                    plugin.OnEnable();
                 }
                 catch (Exception e)
                 {
