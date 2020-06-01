@@ -83,7 +83,6 @@
     <Compile Include="Events\Classes\SpeakEventClass.cs" />
     <Compile Include="Events\Classes\SyncDataClass.cs" />
     <Compile Include="Events\MapEvents.cs" />
-    <Compile Include="Events\Events.cs" />
     <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
     <Compile Include="Events\Patches\DoorInteractPatch.cs" />
     <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
