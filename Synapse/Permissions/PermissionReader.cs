@@ -72,7 +72,7 @@ namespace Synapse.Permissions
 		{
 			if (player == null)
 			{
-				Log.Error("Der Referncehub war Null weshalb man keine Permission heraus finden kann!");
+				Log.Error("The player has not been found, therefor no permission check could be done!");
 				return false;
 			}
 
@@ -91,13 +91,13 @@ namespace Synapse.Permissions
 				string groupName = ServerStatic.GetPermissionsHandler()._groups.FirstOrDefault(g => g.Value == player.serverRoles.Group).Key;
 				if (permissionsconfig == null)
 				{
-					Log.Error("Permission Config ist null");
+					Log.Error("Permission config is null.");
 					return false;
 				}
 
 				if (!permissionsconfig.groups.Any())
 				{
-					Log.Error("Keine permissionconfig gruppe.");
+					Log.Error("No permission group.");
 					return false;
 				}
 
