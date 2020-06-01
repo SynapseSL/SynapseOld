@@ -218,17 +218,13 @@ namespace Synapse.Events
 
         // RoundRestartEvent
         public delegate void OnRoundRestart();
-
         public static event OnRoundRestart RoundRestartEvent;
-
         internal static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
 
         // DoorInteractEvent
         public delegate void OnDoorInteract(ref DoorInteractEvent ev);
-
         public static event OnDoorInteract DoorInteractEvent;
-
-        public static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
+        internal static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
         {
             if (DoorInteractEvent == null) return;
 
