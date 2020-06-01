@@ -3,7 +3,7 @@ using Synapse.Events.Classes;
 
 namespace Synapse.Events
 {
-    public static class Events
+    public static partial class Events
     {
         //JoinEvent
         public delegate void OnPlayerJoin(ref PlayerJoinClass ev);
@@ -22,52 +22,6 @@ namespace Synapse.Events
 
             nick = ev.Nick;
         }
-
-
-        //RemoteCommandEvent
-        public delegate void OnRemoteCommand(ref RemoteCommandClass ev);
-        /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
-        /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
-        public static event OnRemoteCommand RemoteCommandEvent;
-        internal static void InvokeRemoteCommandEvent(CommandSender sender, string command, ref bool allow)
-        {
-            if (RemoteCommandEvent == null) return;
-
-            var ev = new RemoteCommandClass()
-            {
-                Allow = allow,
-                Sender = sender,
-                Command = command,
-            };
-
-            RemoteCommandEvent.Invoke(ref ev);
-
-            allow = ev.Allow;
-        }
-
-
-        //ConsoleCommandEvent
-        public delegate void OnConsoleCommand(ref ConsoleCommandClass ev);
-        /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
-        public static event OnConsoleCommand ConsoleCommandEvent;
-        internal static void InvokeConsoleCommandEvent(ReferenceHub player, string command, out string color, out string returning)
-        {
-            color = "red";
-            returning = "";
-            if (ConsoleCommandEvent == null) return;
-
-            var ev = new ConsoleCommandClass()
-            {
-                Command = command,
-                Player = player,
-            };
-
-            ConsoleCommandEvent.Invoke(ref ev);
-
-            color = ev.Color;
-            returning = ev.ReturnMessage;
-        }
-
 
         //SpeakEvent
         public delegate void OnSpeak(ref SpeakEventClass ev);
@@ -97,35 +51,6 @@ namespace Synapse.Events
             spectator = ev.SpectatorChat;
         }
 
-
-        //Scp049RecallEvent
-        public delegate void OnScp049Recall(ref Scp049RecallClass ev);
-        /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
-        public static event OnScp049Recall Scp049RecallEvent;
-        internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
-        {
-            if (Scp049RecallEvent == null) return;
-
-            Scp049RecallClass ev = new Scp049RecallClass()
-            {
-                Allow = allow,
-                Ragdoll = ragdoll,
-                Target = target,
-                RespawnRole = role,
-                TargetHealth = lives,
-                Player = player
-            };
-
-            Scp049RecallEvent.Invoke(ref ev);
-
-            ragdoll = ev.Ragdoll;
-            target = ev.Target;
-            role = ev.RespawnRole;
-            lives = ev.TargetHealth;
-            allow = ev.Allow;
-        }
-
-
         //PlayerLeaveEvent
         public delegate void OnPlayerLeave(PlayerLeaveClass ev);
         /// <summary>
@@ -142,13 +67,7 @@ namespace Synapse.Events
             };
             PlayerLeaveEvent.Invoke(ev);
         }
-
-        // RoundStartEvent
-        public delegate void OnRoundStart();
-        public static event OnRoundStart RoundStartEvent;
-        internal static void InvokeRoundStart() => RoundStartEvent?.Invoke();
-
-
+        
         // PlayerBanEvent
         public delegate void OnPlayerBanEvent(ref PlayerBanClass ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
@@ -170,14 +89,6 @@ namespace Synapse.Events
 
             allow = ev.Allowed;
         }
-
-        //RoundEndEvent
-        public delegate void OnRoundEnd();
-        /// <summary>
-        /// A Event which activate when the Round Ends (not a Restart!)
-        /// </summary>
-        public static event OnRoundEnd RoundEndEvent;
-        internal static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
 
         //PlayerDieEvent
         public delegate void OnPlayerDeath(PlayerDeathClass ev);
@@ -213,30 +124,6 @@ namespace Synapse.Events
             PlayerHurtEvent.Invoke(ref ev);
 
             info = ev.Info;
-        }
-
-        // RoundRestartEvent
-        public delegate void OnRoundRestart();
-        public static event OnRoundRestart RoundRestartEvent;
-        internal static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
-
-        // DoorInteractEvent
-        public delegate void OnDoorInteract(ref DoorInteractClass ev);
-        public static event OnDoorInteract DoorInteractEvent;
-        internal static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
-        {
-            if (DoorInteractEvent == null) return;
-
-            var ev = new DoorInteractClass()
-            {
-                Player = player,
-                Allow = allow,
-                Door = door
-            };
-            
-            DoorInteractEvent.Invoke(ref ev);
-
-            allow = ev.Allow;
         }
 
         //PlayerCuffedEvent
