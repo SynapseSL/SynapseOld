@@ -17,8 +17,9 @@ namespace Synapse
         private static string SynapseDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Synapse");
         internal static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
-        internal static string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
+        internal static string MainConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
         internal static string ServerPluginDirectory { get; set; }
+        internal static string ServerConfigDirectory { get; set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()

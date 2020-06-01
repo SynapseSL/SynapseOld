@@ -16,8 +16,8 @@ namespace Synapse
             
             Log.Info("Checking Files");
 
-            if (!Directory.Exists(PluginManager.ServerConfigDirectory))
-                Directory.CreateDirectory(PluginManager.ServerConfigDirectory);
+            if (!Directory.Exists(PluginManager.MainConfigDirectory))
+                Directory.CreateDirectory(PluginManager.MainConfigDirectory);
 
             if (!Directory.Exists(PluginManager.MainPluginDirectory))
                 Directory.CreateDirectory(PluginManager.MainPluginDirectory);
