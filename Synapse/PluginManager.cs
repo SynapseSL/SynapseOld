@@ -72,7 +72,7 @@ namespace Synapse
                 }
                 catch (Exception e)
                 {
-                    Log.Info($"Your Permission in invalid: {e}");
+                    Log.Error($"Your Permission in invalid: {e}");
                 }
             }
             catch (Exception e)
