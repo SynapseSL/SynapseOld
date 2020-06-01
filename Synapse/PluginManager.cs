@@ -42,6 +42,14 @@ namespace Synapse
             }
 
             HarmonyPatch();
+            try
+            {
+                PlayerManager.localPlayer.GetComponent<ServerConsole>().RefreshServerName();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"NameRefreh Error : {e}");
+            }
 
             var configPath = Path.Combine(ConfigDirectory, $"Server{ServerConsole.Port}-config.yml");
 
