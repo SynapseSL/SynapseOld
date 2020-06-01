@@ -15,10 +15,10 @@ namespace Synapse
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         private static readonly List<Plugin> Plugins = new List<Plugin>();
         private static string SynapseDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Synapse");
-        public static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
-        public static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
-        public static string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
-        public static string ServerPluginDirectory { get; internal set; }
+        static internal string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
+        static internal string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
+        static internal string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
+        static internal string ServerPluginDirectory { get; set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
