@@ -36,9 +36,6 @@
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
       <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\SynapseModLoaderPatcher\bin\Debug\Assembly-CSharp-Synapse_publizied.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
