@@ -46,19 +46,12 @@ namespace Synapse
                 }
 
                 HarmonyPatch();
-                try
-                {
-                    ServerConsole.ReloadServerName();
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"NameRefreh Error : {e}");
-                }
+                
                 ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
                 if (!Directory.Exists(ServerConfigDirectory))
                     Directory.CreateDirectory(ServerConfigDirectory);
 
-                var configPath = Path.Combine(ServerConfigDirectory, $"Server-config.yml");
+                var configPath = Path.Combine(ServerConfigDirectory, $"server-config.yml");
 
                 if (!File.Exists(configPath))
                     File.Create(configPath).Close();
@@ -165,8 +158,8 @@ namespace Synapse
                 Log.Error($"PatchError: {e}");
             }
         }
-        
-        public static byte[] ReadFile(string path)
+
+        private static byte[] ReadFile(string path)
         {
             FileStream fileStream = File.Open(path, FileMode.Open);
             byte[] result;
