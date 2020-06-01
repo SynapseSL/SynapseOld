@@ -238,5 +238,24 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+        //PlayerCuffedEvent
+        public delegate void OnPlayerCuffed(ref PlayerCuffedClass ev);
+        public static event OnPlayerCuffed PlayerCuffedEvent;
+        internal static void InvokePlayerCuffedEvent(ReferenceHub cuffer, ReferenceHub target, ref bool allow)
+        {
+            if (PlayerCuffedEvent == null) return;
+
+            var ev = new PlayerCuffedClass()
+            {
+                Cuffer = cuffer,
+                Target = target,
+                Allow = allow,
+            };
+
+            PlayerCuffedEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
     }
 }

@@ -15,48 +15,63 @@ namespace Synapse.Events.Patches
 				{
 					return false;
 				}
+
 				if (target == null || Vector3.Distance(target.transform.position, __instance.transform.position) > __instance.raycastDistance * 1.1f)
 				{
 					return false;
 				}
-				global::Handcuffs handcuffs = global::ReferenceHub.GetHub(target).handcuffs;
-				if (handcuffs == null || __instance.MyReferenceHub.inventory.curItem != global::ItemType.Disarmer || __instance.MyReferenceHub.characterClassManager.CurClass < global::RoleType.Scp173)
+
+				//Get The Handcuff of the Target
+				Handcuffs handcuffs = ReferenceHub.GetHub(target).handcuffs;
+				if (handcuffs == null || __instance.MyReferenceHub.inventory.curItem != ItemType.Disarmer || __instance.MyReferenceHub.characterClassManager.CurClass < RoleType.Scp173)
 				{
 					return false;
 				}
-				if (handcuffs.CufferId < 0 && handcuffs.MyReferenceHub.inventory.curItem == global::ItemType.None)
+
+				if (handcuffs.CufferId < 0 && handcuffs.MyReferenceHub.inventory.curItem == ItemType.None)
 				{
-					global::Team team = __instance.MyReferenceHub.characterClassManager.CurRole.team;
-					global::Team team2 = handcuffs.MyReferenceHub.characterClassManager.CurRole.team;
+					//Team of the person who cuffs someone
+					Team team = __instance.MyReferenceHub.characterClassManager.CurRole.team;
+					//Team of the Person who will becom cuffed
+					Team team2 = handcuffs.MyReferenceHub.characterClassManager.CurRole.team;
+
 					bool flag = false;
-					if (team == global::Team.CDP)
+
+					//Check for When the Cuffer is a DBoy
+					if (team == Team.CDP)
 					{
-						if (team2 == global::Team.MTF || team2 == global::Team.RSC)
+						if (team2 == Team.MTF || team2 == Team.RSC)
 						{
 							flag = true;
 						}
 					}
-					else if (team == global::Team.RSC)
+
+					//Check for when the Cuffer is a Nerd
+					else if (team == Team.RSC)
 					{
-						if (team2 == global::Team.CHI || team2 == global::Team.CDP)
+						if (team2 == Team.CHI || team2 == Team.CDP)
 						{
 							flag = true;
 						}
 					}
-					else if (team == global::Team.CHI)
+
+					//Check for when the Cuffer is a Chaos
+					else if (team == Team.CHI)
 					{
-						if (team2 == global::Team.MTF || team2 == global::Team.RSC)
+						if (team2 == Team.MTF || team2 == Team.RSC)
 						{
 							flag = true;
 						}
-						if (team2 == global::Team.CDP && GameCore.ConfigFile.ServerConfig.GetBool("ci_can_cuff_class_d", false))
+						if (team2 == Team.CDP && GameCore.ConfigFile.ServerConfig.GetBool("ci_can_cuff_class_d", false))
 						{
 							flag = true;
 						}
 					}
-					else if (team == global::Team.MTF)
+
+					//Check for when the Cuffer is a Mtf
+					else if (team == Team.MTF)
 					{
-						if (team2 == global::Team.CHI || team2 == global::Team.CDP)
+						if (team2 == Team.CHI || team2 == Team.CDP)
 						{
 							flag = true;
 						}
@@ -65,6 +80,12 @@ namespace Synapse.Events.Patches
 							flag = true;
 						}
 					}
+
+					//Event
+					ReferenceHub cuffer = __instance.MyReferenceHub;
+					ReferenceHub target2 = handcuffs.MyReferenceHub;
+					Events.InvokePlayerCuffedEvent(cuffer, target2, ref flag);
+
 					if (flag)
 					{
 						__instance.ClearTarget();

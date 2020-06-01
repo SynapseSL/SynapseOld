@@ -70,6 +70,7 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\PlayerCuffedClass.cs" />
     <Compile Include="Events\Classes\ConsoleCommandClass.cs" />
     <Compile Include="Events\Classes\DoorInteractClass.cs" />
     <Compile Include="Events\Classes\PlayerBanClass.cs" />
