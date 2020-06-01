@@ -211,6 +211,8 @@ namespace Synapse.Events
                 Info = info,
             };
 
+            PlayerHurtEvent.Invoke(ref ev);
+
             info = ev.Info;
         }
 
