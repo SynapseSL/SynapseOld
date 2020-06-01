@@ -95,4 +95,13 @@ namespace Synapse.Events
         
         public string Reason { get; internal set; }
     }
+
+    public class PlayerDieEvent
+    {
+        public ReferenceHub Player { get; internal set; }
+
+        public ReferenceHub Killer { get; internal set; }
+
+        public PlayerStats.HitInfo Info { get; internal set; }
+    }
 }
