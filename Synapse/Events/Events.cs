@@ -9,7 +9,7 @@ namespace Synapse.Events
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
         public static event OnPlayerJoin PlayerJoinEvent;
-        public static void InvokePlayerJoinEvent(ReferenceHub player,ref string nick)
+        internal static void InvokePlayerJoinEvent(ReferenceHub player, ref string nick)
         {
             if (PlayerJoinEvent == null) return;
             var ev = new PlayerJoinEvent(player)
@@ -28,7 +28,7 @@ namespace Synapse.Events
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
         public static event OnRemoteCommand RemoteCommandEvent;
-        public static void InvokeRemoteCommandEvent(CommandSender sender,string command,ref bool allow)
+        internal static void InvokeRemoteCommandEvent(CommandSender sender, string command, ref bool allow)
         {
             if (RemoteCommandEvent == null) return;
 
@@ -49,7 +49,7 @@ namespace Synapse.Events
         public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         public static event OnConsoleCommand ConsoleCommandEvent;
-        public static void InvokeConsoleCommandEvent(ReferenceHub player,string command,out string color,out string returning)
+        internal static void InvokeConsoleCommandEvent(ReferenceHub player, string command, out string color, out string returning)
         {
             color = "red";
             returning = "";
@@ -72,7 +72,7 @@ namespace Synapse.Events
         public delegate void OnSpeak(ref SpeakEvent ev);
         /// <summary>A Event which is activated when a user press any voice hotkey</summary>
         public static event OnSpeak SpeakEvent;
-        public static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
+        internal static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
         {
             if (SpeakEvent == null) return;
 
@@ -101,7 +101,7 @@ namespace Synapse.Events
         public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
         public static event OnScp049Recall Scp049RecallEvent;
-        public static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
+        internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
         {
             if (Scp049RecallEvent == null) return;
 
@@ -131,7 +131,7 @@ namespace Synapse.Events
         /// A Event which is activated when a User leave the server
         /// </summary>
         public static event OnPlayerLeave PlayerLeaveEvent;
-        public static void InvokePlayerLeaveEvent(ReferenceHub player)
+        internal static void InvokePlayerLeaveEvent(ReferenceHub player)
         {
             if (PlayerLeaveEvent == null) return;
 
@@ -141,30 +141,30 @@ namespace Synapse.Events
             };
             PlayerLeaveEvent.Invoke(ev);
         }
-        
+
         // RoundStartEvent
         public delegate void OnRoundStart();
         public static event OnRoundStart RoundStartEvent;
-        public static void InvokeRoundStart() => RoundStartEvent?.Invoke();
+        internal static void InvokeRoundStart() => RoundStartEvent?.Invoke();
 
 
         // PlayerBanEvent
         public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
-        public static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
+        internal static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
             string reason, ReferenceHub issuer)
         {
             if (PlayerBanEvent == null) return;
-            
+
             var ev = new PlayerBanEvent()
             {
                 Issuer = issuer,
                 Duration = duration,
                 Reason = reason,
-                BannedPlayer =  player,
+                BannedPlayer = player,
                 UserId = userId
             };
-            
+
             PlayerBanEvent.Invoke(ref ev);
 
             allow = ev.Allowed;
@@ -176,12 +176,12 @@ namespace Synapse.Events
         /// A Event which activate when the Round Ends (not a Restart!)
         /// </summary>
         public static event OnRoundEnd RoundEndEvent;
-        public static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
+        internal static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
 
         //PlayerDieEvent
         public delegate void OnPlayerDie(ref PlayerDieEvent ev);
         public static event OnPlayerDie PlayerDieEvent;
-        public static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
+        internal static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
         {
             if (PlayerDieEvent == null) return;
 
@@ -196,12 +196,29 @@ namespace Synapse.Events
 
             infos = ev.Info;
         }
-        
+
+        //PlaerHurtEvent
+        public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
+        public static event OnPlayerHurt PlayerHurtEvent;
+        internal static void InvokePlayerHurtEvent(ReferenceHub player, ReferenceHub attacker, ref PlayerStats.HitInfo info)
+        {
+            if (PlayerHurtEvent == null) return;
+
+            var ev = new PlayerHurtEvent()
+            {
+                Player = player,
+                Attacker = attacker,
+                Info = info,
+            };
+
+            info = ev.Info;
+        }
+
         // RoundRestartEvent
         public delegate void OnRoundRestart();
 
         public static event OnRoundRestart RoundRestartEvent;
 
-        public static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
+        internal static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
     }
 }
