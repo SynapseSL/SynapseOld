@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Synapse.Permissions;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -66,6 +67,22 @@ namespace Synapse.Api
         /// <param name="player">The Player which Broadcast should be cleared</param>
         public static void ClearBroadcasts(this ReferenceHub player) => player.GetComponent<Broadcast>()
             .TargetClearElements(player.scp079PlayerScript.connectionToClient);
+
+        /// <param name="hub"></param>
+        /// <param name="permission">Have the Player the Permission?</param>
+        /// <returns></returns>
+        public static bool IsAllowed(this ReferenceHub hub,string permission)
+        {
+            if (hub == PlayerManager.localPlayer) return true;
+            try
+            {
+                return PermissionReader.CheckPermission(hub, permission);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         /// <returns>A List of all Players on the Server which are not the Server</returns>
         public static IEnumerable<ReferenceHub> GetHubs()

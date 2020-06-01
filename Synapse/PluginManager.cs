@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using Synapse.Events.Patches;
 using UnityEngine;
+using Synapse.Permissions;
 
 namespace Synapse
 {
@@ -57,7 +58,7 @@ namespace Synapse
                 if (!Directory.Exists(ServerConfigDirectory))
                     Directory.CreateDirectory(ServerConfigDirectory);
 
-                var configPath = Path.Combine(ServerConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
+                var configPath = Path.Combine(ServerConfigDirectory, $"Server-config.yml");
 
                 if (!File.Exists(configPath))
                     File.Create(configPath).Close();
@@ -65,6 +66,14 @@ namespace Synapse
                 Plugin.Config = new YamlConfig(configPath);
 
                 OnEnable();
+                try
+                {
+                    PermissionReader.Init();
+                }
+                catch (Exception e)
+                {
+                    Log.Info($"Your Permission in invalid: {e}");
+                }
             }
             catch (Exception e)
             {

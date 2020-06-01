@@ -59,6 +59,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Synaps Verweise\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
+    <Reference Include="YamlDotNet">
+      <HintPath>..\..\Synaps Verweise\YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\AmmoType.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="Events\Patches\RemoteAdminPatch.cs" />
     <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
+    <Compile Include="Permissions\PermissionReader.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="PluginManager.cs" />
