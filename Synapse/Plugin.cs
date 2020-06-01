@@ -6,8 +6,15 @@ namespace Synapse
     {
         private string _ownPluginFolder; 
 
+        /// <summary>
+        /// The Main Config from the current Server which all Plugins can use
+        /// </summary>
         public static YamlConfig Config;
 
+        /// <summary>
+        /// A Directory especially for your Plugin which are created by Synapse for you!
+        /// </summary>
+        ///<remarks>The Name of the Directory is based on the GetName string from your Plugin!</remarks>
         public string OwnPluginFolder 
         { 
             get

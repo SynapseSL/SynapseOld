@@ -39,8 +39,8 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp_publicized.SynapseMod">
-      <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Assembly-CSharp_publicized.SynapseMod.dll</HintPath>
+    <Reference Include="Assembly-CSharp-Synapse_publizied">
+      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-Synapse_publizied.dll</HintPath>
     </Reference>
     <Reference Include="Mirror">
       <HintPath>D:\Downloads\Synaps_Verweise\Synaps Verweise\Mirror.dll</HintPath>
@@ -83,7 +83,6 @@
     <Compile Include="MainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

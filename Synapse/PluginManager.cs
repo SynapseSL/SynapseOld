@@ -15,51 +15,64 @@ namespace Synapse
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         private static readonly List<Plugin> Plugins = new List<Plugin>();
         private static string SynapseDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Synapse");
+
         static internal string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         static internal string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
-        static internal string ConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
+        static internal string MainConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
+
+        static internal string ServerConfigDirectory { get; set; }
         static internal string ServerPluginDirectory { get; set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
         {
             yield return Timing.WaitForSeconds(0.5f);
-
-            LoadDependencies();
-
-            var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
-            ServerPluginDirectory = serverPluginDirectory;
-
-            if (!Directory.Exists(serverPluginDirectory))
-                Directory.CreateDirectory(serverPluginDirectory);
-            
-            var plugins = Directory.GetFiles(serverPluginDirectory);
-
-            foreach (var plugin in plugins)
-            {
-                if (plugin.EndsWith("Synapse.dll")) continue;
-
-                if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
-            }
-
-            HarmonyPatch();
             try
             {
-                ServerConsole.ReloadServerName();
+                LoadDependencies();
+
+                var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
+                ServerPluginDirectory = serverPluginDirectory;
+
+                if (!Directory.Exists(serverPluginDirectory))
+                    Directory.CreateDirectory(serverPluginDirectory);
+
+                var plugins = Directory.GetFiles(serverPluginDirectory);
+
+                foreach (var plugin in plugins)
+                {
+                    if (plugin.EndsWith("Synapse.dll")) continue;
+
+                    if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
+                }
+
+                HarmonyPatch();
+                try
+                {
+                    ServerConsole.ReloadServerName();
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"NameRefreh Error : {e}");
+                }
+
+                ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
+                if (!Directory.Exists(ServerConfigDirectory))
+                    Directory.CreateDirectory(ServerConfigDirectory);
+
+                var configPath = Path.Combine(ServerConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
+
+                if (!File.Exists(configPath))
+                    File.Create(configPath).Close();
+
+                Plugin.Config = new YamlConfig(configPath);
+
+                OnEnable();
             }
             catch (Exception e)
             {
-                Log.Error($"NameRefreh Error : {e}");
+                Log.Error($"Synapse could not Start : {e}");
             }
-
-            var configPath = Path.Combine(ConfigDirectory, $"Server{ServerStatic.ServerPort}-config.yml");
-
-            if (!File.Exists(configPath))
-                File.Create(configPath).Close();
-
-            Plugin.Config = new YamlConfig(configPath);
-
-            OnEnable();
         }
 
         private static void LoadDependencies()
