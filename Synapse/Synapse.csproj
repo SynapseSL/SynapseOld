@@ -72,6 +72,7 @@
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Eventargs.cs" />
     <Compile Include="Events\Events.cs" />
+    <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
     <Compile Include="Events\Patches\DoorInteractPatch.cs" />
     <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
     <Compile Include="Events\Patches\RoundEndPatch.cs" />

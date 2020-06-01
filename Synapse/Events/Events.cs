@@ -179,7 +179,7 @@ namespace Synapse.Events
         internal static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
 
         //PlayerDieEvent
-        public delegate void OnPlayerDeath(ref PlayerDeathEvent ev);
+        public delegate void OnPlayerDeath(PlayerDeathEvent ev);
         public static event OnPlayerDeath PlayerDeathEvent;
         internal static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
         {
@@ -192,12 +192,10 @@ namespace Synapse.Events
                 Player = player,
             };
 
-            PlayerDeathEvent.Invoke(ref ev);
-
-            infos = ev.Info;
+            PlayerDeathEvent.Invoke(ev);
         }
 
-        //PlaerHurtEvent
+        //PlayerHurtEvent
         public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
         public static event OnPlayerHurt PlayerHurtEvent;
         internal static void InvokePlayerHurtEvent(ReferenceHub player, ReferenceHub attacker, ref PlayerStats.HitInfo info)
