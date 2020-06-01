@@ -49,7 +49,7 @@ namespace SynapseModLoaderPatcher
             ((AssemblyResolver) module.Context.AssemblyResolver).AddToCache(module);
             Console.WriteLine("Synapse-Injection: Injection of ModLoader");
 
-            var modLoader = ModuleDefMD.Load("ModLoader.dll");
+            var modLoader = ModuleDefMD.Load("SynapseModLoader.dll");
 
             Console.WriteLine($"Synapse-Inject: Loaded {modLoader.Name}");
 

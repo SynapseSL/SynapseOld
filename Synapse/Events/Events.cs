@@ -196,5 +196,12 @@ namespace Synapse.Events
 
             infos = ev.Info;
         }
+        
+        // RoundRestartEvent
+        public delegate void OnRoundRestart();
+
+        public static event OnRoundRestart RoundRestartEvent;
+
+        public static void InvokeRoundRestart() => RoundRestartEvent?.Invoke();
     }
 }
