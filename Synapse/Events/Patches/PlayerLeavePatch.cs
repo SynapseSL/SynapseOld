@@ -1,7 +1,9 @@
 ﻿using System;
+using Harmony;
 
 namespace Synapse.Events.Patches
 {
+    [HarmonyPatch(typeof(ReferenceHub), nameof(ReferenceHub.OnDestroy))]
     public static class PlayerLeavePatch
     {
         // ReSharper disable once InconsistentNaming

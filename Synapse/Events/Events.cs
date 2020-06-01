@@ -5,10 +5,10 @@ namespace Synapse.Events
     public static class Events
     {
         //JoinEvent
-        public delegate void PlayerJoin(ref PlayerJoinEvent ev);
+        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
-        public static event PlayerJoin PlayerJoinEvent;
+        public static event OnPlayerJoin PlayerJoinEvent;
         public static void InvokePlayerJoinEvent(ReferenceHub player,ref string nick)
         {
             if (PlayerJoinEvent == null) return;
@@ -24,10 +24,10 @@ namespace Synapse.Events
 
 
         //RemoteCommandEvent
-        public delegate void RemoteCommand(ref RemoteCommandEvent ev);
+        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
-        public static event RemoteCommand RemoteCommandEvent;
+        public static event OnRemoteCommand RemoteCommandEvent;
         public static void InvokeRemoteCommandEvent(CommandSender sender,string command,ref bool allow)
         {
             if (RemoteCommandEvent == null) return;
@@ -46,9 +46,9 @@ namespace Synapse.Events
 
 
         //ConsoleCommandEvent
-        public delegate void ConsoleCommand(ref ConsoleCommandEvent ev);
+        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
-        public static event ConsoleCommand ConsoleCommandEvent;
+        public static event OnConsoleCommand ConsoleCommandEvent;
         public static void InvokeConsoleCommandEvent(ReferenceHub player,string command,out string color,out string returning)
         {
             color = "red";
@@ -69,9 +69,9 @@ namespace Synapse.Events
 
 
         //SpeakEvent
-        public delegate void Speak(ref SpeakEvent ev);
+        public delegate void OnSpeak(ref SpeakEvent ev);
         /// <summary>A Event which is activated when a user press any voice hotkey</summary>
-        public static event Speak SpeakEvent;
+        public static event OnSpeak SpeakEvent;
         public static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio, ref bool scp939, ref bool scpchat, ref bool spectator)
         {
             if (SpeakEvent == null) return;
@@ -98,9 +98,9 @@ namespace Synapse.Events
 
 
         //Scp049RecallEvent
-        public delegate void Scp049Recall(ref Scp049RecallEvent ev);
+        public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
-        public static event Scp049Recall Scp049RecallEvent;
+        public static event OnScp049Recall Scp049RecallEvent;
         public static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
         {
             if (Scp049RecallEvent == null) return;
@@ -126,11 +126,11 @@ namespace Synapse.Events
 
 
         //PlayerLeaveEvent
-        public delegate void PlayerLeave(PlayerLeaveEvent ev);
+        public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
         /// <summary>
         /// A Event which is activated when a User leave the server
         /// </summary>
-        public static event PlayerLeave PlayerLeaveEvent;
+        public static event OnPlayerLeave PlayerLeaveEvent;
         public static void InvokePlayerLeaveEvent(ReferenceHub player)
         {
             if (PlayerLeaveEvent == null) return;
@@ -145,14 +145,12 @@ namespace Synapse.Events
         // RoundStartEvent
         public delegate void OnRoundStart();
         public static event OnRoundStart RoundStartEvent;
-
         public static void InvokeRoundStart() => RoundStartEvent?.Invoke();
+
 
         // PlayerBanEvent
         public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
-
         public static event OnPlayerBanEvent PlayerBanEvent;
-
         public static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
             string reason, ReferenceHub issuer)
         {
@@ -171,5 +169,13 @@ namespace Synapse.Events
 
             allow = ev.Allowed;
         }
+
+        //RoundEndEvent
+        public delegate void OnRoundEnd();
+        /// <summary>
+        /// A Event which activate when the Round Ends (not a Restart!)
+        /// </summary>
+        public static event OnRoundEnd RoundEndEvent;
+        public static void InvokeRoundEndEvent() => RoundEndEvent?.Invoke();
     }
 }
