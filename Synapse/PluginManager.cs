@@ -14,7 +14,7 @@ namespace Synapse
     {
         // Variables
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
-        private static readonly List<Plugin> Plugins = new List<Plugin>();
+        internal static readonly List<Plugin> Plugins = new List<Plugin>();
         private static string SynapseDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Synapse");
         internal static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");

@@ -1,5 +1,7 @@
 ﻿using Synapse.Permissions;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -41,6 +43,7 @@ namespace Synapse.Api
                     break;
             }
 
+
             sender.RaReply($"{pluginName}#" + message, success, true, category);
         }
 
@@ -67,6 +70,14 @@ namespace Synapse.Api
         /// <param name="player">The Player which Broadcast should be cleared</param>
         public static void ClearBroadcasts(this ReferenceHub player) => player.GetComponent<Broadcast>()
             .TargetClearElements(player.scp079PlayerScript.connectionToClient);
+
+        /// <summary>
+        /// Sets the Ammo a user have
+        /// </summary>
+        /// <param name="player">Player you want to set ammo</param>
+        /// <param name="ammoType">The AmmoType you give</param>
+        /// <param name="amount">How much ammo</param>
+        public static void SetAmmo(this ReferenceHub player, AmmoType ammoType, uint amount) => player.ammoBox.amount[(int)ammoType] = amount;
 
         /// <param name="hub"></param>
         /// <param name="permission">Have the Player the Permission?</param>
