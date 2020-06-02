@@ -64,7 +64,7 @@ namespace Synapse.Events.Classes
 
 				if (!allow) return false;
 
-				if (spawnRole != RoleType.None)
+				if (spawnRole != RoleType.None && spawnRole != __instance.NetworkCurClass)
                 {
 					__instance.SetPlayersClass(spawnRole, __instance.gameObject, false, true);
 					if (__instance.CurRole.team == Team.MTF)
