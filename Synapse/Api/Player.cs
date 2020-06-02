@@ -131,6 +131,8 @@ namespace Synapse.Api
                 
         }
 
+        public static ReferenceHub GetCuffer(this ReferenceHub player) => Player.GetPlayer(player.GetComponent<Handcuffs>().CufferId);
+
         public static string GetNickName(this ReferenceHub player) => player.nicknameSync.MyNick;
 
         /// <param name="player"></param>

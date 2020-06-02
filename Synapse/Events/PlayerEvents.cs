@@ -144,5 +144,27 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+        //PlayerEscapeEvent
+        public delegate void OnPlayerEscape(ref PlayerEscapeClass ev);
+        public static event OnPlayerEscape PlayerEscapeEvent;
+        internal static void InvokePlayerEscapeEvent(ReferenceHub player, ref bool allow,ref RoleType spawnrole, RoleType cufferrole, bool iscuffed)
+        {
+            if (PlayerEscapeEvent == null) return;
+
+            var ev = new PlayerEscapeClass()
+            {
+                Player = player,
+                Allow = allow,
+                SpawnRole = spawnrole,
+                CufferRole = cufferrole,
+                IsCuffed = iscuffed,
+            };
+
+            PlayerEscapeEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+            spawnrole = ev.SpawnRole;
+        }
     }
 }
