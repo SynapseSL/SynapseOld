@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using MEC;
 using System.IO;
+using MEC;
 
 namespace Synapse
 {
@@ -13,7 +13,7 @@ namespace Synapse
         {
             Log.Info("Now starting Synapse Version v.0.1.0 alpha");
             Log.Info("Created by Dimenzio and SirRoob");
-            
+
             Log.Info("Checking Files");
 
             if (!Directory.Exists(PluginManager.MainConfigDirectory))

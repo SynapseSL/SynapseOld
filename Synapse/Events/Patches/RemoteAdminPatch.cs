@@ -4,7 +4,8 @@ using RemoteAdmin;
 
 namespace Synapse.Events.Patches
 {
-    [HarmonyPatch(typeof(CommandProcessor), nameof(CommandProcessor.ProcessQuery), typeof(string), typeof(CommandSender))]
+    [HarmonyPatch(typeof(CommandProcessor), nameof(CommandProcessor.ProcessQuery), typeof(string),
+        typeof(CommandSender))]
     public class RemoteAdminPatch
     {
         public static bool Prefix(ref string q, ref CommandSender sender)
@@ -14,7 +15,7 @@ namespace Synapse.Events.Patches
                 if (q.Contains("REQUEST_DATA PLAYER_LIST SILENT"))
                     return true;
 
-                bool allow = true;
+                var allow = true;
                 Events.InvokeRemoteCommandEvent(sender, q, ref allow);
 
                 return allow;

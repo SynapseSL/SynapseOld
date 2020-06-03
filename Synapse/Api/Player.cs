@@ -1,11 +1,13 @@
-﻿using Synapse.Permissions;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using Synapse.Permissions;
 using UnityEngine;
 
 namespace Synapse.Api
 {
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class Player
     {
         /// <summary>Gives a User a Message im Remote Admin</summary>
@@ -18,6 +20,7 @@ namespace Synapse.Api
             RaCategory type = RaCategory.None)
         {
             var category = "";
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
             switch (type)
             {
                 case RaCategory.None:
@@ -52,9 +55,11 @@ namespace Synapse.Api
         /// <param name="rh">The User you want to send a Broadcast</param>
         /// <param name="time">How Long should he see it?</param>
         /// <param name="message">The message you send</param>
-        public static void Broadcast(this ReferenceHub rh, ushort time, string message) =>
+        public static void Broadcast(this ReferenceHub rh, ushort time, string message)
+        {
             rh.GetComponent<Broadcast>().TargetAddElement(rh.scp079PlayerScript.connectionToClient, message, time,
                 new Broadcast.BroadcastFlags());
+        }
 
         /// <summary>Sends a broadcast to the user and delete all previous so that he see it instantly</summary>
         /// <param name="rh">The user</param>
@@ -68,21 +73,27 @@ namespace Synapse.Api
 
         /// <summary>Clears all of the current Broadcast the user has</summary>
         /// <param name="player">The Player which Broadcast should be cleared</param>
-        public static void ClearBroadcasts(this ReferenceHub player) => player.GetComponent<Broadcast>()
-            .TargetClearElements(player.scp079PlayerScript.connectionToClient);
+        public static void ClearBroadcasts(this ReferenceHub player)
+        {
+            player.GetComponent<Broadcast>()
+                .TargetClearElements(player.scp079PlayerScript.connectionToClient);
+        }
 
         /// <summary>
-        /// Sets the Ammo a user have
+        ///     Sets the Ammo a user have
         /// </summary>
         /// <param name="player">Player you want to set ammo</param>
         /// <param name="ammoType">The AmmoType you give</param>
         /// <param name="amount">How much ammo</param>
-        public static void SetAmmo(this ReferenceHub player, AmmoType ammoType, uint amount) => player.ammoBox.amount[(int)ammoType] = amount;
+        public static void SetAmmo(this ReferenceHub player, AmmoType ammoType, uint amount)
+        {
+            player.ammoBox.amount[(int) ammoType] = amount;
+        }
 
         /// <param name="hub"></param>
         /// <param name="permission">Have the Player the Permission?</param>
         /// <returns></returns>
-        public static bool IsAllowed(this ReferenceHub hub,string permission)
+        public static bool IsAllowed(this ReferenceHub hub, string permission)
         {
             if (hub == PlayerManager.localPlayer) return true;
             try
@@ -98,87 +109,87 @@ namespace Synapse.Api
         /// <returns>A List of all Players on the Server which are not the Server</returns>
         public static IEnumerable<ReferenceHub> GetHubs()
         {
-            List<ReferenceHub> list = new List<ReferenceHub>();
-
-            foreach (GameObject gameObject in PlayerManager.players)
-            {
-                if (gameObject == PlayerManager.localPlayer || gameObject == null) continue;
-
-                list.Add(gameObject.GetComponent<ReferenceHub>());
-            }
-
-            return list;
+            return (from gameObject in PlayerManager.players
+                where gameObject != PlayerManager.localPlayer && gameObject != null
+                select gameObject.GetComponent<ReferenceHub>()).ToList();
         }
 
         /// <param name="id">PlayerId of the User</param>
-        /// <returns>Object Referncehub from the USer with the id</returns>
+        /// <returns>Object ReferenceHub from the USer with the id</returns>
         public static ReferenceHub GetPlayer(int id)
         {
-            foreach (ReferenceHub hub in GetHubs())
-            {
-                if (hub.GetPlayerId() == id)
-                    return hub;
-            }
-            return null;
+            return GetHubs().FirstOrDefault(hub => hub.GetPlayerId() == id);
         }
 
         public static ReferenceHub GetPlayer(string args)
         {
-            if (short.TryParse(args, out short playerid))
-                return GetPlayer(playerid);
+            if (short.TryParse(args, out var playerId))
+                return GetPlayer(playerId);
 
-            if (args.EndsWith("@steam") || args.EndsWith("@discord") || args.EndsWith("@northwood") || args.EndsWith("@patreon"))
-            {
-                foreach (ReferenceHub player in GetHubs())
-                    if (player.GetUserId() == args)
-                        return player;
-            }
+            if (!args.EndsWith("@steam") && !args.EndsWith("@discord") && !args.EndsWith("@northwood") &&
+                !args.EndsWith("@patreon"))
+                return GetHubs().FirstOrDefault(hub => hub.GetNickName().ToLower().Contains(args.ToLower()));
+            foreach (var player in GetHubs())
+                if (player.GetUserId() == args)
+                    return player;
 
-            foreach (ReferenceHub hub in GetHubs())
-                if (hub.GetNickName().ToLower().Contains(args.ToLower()))
-                    return hub;
-
-            return null;
-                
+            return GetHubs().FirstOrDefault(hub => hub.GetNickName().ToLower().Contains(args.ToLower()));
         }
 
-        public static ReferenceHub GetCuffer(this ReferenceHub player) => Player.GetPlayer(player.GetComponent<Handcuffs>().CufferId);
+        public static ReferenceHub GetCuffs(this ReferenceHub player)
+        {
+            return GetPlayer(player.GetComponent<Handcuffs>().CufferId);
+        }
 
-        public static string GetNickName(this ReferenceHub player) => player.nicknameSync.MyNick;
+        public static string GetNickName(this ReferenceHub player)
+        {
+            return player.nicknameSync.MyNick;
+        }
 
         /// <param name="player"></param>
         /// <returns>The PlayerID of the User</returns>
-        public static int GetPlayerId(this ReferenceHub player) => player.queryProcessor.NetworkPlayerId; 
+        public static int GetPlayerId(this ReferenceHub player)
+        {
+            return player.queryProcessor.NetworkPlayerId;
+        }
 
         /// <param name="player">The User you want the Id of</param>
         /// <returns>The User ID (1234@steam) of the User</returns>
-        public static string GetUserId(this ReferenceHub player) => player.characterClassManager.UserId;
+        public static string GetUserId(this ReferenceHub player)
+        {
+            return player.characterClassManager.UserId;
+        }
 
         /// <summary>Gives you The Position of the User</summary>
         /// <param name="player">The User which Position you want to have</param>
-        public static Vector3 GetPosition(this ReferenceHub player) => player.playerMovementSync.transform.position;
+        public static Vector3 GetPosition(this ReferenceHub player)
+        {
+            return player.playerMovementSync.transform.position;
+        }
 
-        public static void SetPosition(this ReferenceHub player, Vector3 position, bool forceground = false) => player.playerMovementSync.OverridePosition(position, 0f, forceground);
+        public static void SetPosition(this ReferenceHub player, Vector3 position, bool forceGround = false)
+        {
+            player.playerMovementSync.OverridePosition(position, 0f, forceGround);
+        }
 
         /// <summary>Gives You the Current Room the user is in</summary>
         /// <returns></returns>
         public static Room GetCurrentRoom(this ReferenceHub player)
         {
-            Vector3 playerpos = player.GetPosition();
-            Vector3 end = playerpos - new Vector3(0f, 10f, 0f);
-            bool flag = Physics.Linecast(playerpos, end, out RaycastHit raycastHit, -84058629);
+            var playerPos = player.GetPosition();
+            var end = playerPos - new Vector3(0f, 10f, 0f);
+            var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
 
-            if (!flag || raycastHit.transform == null)
+            if (!flag || rayCastHit.transform == null)
                 return null;
 
-            Transform transform = raycastHit.transform;
+            var transform = rayCastHit.transform;
 
             while (transform.parent != null && transform.parent.parent != null)
                 transform = transform.parent;
 
-            foreach (Room room in Map.Rooms)
-                if (room.Position == transform.position)
-                    return room;
+            foreach (var room in Map.Rooms.Where(room => room.Position == transform.position))
+                return room;
 
             return new Room
             {
@@ -189,37 +200,47 @@ namespace Synapse.Api
         }
 
         /// <summary>
-        /// Gets' a players overwatch status
+        ///     Gets' a players OverWatch status
         /// </summary>
         /// <param name="player">The Player that needs to be checked</param>
-        /// <returns type="bool">The Overwatch Status</returns>
-        public static bool GetOverwatch(this ReferenceHub player) => player.serverRoles.OverwatchEnabled;
+        /// <returns type="bool">The OverWatch Status</returns>
+        public static bool GetOverWatch(this ReferenceHub player)
+        {
+            return player.serverRoles.OverwatchEnabled;
+        }
 
         /// <summary>
-        /// Sets' a players overwatch status
+        ///     Sets' a players OverWatch status
         /// </summary>
         /// <param name="player">player to be modified</param>
         /// <param name="newStatus">new status to modify</param>
-        public static void SetOverwatch(this ReferenceHub player, bool newStatus) =>
+        public static void SetOverWatch(this ReferenceHub player, bool newStatus)
+        {
             player.serverRoles.SetOverwatchStatus(newStatus);
+        }
 
         /// <summary>
-        /// Get the active role that the player currently is.
+        ///     Get the active role that the player currently is.
         /// </summary>
         /// <param name="player">The Player to be checked</param>
         /// <returns>A RoleType identifier</returns>
-        public static RoleType GetRole(this ReferenceHub player) => player.characterClassManager.CurClass;
+        public static RoleType GetRole(this ReferenceHub player)
+        {
+            return player.characterClassManager.CurClass;
+        }
 
         /// <summary>
-        /// Setting the player as a different Role
+        ///     Setting the player as a different Role
         /// </summary>
         /// <param name="player">the player to be changed</param>
         /// <param name="roleType">the role the player should change to</param>
-        public static void SetRole(this ReferenceHub player, RoleType roleType) =>
+        public static void SetRole(this ReferenceHub player, RoleType roleType)
+        {
             player.characterClassManager.SetPlayersClass(roleType, player.gameObject);
-        
+        }
+
         /// <summary>
-        /// Setting the player as a different Role
+        ///     Setting the player as a different Role
         /// </summary>
         /// <param name="player">the player to be changed</param>
         /// <param name="roleType">the role the player should change to</param>

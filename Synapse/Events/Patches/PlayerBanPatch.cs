@@ -6,7 +6,8 @@ using UnityEngine;
 
 namespace Synapse.Events.Patches
 {
-    [HarmonyPatch(typeof(BanPlayer), nameof(BanPlayer.BanUser), typeof(GameObject), typeof(int), typeof(string), typeof(string), typeof(bool))]
+    [HarmonyPatch(typeof(BanPlayer), nameof(BanPlayer.BanUser), typeof(GameObject), typeof(int), typeof(string),
+        typeof(string), typeof(bool))]
     public class PlayerBanPatch
     {
         public static bool Prefix(GameObject user, int duration, string reason, string issuer, bool isGlobalBan)

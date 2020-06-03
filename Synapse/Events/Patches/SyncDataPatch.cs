@@ -11,10 +11,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                if (!__instance._mSyncRateLimit.CanExecute(false))
-                {
-                    return false;
-                }
+                if (!__instance._mSyncRateLimit.CanExecute(false)) return false;
 
                 var allow = true;
 

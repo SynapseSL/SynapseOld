@@ -1,6 +1,9 @@
 ﻿using System;
+using GameCore;
 using Harmony;
 using UnityEngine;
+
+// ReSharper disable SwitchStatementMissingSomeEnumCasesNoDefault
 
 namespace Synapse.Events.Patches
 {
@@ -11,89 +14,79 @@ namespace Synapse.Events.Patches
         {
             try
             {
-				if (!__instance._interactRateLimit.CanExecute(true))
-				{
-					return false;
-				}
+                if (!__instance._interactRateLimit.CanExecute()) return false;
 
-				if (target == null || Vector3.Distance(target.transform.position, __instance.transform.position) > __instance.raycastDistance * 1.1f)
-				{
-					return false;
-				}
+                if (target == null || Vector3.Distance(target.transform.position, __instance.transform.position) >
+                    __instance.raycastDistance * 1.1f) return false;
 
-				//Get The Handcuff of the Target
-				Handcuffs handcuffs = ReferenceHub.GetHub(target).handcuffs;
-				if (handcuffs == null || __instance.MyReferenceHub.inventory.curItem != ItemType.Disarmer || __instance.MyReferenceHub.characterClassManager.CurClass < RoleType.Scp173)
-				{
-					return false;
-				}
+                //Get The Handcuff of the Target
+                var handcuffs = ReferenceHub.GetHub(target).handcuffs;
+                if (handcuffs == null || __instance.MyReferenceHub.inventory.curItem != ItemType.Disarmer ||
+                    __instance.MyReferenceHub.characterClassManager.CurClass < RoleType.Scp173) return false;
 
-				if (handcuffs.CufferId < 0 && handcuffs.MyReferenceHub.inventory.curItem == ItemType.None)
-				{
-					//Team of the person who cuffs someone
-					Team team = __instance.MyReferenceHub.characterClassManager.CurRole.team;
-					//Team of the Person who will becom cuffed
-					Team team2 = handcuffs.MyReferenceHub.characterClassManager.CurRole.team;
+                if (handcuffs.CufferId >= 0 || handcuffs.MyReferenceHub.inventory.curItem != ItemType.None)
+                    return false;
+                //Team of the person who cuffs someone
+                var team = __instance.MyReferenceHub.characterClassManager.CurRole.team;
+                //Team of the Person who will become cuffed
+                var team2 = handcuffs.MyReferenceHub.characterClassManager.CurRole.team;
 
-					bool flag = false;
+                var flag = false;
 
-					//Check for When the Cuffer is a DBoy
-					if (team == Team.CDP)
-					{
-						if (team2 == Team.MTF || team2 == Team.RSC)
-						{
-							flag = true;
-						}
-					}
+                switch (team)
+                {
+                    //Check for When the Cuffer is a DBoy
+                    //Check for when the Cuffer is a Nerd
+                    case Team.CDP:
+                    {
+                        if (team2 == Team.MTF || team2 == Team.RSC) flag = true;
+                        break;
+                    }
+                    //Check for when the Cuffer is a Chaos
+                    case Team.RSC:
+                    {
+                        if (team2 == Team.CHI || team2 == Team.CDP) flag = true;
+                        break;
+                    }
+                    //Check for when the Cuffer is a Mtf
+                    case Team.CHI:
+                    {
+                        switch (team2)
+                        {
+                            case Team.MTF:
+                            case Team.RSC:
+                            case Team.CDP when ConfigFile.ServerConfig.GetBool("ci_can_cuff_class_d"):
+                                flag = true;
+                                break;
+                        }
 
-					//Check for when the Cuffer is a Nerd
-					else if (team == Team.RSC)
-					{
-						if (team2 == Team.CHI || team2 == Team.CDP)
-						{
-							flag = true;
-						}
-					}
+                        break;
+                    }
+                    case Team.MTF:
+                    {
+                        switch (team2)
+                        {
+                            case Team.CHI:
+                            case Team.CDP:
+                            case Team.RSC when ConfigFile.ServerConfig.GetBool("mtf_can_cuff_researchers"):
+                                flag = true;
+                                break;
+                        }
 
-					//Check for when the Cuffer is a Chaos
-					else if (team == Team.CHI)
-					{
-						if (team2 == Team.MTF || team2 == Team.RSC)
-						{
-							flag = true;
-						}
-						if (team2 == Team.CDP && GameCore.ConfigFile.ServerConfig.GetBool("ci_can_cuff_class_d", false))
-						{
-							flag = true;
-						}
-					}
+                        break;
+                    }
+                }
 
-					//Check for when the Cuffer is a Mtf
-					else if (team == Team.MTF)
-					{
-						if (team2 == Team.CHI || team2 == Team.CDP)
-						{
-							flag = true;
-						}
-						if (team2 == global::Team.RSC && GameCore.ConfigFile.ServerConfig.GetBool("mtf_can_cuff_researchers", false))
-						{
-							flag = true;
-						}
-					}
+                //Event
+                var cuffer = __instance.MyReferenceHub;
+                var target2 = handcuffs.MyReferenceHub;
+                Events.InvokePlayerCuffedEvent(cuffer, target2, ref flag);
 
-					//Event
-					ReferenceHub cuffer = __instance.MyReferenceHub;
-					ReferenceHub target2 = handcuffs.MyReferenceHub;
-					Events.InvokePlayerCuffedEvent(cuffer, target2, ref flag);
+                if (!flag) return false;
+                __instance.ClearTarget();
+                handcuffs.NetworkCufferId = __instance.MyReferenceHub.queryProcessor.PlayerId;
 
-					if (flag)
-					{
-						__instance.ClearTarget();
-						handcuffs.NetworkCufferId = __instance.MyReferenceHub.queryProcessor.PlayerId;
-					}
-				}
-
-				return false;
+                return false;
             }
             catch (Exception e)
             {

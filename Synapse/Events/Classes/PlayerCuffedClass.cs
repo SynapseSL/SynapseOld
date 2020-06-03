@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Synapse.Events.Classes
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class PlayerCuffedClass
     {
-        public ReferenceHub Cuffer { get; internal set; }
+        public ReferenceHub Cuffed { get; internal set; }
 
         public ReferenceHub Target { get; internal set; }
 

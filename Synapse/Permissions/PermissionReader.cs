@@ -1,157 +1,143 @@
-﻿using Synapse.Api;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Synapse.Api;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+
+// ReSharper disable All
 
 namespace Synapse.Permissions
 {
     internal static class PermissionReader
     {
-        //Variablen
-        internal static YML permissionsconfig;
-        internal static string permissionPath = Path.Combine(PluginManager.ServerConfigDirectory, "permissions.yml");
+        // Variables
+        private static Yml _permissionsConfig;
 
-        //Methoden
+        private static readonly string PermissionPath =
+            Path.Combine(PluginManager.ServerConfigDirectory, "permissions.yml");
+
+        // Methods
         internal static void Init()
         {
-            if (!File.Exists(permissionPath))
-                File.Create(permissionPath).Close();
+            if (!File.Exists(PermissionPath))
+                File.Create(PermissionPath).Close();
 
             ReloadPermission();
         }
 
         internal static void ReloadPermission()
         {
-            string yml = File.ReadAllText(permissionPath);
+            var yml = File.ReadAllText(PermissionPath);
 
-            var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance).Build();
+            var deserializer = new DeserializerBuilder().WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build();
 
-            permissionsconfig = deserializer.Deserialize<YML>(yml);
+            _permissionsConfig = deserializer.Deserialize<Yml>(yml);
 
-            foreach (string key in permissionsconfig.groups.Keys)
+            foreach (var key in _permissionsConfig.Groups.Keys)
             {
-                permissionsconfig.groups.TryGetValue(key, out Group group);
+                _permissionsConfig.Groups.TryGetValue(key, out var group);
 
-                foreach (string permission in group.inheritance)
+                if (group == null) continue;
+                foreach (var permission in group.Inheritance)
                 {
-                    Group ErbGruppe = null;
-                    permissionsconfig.groups.TryGetValue(permission, out ErbGruppe);
+                    _permissionsConfig.Groups.TryGetValue(permission, out var parentGroup);
 
-                    if (ErbGruppe != null)
-                        foreach (string Erbpermissons in ErbGruppe.permissions)
-                            if (!group.permissions.Contains(Erbpermissons))
-                                group.permissions.Add(Erbpermissons);
-
+                    if (parentGroup == null) continue;
+                    foreach (var parentPermissions in parentGroup.Permissions.Where(parentPermissions =>
+                        !group.Permissions.Contains(parentPermissions)))
+                        group.Permissions.Add(parentPermissions);
                 }
             }
         }
 
-		internal static Group GetDefaultGroup()
-		{
-			foreach (KeyValuePair<string, Group> gr in permissionsconfig.groups)
-			{
-				if (gr.Value.Default)
-					return gr.Value;
-			}
-			return null;
-		}
+        private static Group GetDefaultGroup()
+        {
+            return (from gr in _permissionsConfig.Groups where gr.Value.Default select gr.Value).FirstOrDefault();
+        }
 
-		internal static Group GetNWGroup()
-		{
-			foreach (KeyValuePair<string, Group> gr in permissionsconfig.groups)
-			{
-				if (gr.Value.Northwood)
-					return gr.Value;
-			}
-			return null;
-		}
+        private static Group GetNwGroup()
+        {
+            return (from gr in _permissionsConfig.Groups where gr.Value.Northwood select gr.Value).FirstOrDefault();
+        }
 
-		internal static bool CheckPermission(ReferenceHub player, string permission)
-		{
-			if (player == null)
-			{
-				Log.Error("The player has not been found, therefor no permission check could be done!");
-				return false;
-			}
+        internal static bool CheckPermission(ReferenceHub player, string permission)
+        {
+            if (player == null)
+            {
+                Log.Error("The player has not been found, therefor no permission check could be done!");
+                return false;
+            }
 
 
-			if (string.IsNullOrEmpty(permission))
-			{
-				Log.Error("Permission checked was null.");
-				return false;
-			}
+            if (string.IsNullOrEmpty(permission))
+            {
+                Log.Error("Permission checked was null.");
+                return false;
+            }
 
-			UserGroup userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.GetUserId());
+            var userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.GetUserId());
 
-			Group group = null;
-			if (userGroup != null)
-			{
-				string groupName = ServerStatic.GetPermissionsHandler()._groups.FirstOrDefault(g => g.Value == player.serverRoles.Group).Key;
-				if (permissionsconfig == null)
-				{
-					Log.Error("Permission config is null.");
-					return false;
-				}
+            Group group = null;
+            if (userGroup != null)
+            {
+                var groupName = ServerStatic.GetPermissionsHandler()._groups
+                    .FirstOrDefault(g => g.Value == player.serverRoles.Group).Key;
+                if (_permissionsConfig == null)
+                {
+                    Log.Error("Permission config is null.");
+                    return false;
+                }
 
-				if (!permissionsconfig.groups.Any())
-				{
-					Log.Error("No permission group.");
-					return false;
-				}
+                if (!_permissionsConfig.Groups.Any())
+                {
+                    Log.Error("No permission group.");
+                    return false;
+                }
 
-				if (!permissionsconfig.groups.TryGetValue(groupName, out group))
-				{
-					Log.Error("Could not get permission value.");
-					return false;
-				}
-			}
-			else
-			{
-				if (player.serverRoles.Staff  || player.GetUserId().EndsWith("@northwood")) group = GetNWGroup();
-				else group = GetDefaultGroup();
-			}
+                if (!_permissionsConfig.Groups.TryGetValue(groupName, out group))
+                {
+                    Log.Error("Could not get permission value.");
+                    return false;
+                }
+            }
+            else
+            {
+                if (player.serverRoles.Staff || player.GetUserId().EndsWith("@northwood")) group = GetNwGroup();
+                else group = GetDefaultGroup();
+            }
 
-			if (group != null)
-			{
-				if (permission.Contains("."))
-				{
-					if (group.permissions.Any(s => s == ".*"))
-					{
-						return true;
-					}
-				}
-				if (group.permissions.Contains(permission.Split('.')[0] + ".*"))
-				{
-					return true;
-				}
+            if (group != null)
+            {
+                if (permission.Contains("."))
+                    if (group.Permissions.Any(s => s == ".*"))
+                        return true;
+                if (group.Permissions.Contains(permission.Split('.')[0] + ".*")) return true;
 
-				if (group.permissions.Contains(permission) || group.permissions.Contains("*"))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				return false;
-			}
-			return false;
-		}
-	}
+                if (group.Permissions.Contains(permission) || group.Permissions.Contains("*")) return true;
+            }
+            else
+            {
+                return false;
+            }
 
-    internal class YML
+            return false;
+        }
+    }
+
+    internal class Yml
     {
-        public Dictionary<string, Group> groups { get; set; } = new Dictionary<string, Group>();
+        public Dictionary<string, Group> Groups { get; set; } = new Dictionary<string, Group>();
     }
 
     internal class Group
     {
-        [YamlMember(Alias = "default")]
-        public bool Default { get; set; } = false;
-        [YamlMember(Alias = "northwood")]
-        public bool Northwood { get; set; } = false;
-        public List<string> inheritance { get; set; } = new List<string>();
-        public List<string> permissions { get; set; } = new List<string>();
+        [YamlMember(Alias = "default")] public bool Default { get; set; } = false;
+
+        [YamlMember(Alias = "northwood")] public bool Northwood { get; set; } = false;
+
+        public List<string> Inheritance { get; set; } = new List<string>();
+        public List<string> Permissions { get; set; } = new List<string>();
     }
 }

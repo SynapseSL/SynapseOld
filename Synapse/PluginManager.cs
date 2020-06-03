@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using MEC;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using MEC;
 using Synapse.Events.Patches;
-using UnityEngine;
 using Synapse.Permissions;
 
 namespace Synapse
@@ -14,13 +13,16 @@ namespace Synapse
     {
         // Variables
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
-        internal static readonly List<Plugin> Plugins = new List<Plugin>();
-        private static string SynapseDirectory { get; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"Synapse");
+        private static readonly List<Plugin> Plugins = new List<Plugin>();
+
+        private static string SynapseDirectory { get; } =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
+
         internal static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
-        internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory,"dependencies");
+        internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory, "dependencies");
         internal static string MainConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
-        internal static string ServerPluginDirectory { get; set; }
-        internal static string ServerConfigDirectory { get; set; }
+        private static string ServerPluginDirectory { get; set; }
+        internal static string ServerConfigDirectory { get; private set; }
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
@@ -30,7 +32,8 @@ namespace Synapse
             {
                 LoadDependencies();
 
-                var serverPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
+                var serverPluginDirectory =
+                    Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
                 ServerPluginDirectory = serverPluginDirectory;
 
                 if (!Directory.Exists(serverPluginDirectory))
@@ -46,12 +49,12 @@ namespace Synapse
                 }
 
                 HarmonyPatch();
-                
+
                 ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
                 if (!Directory.Exists(ServerConfigDirectory))
                     Directory.CreateDirectory(ServerConfigDirectory);
 
-                var configPath = Path.Combine(ServerConfigDirectory, $"server-config.yml");
+                var configPath = Path.Combine(ServerConfigDirectory, "server-config.yml");
 
                 if (!File.Exists(configPath))
                     File.Create(configPath).Close();
@@ -107,10 +110,7 @@ namespace Synapse
 
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (type.IsAbstract)
-                    {
-                        continue;
-                    }
+                    if (type.IsAbstract) continue;
 
                     if (type.FullName == null) continue;
 
@@ -133,7 +133,6 @@ namespace Synapse
         private static void OnEnable()
         {
             foreach (var plugin in Plugins)
-            {
                 try
                 {
                     plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
@@ -143,7 +142,6 @@ namespace Synapse
                 {
                     Log.Error($"Plugin {plugin.GetName} threw an exception while enabling {e}");
                 }
-            }
         }
 
         private static void HarmonyPatch()
@@ -161,13 +159,14 @@ namespace Synapse
 
         private static byte[] ReadFile(string path)
         {
-            FileStream fileStream = File.Open(path, FileMode.Open);
+            var fileStream = File.Open(path, FileMode.Open);
             byte[] result;
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 fileStream.CopyTo(memoryStream);
                 result = memoryStream.ToArray();
             }
+
             fileStream.Close();
             return result;
         }

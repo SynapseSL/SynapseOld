@@ -20,6 +20,7 @@ namespace Synapse.Events.Patches
             {
                 Log.Error($"PlayerJoin Event Error: {e}");
             }
+
             return true;
         }
     }

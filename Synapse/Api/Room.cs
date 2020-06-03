@@ -6,6 +6,8 @@ namespace Synapse.Api
     {
         private ZoneType _zone = ZoneType.Unspecified;
         public string Name { get; set; }
+
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Transform Transform { get; set; }
         public Vector3 Position { get; set; }
 
@@ -16,6 +18,7 @@ namespace Synapse.Api
                 if (_zone != ZoneType.Unspecified)
                     return _zone;
 
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
                 if (Position.y == -1997f)
                     _zone = ZoneType.Unspecified;
 

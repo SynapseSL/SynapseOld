@@ -1,21 +1,27 @@
-﻿namespace Synapse.Events.Classes
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Synapse.Events.Classes
 {
+    [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class PlayerHurtClass
     {
-        //Variablen
-        private DamageTypes.DamageType damageType;
-        private PlayerStats.HitInfo info;
+        // Variables
+        private DamageTypes.DamageType _damageType;
+        private PlayerStats.HitInfo _info;
 
-        //Eigenschaften
+        // Properties
         public ReferenceHub Player { get; internal set; }
         public ReferenceHub Attacker { get; internal set; }
+
         public PlayerStats.HitInfo Info
         {
-            get => info;
+            get => _info;
             set
             {
-                damageType = DamageTypes.None;
-                info = value;
+                _damageType = DamageTypes.None;
+                _info = value;
             }
         }
 
@@ -23,18 +29,20 @@
         {
             get
             {
-                if (damageType == DamageTypes.None)
-                    damageType = DamageTypes.FromIndex(info.Tool);
+                if (_damageType == DamageTypes.None)
+                    _damageType = DamageTypes.FromIndex(_info.Tool);
 
-                return damageType;
+                return _damageType;
             }
         }
-        public int Tool => info.Tool;
+
+        public int Tool => _info.Tool;
         public string ToolName => DamageType.name;
+
         public float Amount
         {
-            get => info.Amount;
-            set => info.Amount = value;
+            get => _info.Amount;
+            set => _info.Amount = value;
         }
     }
 }

@@ -8,22 +8,22 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(PlayerStats), nameof(PlayerStats.HurtPlayer))]
     public class PlayerDamagePatch
     {
-        public static void Prefix(PlayerStats __instance,ref PlayerStats.HitInfo info, GameObject go)
+        public static void Prefix(PlayerStats __instance, ref PlayerStats.HitInfo info, GameObject go)
         {
             try
             {
                 if (go == null) return;
 
-                ReferenceHub killer = __instance.GetComponent<ReferenceHub>();
+                var killer = __instance.GetComponent<ReferenceHub>();
 
                 if (info.GetDamageType() == DamageTypes.Grenade)
                     killer = Player.GetPlayer(info.PlayerId);
 
-                ReferenceHub player = go.GetComponent<ReferenceHub>();
+                var player = go.GetComponent<ReferenceHub>();
 
                 Events.InvokePlayerHurtEvent(player, killer, ref info);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error($"PlayerDamageEvent Error: {e}");
             }
@@ -39,7 +39,7 @@ namespace Synapse.Events.Patches
                 if (player.GetRole() == RoleType.Spectator)
                     Events.InvokePlayerDieEvent(player, killer, info);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Log.Error($"PlayerDie Event Error: {e}");
             }

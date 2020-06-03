@@ -6,6 +6,6 @@
         Entrance,
         HeavyContainment,
         LightContainment,
-        Unspecified,
+        Unspecified
     }
 }

@@ -1,79 +1,89 @@
-﻿using MEC;
+﻿using System.Collections.Generic;
+using MEC;
 using Synapse.Api;
 using Synapse.Events.Classes;
 using Synapse.Permissions;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Synapse.Events
 {
+    // ReSharper disable once UnusedType.Global
     internal class EventHandler
     {
-        //Variablen
-        internal int roundtime;
-        internal bool roundinprogress = false;
+        // Variables
+        private bool _roundInProgress;
 
-        //Konstruktor
+        // ReSharper disable once NotAccessedField.Local
+        private int _roundTime;
+
+        // Constructor
         public EventHandler()
         {
-            //SyncDataEvent hooken
+            Events.SyncDataEvent += OnSyncData;
             Events.RemoteCommandEvent += OnRemoteCommand;
             Events.RoundStartEvent += OnRoundStart;
             Events.RoundEndEvent += OnRoundEnd;
             Events.RoundRestartEvent += OnRoundRestart;
         }
 
-        //Methoden
-        internal void OnSyncData(SyncDataClass ev)
+        // Methods
+        private static void OnSyncData(ref SyncDataClass ev)
         {
             //ev.Player
-            ReferenceHub player = Player.GetPlayer("");
+            var player = Player.GetPlayer("");
 
-            if (player.GetCurrentRoom().Zone == ZoneType.Surface && player.GetRole() != RoleType.ClassD && player.GetRole() != RoleType.Scientist &&
-                !(Vector3.Distance(player.GetPosition(), player.GetComponent<Escape>().worldPosition) >= (float)(Escape.radius * 2)))
+            if (player.GetCurrentRoom().Zone == ZoneType.Surface && player.GetRole() != RoleType.ClassD &&
+                player.GetRole() != RoleType.Scientist &&
+                !(Vector3.Distance(player.GetPosition(), player.GetComponent<Escape>().worldPosition) >=
+                  Escape.radius * 2))
                 player.characterClassManager.CmdRegisterEscape();
         }
 
-        internal void OnRemoteCommand(ref RemoteCommandClass ev)
+        private static void OnRemoteCommand(ref RemoteCommandClass ev)
         {
-            string[] args = ev.Command.Split(' ');
+            var args = ev.Command.Split(' ');
             switch (args[0].ToUpper())
             {
                 case "RELOADPERMISSION":
+                {
+                    if (!ev.Player.IsAllowed("sy.reload"))
                     {
-                        if (!ev.Player.IsAllowed("sy.reload"))
-                        {
-                            ev.Sender.RaMessage("Synapse", "You have no Permission for Reload",false,RaCategory.AdminTools);
-                            return;
-                        }
-                        PermissionReader.ReloadPermission();
-                        ev.Sender.RaMessage("Synapse","Permissions Reloaded!",true,RaCategory.AdminTools);
+                        ev.Sender.RaMessage("Synapse", "You have no Permission for Reload", false,
+                            RaCategory.AdminTools);
                         return;
                     }
+
+                    PermissionReader.ReloadPermission();
+                    ev.Sender.RaMessage("Synapse", "Permissions Reloaded!", true, RaCategory.AdminTools);
+                    return;
+                }
             }
         }
 
-        internal void OnRoundStart()
+        private void OnRoundStart()
         {
-            Timing.RunCoroutine(Roundtime());
-            roundinprogress = true;
+            Timing.RunCoroutine(RoundTime());
+            _roundInProgress = true;
         }
 
-        internal void OnRoundEnd() => roundinprogress = false;
-
-        internal void OnRoundRestart()
+        private void OnRoundEnd()
         {
-            roundinprogress = false;
+            _roundInProgress = false;
+        }
+
+        private void OnRoundRestart()
+        {
+            _roundInProgress = false;
             Map.Rooms.Clear();
         }
 
-        internal IEnumerator<float> Roundtime()
+        private IEnumerator<float> RoundTime()
         {
-            for (; ; )
+            for (;;)
             {
                 yield return Timing.WaitForSeconds(1f);
-                roundtime++;
-                if (!roundinprogress) break; 
+                _roundTime++;
+                if (!_roundInProgress) break;
             }
         }
     }

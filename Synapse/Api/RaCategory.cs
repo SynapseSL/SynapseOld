@@ -8,6 +8,6 @@
         DoorsManagement,
         AdminTools,
         ServerConfigs,
-        PlayersManagement,
+        PlayersManagement
     }
 }
