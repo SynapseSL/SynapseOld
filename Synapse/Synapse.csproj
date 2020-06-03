@@ -72,6 +72,7 @@
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\Classes\PlayerEscapeClass.cs" />
+    <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
     <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
     <Compile Include="Events\Classes\PlayerCuffedClass.cs" />
     <Compile Include="Events\Classes\ConsoleCommandClass.cs" />
