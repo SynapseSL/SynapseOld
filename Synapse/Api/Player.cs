@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Hints;
 using Synapse.Permissions;
 using UnityEngine;
 
@@ -50,6 +51,13 @@ namespace Synapse.Api
             sender.RaReply($"{pluginName}#" + message, success, true, category);
         }
 
+        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f)
+        {
+            player.hints.Show(new TextHint(message, new HintParameter[]
+                {
+                    new StringHintParameter("")
+                }, HintEffectPresets.FadeInAndOut(duration), duration));
+        }
 
         /// <summary>Sends a Broadcast to a user</summary>
         /// <param name="rh">The User you want to send a Broadcast</param>

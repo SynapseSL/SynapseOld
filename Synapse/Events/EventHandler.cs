@@ -29,14 +29,12 @@ namespace Synapse.Events
         // Methods
         private static void OnSyncData(ref SyncDataClass ev)
         {
-            //ev.Player
-            var player = Player.GetPlayer("");
-
-            if (player.GetCurrentRoom().Zone == ZoneType.Surface && player.GetRole() != RoleType.ClassD &&
-                player.GetRole() != RoleType.Scientist &&
-                !(Vector3.Distance(player.GetPosition(), player.GetComponent<Escape>().worldPosition) >=
+            Log.Info("SyncData");
+            if (ev.Player.GetRole() != RoleType.ClassD &&
+                ev.Player.GetRole() != RoleType.Scientist &&
+                !(Vector3.Distance(ev.Player.GetPosition(), ev.Player.GetComponent<Escape>().worldPosition) >=
                   Escape.radius * 2))
-                player.characterClassManager.CmdRegisterEscape();
+                ev.Player.characterClassManager.CmdRegisterEscape();
         }
 
         private static void OnRemoteCommand(ref RemoteCommandClass ev)
