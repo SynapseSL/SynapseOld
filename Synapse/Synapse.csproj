@@ -101,6 +101,7 @@
     <Compile Include="Events\Patches\RemoteAdminPatch.cs" />
     <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
+    <Compile Include="Events\Patches\SyncDataPatch.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ScpEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
