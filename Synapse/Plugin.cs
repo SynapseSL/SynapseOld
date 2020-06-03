@@ -4,26 +4,28 @@ namespace Synapse
 {
     public abstract class Plugin
     {
-        private string _ownPluginFolder; 
-
         /// <summary>
-        /// The Main Config from the current Server which all Plugins can use
+        ///     The Main Config from the current Server which all Plugins can use
         /// </summary>
+        // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
 
+        private string _ownPluginFolder;
+
         /// <summary>
-        /// A Directory especially for your Plugin which are created by Synapse for you!
+        ///     A Directory especially for your Plugin which are created by Synapse for you!
         /// </summary>
-        ///<remarks>The Name of the Directory is based on the GetName string from your Plugin!</remarks>
-        public string OwnPluginFolder 
-        { 
+        /// <remarks>The Name of the Directory is based on the GetName string from your Plugin!</remarks>
+        public string OwnPluginFolder
+        {
+            // ReSharper disable once UnusedMember.Global
             get
             {
                 if (!Directory.Exists(_ownPluginFolder))
                     Directory.CreateDirectory(_ownPluginFolder);
 
-                return _ownPluginFolder + Path.DirectorySeparatorChar.ToString();
-            } 
+                return _ownPluginFolder + Path.DirectorySeparatorChar;
+            }
             internal set => _ownPluginFolder = value;
         }
 

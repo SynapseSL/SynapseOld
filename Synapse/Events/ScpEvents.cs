@@ -1,18 +1,23 @@
-﻿using Synapse.Events.Classes;
+﻿using System.Diagnostics.CodeAnalysis;
+using Synapse.Events.Classes;
 
 namespace Synapse.Events
 {
+    [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
     public static partial class Events
     {
         //Scp049RecallEvent
         public delegate void OnScp049Recall(ref Scp049RecallClass ev);
+
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
         public static event OnScp049Recall Scp049RecallEvent;
-        internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target, ref bool allow, ref RoleType role, ref float lives)
+
+        internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target,
+            ref bool allow, ref RoleType role, ref float lives)
         {
             if (Scp049RecallEvent == null) return;
 
-            var ev = new Scp049RecallClass()
+            var ev = new Scp049RecallClass
             {
                 Allow = allow,
                 Ragdoll = ragdoll,

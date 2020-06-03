@@ -6,10 +6,9 @@ namespace Synapse.Events.Classes
     {
         public CommandSender Sender { get; internal set; }
 
-        public ReferenceHub Player
-        {
-            get => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE" ? ReferenceHub.GetHub(PlayerManager.localPlayer) : Api.Player.GetPlayer(Sender.SenderId);
-        }
+        public ReferenceHub Player => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE"
+            ? ReferenceHub.GetHub(PlayerManager.localPlayer)
+            : Api.Player.GetPlayer(Sender.SenderId);
 
         public bool Allow { get; set; }
 

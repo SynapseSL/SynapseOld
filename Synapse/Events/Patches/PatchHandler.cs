@@ -26,6 +26,7 @@ namespace Synapse.Events.Patches
             }
         }
 
+        // ReSharper disable once UnusedMember.Global
         public void UnPatchMethods()
         {
             _instance.UnpatchAll();
