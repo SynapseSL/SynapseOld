@@ -1,5 +1,7 @@
-﻿using Assets._Scripts.Dissonance;
+﻿using System.Runtime.Remoting.Messaging;
+using Assets._Scripts.Dissonance;
 using Synapse.Events.Classes;
+using UnityEngine;
 
 namespace Synapse.Events
 {
@@ -165,6 +167,28 @@ namespace Synapse.Events
 
             allow = ev.Allow;
             spawnrole = ev.SpawnRole;
+        }
+        
+        //SyncDataEvent
+        public delegate void OnSyncDataEvent(ref SyncDataClass ev);
+        public static event OnSyncDataEvent SyncDataEvent;
+
+        internal static void InvokeSyncDataEvent(GameObject player, ref bool allow, ref Vector2 speed, int state)
+        {
+            if (SyncDataEvent == null) return;
+            
+            var ev = new SyncDataClass()
+            {
+                Allow = allow,
+                Player = player.GetComponent<ReferenceHub>(),
+                Speed = speed,
+                State = state
+            };
+            
+            SyncDataEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+            speed = ev.Speed;
         }
     }
 }
