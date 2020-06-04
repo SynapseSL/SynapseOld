@@ -33,7 +33,7 @@ namespace Synapse.Events
 
         internal static void InvokeTeslaTrigger(GameObject player, bool inRange, ref bool activated)
         {
-            if (TeslaTriggerEvent == null) ;
+            if (TeslaTriggerEvent == null) return;
 
             var ev = new TeslaTriggerClass
             {

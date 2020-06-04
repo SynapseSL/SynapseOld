@@ -36,19 +36,18 @@ namespace Synapse.Events.Patches
                 switch (team)
                 {
                     //Check for When the Cuffer is a DBoy
-                    //Check for when the Cuffer is a Nerd
                     case Team.CDP:
                     {
                         if (team2 == Team.MTF || team2 == Team.RSC) flag = true;
                         break;
                     }
-                    //Check for when the Cuffer is a Chaos
+                    //Check for when the Cuffer is a Nerd
                     case Team.RSC:
                     {
                         if (team2 == Team.CHI || team2 == Team.CDP) flag = true;
                         break;
                     }
-                    //Check for when the Cuffer is a Mtf
+                    //Check for when the Cuffer is a Chaos
                     case Team.CHI:
                     {
                         switch (team2)
@@ -62,6 +61,7 @@ namespace Synapse.Events.Patches
 
                         break;
                     }
+                    //Check for when the Cuffer is a Mtf
                     case Team.MTF:
                     {
                         switch (team2)
@@ -83,6 +83,7 @@ namespace Synapse.Events.Patches
                 Events.InvokePlayerCuffedEvent(cuffer, target2, ref flag);
 
                 if (!flag) return false;
+
                 __instance.ClearTarget();
                 handcuffs.NetworkCufferId = __instance.MyReferenceHub.queryProcessor.PlayerId;
 
