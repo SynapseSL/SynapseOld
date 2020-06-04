@@ -182,7 +182,7 @@ namespace Synapse.Events
                 Player = player,
                 Allow = allow,
                 SpawnRole = spawnRole,
-                CuffedRole = cuffedRole,
+                CufferRole = cuffedRole,
                 IsCuffed = isCuffed
             };
 

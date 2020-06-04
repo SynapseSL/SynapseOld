@@ -11,7 +11,7 @@ namespace Synapse.Events.Classes
 
         public bool Allow { get; set; }
 
-        public RoleType CuffedRole { get; internal set; }
+        public RoleType CufferRole { get; internal set; }
 
         public bool IsCuffed { get; internal set; }
     }
