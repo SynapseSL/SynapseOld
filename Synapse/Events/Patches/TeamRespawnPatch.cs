@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using GameCore;
 using Harmony;
@@ -40,13 +41,31 @@ namespace Synapse.Events.Patches
                 }
 
                 var list = enumerable.Take(num2).ToList();
-                __instance.NextWaveRespawnTickets -= num2 - list.Count;
+
+                //Event
+                var allow = true;
+                var respawnlist = new List<ReferenceHub>();
+                var usetickets = true;
+
+                foreach (GameObject player in list)
+                    respawnlist.Add(player.GetComponent<ReferenceHub>());
+
+                Events.InvokeTeamRespawnEvent(ref respawnlist,ref __instance.nextWaveIsCI,ref allow,ref usetickets);
+
+                if (!allow) return false;
+                list.Clear();
+                foreach (ReferenceHub hub in respawnlist)
+                    list.Add(hub.gameObject);
+
+                if (usetickets) __instance.NextWaveRespawnTickets -= num2 - list.Count;
+
                 if (ConfigFile.ServerConfig.GetBool("use_crypto_rng"))
                     list.ShuffleListSecure();
                 else
                     list.ShuffleList();
+
                 __instance.playersToNTF.Clear();
-                if (__instance.nextWaveIsCI && AlphaWarheadController.Host.detonated) __instance.nextWaveIsCI = false;
+                //if (__instance.nextWaveIsCI && AlphaWarheadController.Host.detonated) __instance.nextWaveIsCI = false;
                 foreach (var gameObject in list.Where(gameObject => !(gameObject == null)))
                 {
                     num++;

@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Synapse.Events.Classes;
 
 namespace Synapse.Events
@@ -22,6 +24,9 @@ namespace Synapse.Events
 
         // RoundStartEvent
         public delegate void OnRoundStart();
+
+        //TeamRespawnEvent
+        public delegate void TeamRespawn(ref TeamRespawnClass ev);
 
         public static event OnRoundRestart RoundRestartEvent;
 
@@ -87,6 +92,28 @@ namespace Synapse.Events
 
             color = ev.Color;
             returning = ev.ReturnMessage;
+        }
+
+        public static event TeamRespawn TeamRespawnEvent;
+        
+        internal static void InvokeTeamRespawnEvent(ref List<ReferenceHub> respawnlist, ref bool ischaos, ref bool allow ,ref bool useticktes)
+        {
+            if (TeamRespawnEvent == null) return;
+
+            var ev = new TeamRespawnClass()
+            {
+                Allow = allow,
+                IsChaos = ischaos,
+                RespawnList = respawnlist,
+                UseTickets = useticktes
+            };
+
+            TeamRespawnEvent.Invoke(ref ev);
+
+            respawnlist = ev.RespawnList;
+            ischaos = ev.IsChaos;
+            allow = ev.Allow;
+            useticktes = ev.UseTickets;
         }
     }
 }

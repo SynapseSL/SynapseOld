@@ -70,6 +70,7 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\TeamRespawnClass.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\Classes\PlayerEscapeClass.cs" />
     <Compile Include="Events\Patches\TeamRespawnPatch.cs" />

@@ -51,12 +51,21 @@ namespace Synapse.Api
             sender.RaReply($"{pluginName}#" + message, success, true, category);
         }
 
-        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f)
+        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f,bool fade_in_and_out = false)
         {
-            player.hints.Show(new TextHint(message, new HintParameter[]
+            if (!fade_in_and_out) player.hints.Show(new TextHint(message, new HintParameter[]
                 {
                     new StringHintParameter("")
                 }, HintEffectPresets.FadeInAndOut(duration), duration));
+            else
+            {
+                float fade = duration / 4;
+
+                player.hints.Show(new TextHint(message, new HintParameter[]
+                {
+                    new StringHintParameter("")
+                }, HintEffectPresets.FadeInAndOut(fade,fade*2,fade), duration));
+            }
         }
 
         /// <summary>Sends a Broadcast to a user</summary>
