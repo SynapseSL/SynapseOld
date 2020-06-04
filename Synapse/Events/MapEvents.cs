@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Synapse.Events.Classes;
+using UnityEngine;
 
 namespace Synapse.Events
 {
@@ -25,6 +26,25 @@ namespace Synapse.Events
             DoorInteractEvent.Invoke(ref ev);
 
             allow = ev.Allow;
+        }
+        //TeslaTriggerEvent
+        public delegate void OnTriggerTesla(ref TeslaTriggerClass ev);
+        public static event OnTriggerTesla TeslaTriggerEvent;
+
+        internal static void InvokeTeslaTrigger(GameObject player, bool inRange, ref bool activated)
+        {
+            if (TeslaTriggerEvent == null) ;
+
+            var ev = new TeslaTriggerClass
+            {
+                Player = player.GetComponent<ReferenceHub>(),
+                IsHurtRange = inRange,
+                Triggerable = activated
+            };
+
+            TeslaTriggerEvent?.Invoke(ref ev);
+
+            activated = ev.Triggerable;
         }
     }
 }
