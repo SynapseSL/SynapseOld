@@ -233,6 +233,24 @@ namespace Synapse.Events
             
         }
         //DroppedItemEvent
-        public delegate void OnDropItem();
+        public delegate void OnDropItem(ref DropItemEvent ev);
+        public static event OnDropItem DropItemEvent;
+
+        public static void InvokeDropItem(GameObject player, ref Inventory.SyncItemInfo item, ref bool allow)
+        {
+            if (DropItemEvent == null) return;
+            
+            DropItemEvent ev = new DropItemEvent()
+            {
+                Player = player.GetComponent<ReferenceHub>(),
+                Item = item,
+                Allow = allow
+            };
+            
+            DropItemEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+            item = ev.Item;
+        }
     }
 }
