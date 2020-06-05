@@ -29,11 +29,9 @@ namespace Synapse.Events
         // Methods
         private static void OnSyncData(ref SyncDataClass ev)
         {
-            Log.Info("SyncData");
             if (ev.Player.GetRole() != RoleType.ClassD &&
                 ev.Player.GetRole() != RoleType.Scientist &&
-                !(Vector3.Distance(ev.Player.GetPosition(), ev.Player.GetComponent<Escape>().worldPosition) >=
-                  Escape.radius * 2))
+                !(Vector3.Distance(ev.Player.GetPosition(), ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
                 ev.Player.characterClassManager.CmdRegisterEscape();
         }
 

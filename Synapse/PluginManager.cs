@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using MEC;
+using Synapse.Events;
 using Synapse.Events.Patches;
 using Synapse.Permissions;
 
@@ -23,6 +24,8 @@ namespace Synapse
         internal static string MainConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
         private static string ServerPluginDirectory { get; set; }
         internal static string ServerConfigDirectory { get; private set; }
+
+        internal static Events.EventHandler EventHandler;
 
         // Methods
         public static IEnumerator<float> LoadPlugins()
@@ -49,6 +52,8 @@ namespace Synapse
                 }
 
                 HarmonyPatch();
+                
+                EventHandler = new Events.EventHandler();
 
                 ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
                 if (!Directory.Exists(ServerConfigDirectory))
