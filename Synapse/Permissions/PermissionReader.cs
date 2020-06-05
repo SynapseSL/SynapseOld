@@ -155,8 +155,13 @@ namespace Synapse.Permissions
             if (!_permissionsConfig.Groups.TryGetValue(groupname, out group))
                 group = GetDefaultGroup();
 
-            foreach (var grouppermission in group.Permissions)
-                if (permission == grouppermission) return true;
+            if (group != null)
+            {
+                if (group.Permissions.Any(s => s == ".*")) return true;
+                if (group.Permissions.Any(s => s == "*")) return true;
+                if (group.Permissions.Contains(permission.Split('.')[0] + ".*")) return true;
+                if (group.Permissions.Any(s => s == permission)) return true;
+            }
 
             return false;
         }
