@@ -8,41 +8,9 @@ namespace Synapse.Events
     [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
     public static partial class Events
     {
-        // PlayerBanEvent
-        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
-
-        //PlayerCuffedEvent
-        public delegate void OnPlayerCuffed(ref PlayerCuffedEvent ev);
-
-        //PlayerDieEvent
-        public delegate void OnPlayerDeath(PlayerDeathEvent ev);
-
-        //PlayerEscapeEvent
-        public delegate void OnPlayerEscape(ref PlayerEscapeEvent ev);
-
-        //PlayerHurtEvent
-        public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
-
-        //JoinEvent
-        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
-
-        //PlayerLeaveEvent
-        public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
-
-        //SpeakEvent
-        public delegate void OnSpeak(ref SpeakEventEvent ev);
-
-        //SyncDataEvent
-        public delegate void OnSyncDataEvent(ref SyncDataEvent ev);
-
-        //PlayerReloadEvent
-        public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
-
-        //FemurEnterEvent
-        public delegate void OnFemurEnter();
-
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
+        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
         public static event OnPlayerJoin PlayerJoinEvent;
 
         internal static void InvokePlayerJoinEvent(ReferenceHub player, ref string nick)
@@ -59,6 +27,7 @@ namespace Synapse.Events
         }
 
         /// <summary>A Event which is activated when a user press any voice HotKey</summary>
+        public delegate void OnSpeak(ref SpeakEventEvent ev);
         public static event OnSpeak SpeakEvent;
 
         internal static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio,
@@ -89,6 +58,7 @@ namespace Synapse.Events
         /// <summary>
         ///     A Event which is activated when a User leave the server
         /// </summary>
+        public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
         public static event OnPlayerLeave PlayerLeaveEvent;
 
         internal static void InvokePlayerLeaveEvent(ReferenceHub player)
@@ -101,7 +71,9 @@ namespace Synapse.Events
             };
             PlayerLeaveEvent.Invoke(ev);
         }
-
+        
+        // PlayerBanEvent
+        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
 
         internal static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
@@ -122,7 +94,9 @@ namespace Synapse.Events
 
             allow = ev.Allowed;
         }
-
+        
+        //PlayerDieEvent
+        public delegate void OnPlayerDeath(PlayerDeathEvent ev);
         public static event OnPlayerDeath PlayerDeathEvent;
 
         internal static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
@@ -139,6 +113,8 @@ namespace Synapse.Events
             PlayerDeathEvent.Invoke(ev);
         }
 
+        //PlayerHurtEvent
+        public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
         public static event OnPlayerHurt PlayerHurtEvent;
 
         internal static void InvokePlayerHurtEvent(ReferenceHub player, ReferenceHub attacker,
@@ -157,7 +133,9 @@ namespace Synapse.Events
 
             info = ev.Info;
         }
-
+        
+        //PlayerCuffedEvent
+        public delegate void OnPlayerCuffed(ref PlayerCuffedEvent ev);
         public static event OnPlayerCuffed PlayerCuffedEvent;
 
         internal static void InvokePlayerCuffedEvent(ReferenceHub cuffed, ReferenceHub target, ref bool allow)
@@ -176,6 +154,8 @@ namespace Synapse.Events
             allow = ev.Allow;
         }
 
+        //PlayerEscapeEvent
+        public delegate void OnPlayerEscape(ref PlayerEscapeEvent ev);
         public static event OnPlayerEscape PlayerEscapeEvent;
 
         internal static void InvokePlayerEscapeEvent(ReferenceHub player, ref bool allow, ref RoleType spawnRole,
@@ -198,6 +178,8 @@ namespace Synapse.Events
             spawnRole = ev.SpawnRole;
         }
 
+        //SyncDataEvent
+        public delegate void OnSyncDataEvent(ref SyncDataEvent ev);
         public static event OnSyncDataEvent SyncDataEvent;
 
         internal static void InvokeSyncDataEvent(GameObject player, ref bool allow, ref Vector2 speed, int state)
@@ -218,6 +200,8 @@ namespace Synapse.Events
             speed = ev.Speed;
         }
 
+        //PlayerReloadEvent
+        public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
         public static event OnPlayerReload PlayerReloadEvent;
 
         internal static void InvokePlayerReloadEvent(ReferenceHub player,ref bool allow,ref WeaponManager.Weapon weapon,Inventory.SyncItemInfo syncItem)
@@ -237,7 +221,9 @@ namespace Synapse.Events
             allow = ev.Allow;
             weapon = ev.Weapon;
         }
-
+        
+        //FemurEnterEvent
+        public delegate void OnFemurEnter();
         public static event OnFemurEnter FemurEnterEvent;
 
         internal static void InvokeFemurEnterEvent(ReferenceHub player,ref bool allow)
@@ -246,5 +232,7 @@ namespace Synapse.Events
 
             
         }
+        //DroppedItemEvent
+        public delegate void OnDropItem();
     }
 }
