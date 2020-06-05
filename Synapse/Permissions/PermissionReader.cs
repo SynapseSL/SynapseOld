@@ -9,7 +9,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace Synapse.Permissions
 {
-    internal static class PermissionReader
+    public static class PermissionReader
     {
         // Variables
         private static Yml _permissionsConfig;
@@ -121,6 +121,42 @@ namespace Synapse.Permissions
             {
                 return false;
             }
+
+            return false;
+        }
+
+        internal static bool CheckGroupPermission(string groupname,string permission)
+        {
+            if (string.IsNullOrEmpty(permission))
+            {
+                Log.Error("Permission checked was null.");
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(groupname))
+            {
+                Log.Error("GroupName checked was null.");
+                return false;
+            }
+
+            if (_permissionsConfig == null)
+            {
+                Log.Error("Permission config is null.");
+                return false;
+            }
+
+            if (!_permissionsConfig.Groups.Any())
+            {
+                Log.Error("No permission group.");
+                return false;
+            }
+
+            Group group = null;
+            if (!_permissionsConfig.Groups.TryGetValue(groupname, out group))
+                group = GetDefaultGroup();
+
+            foreach (var grouppermission in group.Permissions)
+                if (permission == grouppermission) return true;
 
             return false;
         }
