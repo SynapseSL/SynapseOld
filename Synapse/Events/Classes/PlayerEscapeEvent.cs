@@ -3,7 +3,7 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class PlayerEscapeClass
+    public class PlayerEscapeEvent
     {
         public ReferenceHub Player { get; internal set; }
 

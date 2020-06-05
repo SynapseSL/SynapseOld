@@ -65,7 +65,7 @@ namespace Synapse.Events.Patches
                     list.ShuffleList();
 
                 __instance.playersToNTF.Clear();
-                //if (__instance.nextWaveIsCI && AlphaWarheadController.Host.detonated) __instance.nextWaveIsCI = false;
+                if (__instance.nextWaveIsCI && AlphaWarheadController.Host.detonated) __instance.nextWaveIsCI = false;
                 foreach (var gameObject in list.Where(gameObject => !(gameObject == null)))
                 {
                     num++;

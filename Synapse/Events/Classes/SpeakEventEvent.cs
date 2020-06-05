@@ -5,7 +5,7 @@ using Assets._Scripts.Dissonance;
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class SpeakEventClass : EventArgs
+    public class SpeakEventEvent : EventArgs
     {
         public ReferenceHub Player { get; internal set; }
 

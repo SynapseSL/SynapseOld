@@ -234,6 +234,13 @@ namespace Synapse.Api
         }
 
         /// <summary>
+        /// Gives you the Team of the player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>The Team of the Player which is stored in the Role so anyone can change it</returns>
+        public static Team GetTeam(this ReferenceHub player) => player.characterClassManager.CurRole.team;
+
+        /// <summary>
         ///     Get the active role that the player currently is.
         /// </summary>
         /// <param name="player">The Player to be checked</param>

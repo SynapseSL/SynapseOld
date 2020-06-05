@@ -3,7 +3,7 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class PlayerCuffedClass
+    public class PlayerCuffedEvent
     {
         public ReferenceHub Cuffed { get; internal set; }
 

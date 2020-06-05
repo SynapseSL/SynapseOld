@@ -2,7 +2,7 @@
 
 namespace Synapse.Events.Classes
 {
-    public class TeamRespawnClass
+    public class TeamRespawnEvent
     {
         public bool IsChaos { get; set; }
 

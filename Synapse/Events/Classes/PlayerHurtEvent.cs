@@ -5,7 +5,7 @@ namespace Synapse.Events.Classes
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public class PlayerHurtClass
+    public class PlayerHurtEvent
     {
         // Variables
         private DamageTypes.DamageType _damageType;

@@ -3,12 +3,12 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class DoorInteractClass
+    public class PlayerDeathEvent
     {
         public ReferenceHub Player { get; internal set; }
 
-        public bool Allow { get; set; } = true;
+        public ReferenceHub Killer { get; internal set; }
 
-        public Door Door { get; internal set; }
+        public PlayerStats.HitInfo Info { get; internal set; }
     }
 }

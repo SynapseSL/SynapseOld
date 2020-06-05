@@ -9,11 +9,11 @@ namespace Synapse.Events
     public static partial class Events
     {
         //ConsoleCommandEvent
-        public delegate void OnConsoleCommand(ref ConsoleCommandClass ev);
+        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
 
 
         //RemoteCommandEvent
-        public delegate void OnRemoteCommand(ref RemoteCommandClass ev);
+        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
 
         //RoundEndEvent
         public delegate void OnRoundEnd();
@@ -26,7 +26,7 @@ namespace Synapse.Events
         public delegate void OnRoundStart();
 
         //TeamRespawnEvent
-        public delegate void TeamRespawn(ref TeamRespawnClass ev);
+        public delegate void TeamRespawn(ref TeamRespawnEvent ev);
 
         public static event OnRoundRestart RoundRestartEvent;
 
@@ -60,7 +60,7 @@ namespace Synapse.Events
         {
             if (RemoteCommandEvent == null) return;
 
-            var ev = new RemoteCommandClass
+            var ev = new RemoteCommandEvent
             {
                 Allow = allow,
                 Sender = sender,
@@ -82,7 +82,7 @@ namespace Synapse.Events
             returning = "";
             if (ConsoleCommandEvent == null) return;
 
-            var ev = new ConsoleCommandClass
+            var ev = new ConsoleCommandEvent
             {
                 Command = command,
                 Player = player
@@ -100,7 +100,7 @@ namespace Synapse.Events
         {
             if (TeamRespawnEvent == null) return;
 
-            var ev = new TeamRespawnClass()
+            var ev = new TeamRespawnEvent()
             {
                 Allow = allow,
                 IsChaos = ischaos,

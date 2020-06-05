@@ -3,7 +3,7 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class PlayerBanClass
+    public class PlayerBanEvent
     {
         public ReferenceHub BannedPlayer { get; internal set; }
 

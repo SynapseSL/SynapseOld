@@ -5,10 +5,10 @@ namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    public class PlayerJoinClass : EventArgs
+    public class PlayerJoinEvent : EventArgs
     {
         // Constructor
-        public PlayerJoinClass(ReferenceHub player)
+        public PlayerJoinEvent(ReferenceHub player)
         {
             Player = player;
         }

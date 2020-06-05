@@ -9,34 +9,37 @@ namespace Synapse.Events
     public static partial class Events
     {
         // PlayerBanEvent
-        public delegate void OnPlayerBanEvent(ref PlayerBanClass ev);
+        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
 
         //PlayerCuffedEvent
-        public delegate void OnPlayerCuffed(ref PlayerCuffedClass ev);
+        public delegate void OnPlayerCuffed(ref PlayerCuffedEvent ev);
 
         //PlayerDieEvent
-        public delegate void OnPlayerDeath(PlayerDeathClass ev);
+        public delegate void OnPlayerDeath(PlayerDeathEvent ev);
 
         //PlayerEscapeEvent
-        public delegate void OnPlayerEscape(ref PlayerEscapeClass ev);
+        public delegate void OnPlayerEscape(ref PlayerEscapeEvent ev);
 
         //PlayerHurtEvent
-        public delegate void OnPlayerHurt(ref PlayerHurtClass ev);
+        public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
 
         //JoinEvent
-        public delegate void OnPlayerJoin(ref PlayerJoinClass ev);
+        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
 
         //PlayerLeaveEvent
-        public delegate void OnPlayerLeave(PlayerLeaveClass ev);
+        public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
 
         //SpeakEvent
-        public delegate void OnSpeak(ref SpeakEventClass ev);
+        public delegate void OnSpeak(ref SpeakEventEvent ev);
 
         //SyncDataEvent
-        public delegate void OnSyncDataEvent(ref SyncDataClass ev);
+        public delegate void OnSyncDataEvent(ref SyncDataEvent ev);
 
         //PlayerReloadEvent
-        public delegate void OnPlayerReload(ref PlayerReloadClass ev);
+        public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
+
+        //FemurEnterEvent
+        public delegate void OnFemurEnter();
 
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
@@ -45,7 +48,7 @@ namespace Synapse.Events
         internal static void InvokePlayerJoinEvent(ReferenceHub player, ref string nick)
         {
             if (PlayerJoinEvent == null) return;
-            var ev = new PlayerJoinClass(player)
+            var ev = new PlayerJoinEvent(player)
             {
                 Nick = nick
             };
@@ -63,7 +66,7 @@ namespace Synapse.Events
         {
             if (SpeakEvent == null) return;
 
-            var ev = new SpeakEventClass
+            var ev = new SpeakEventEvent
             {
                 IntercomTalk = intercom,
                 RadioTalk = radio,
@@ -92,7 +95,7 @@ namespace Synapse.Events
         {
             if (PlayerLeaveEvent == null) return;
 
-            var ev = new PlayerLeaveClass
+            var ev = new PlayerLeaveEvent
             {
                 Player = player
             };
@@ -106,7 +109,7 @@ namespace Synapse.Events
         {
             if (PlayerBanEvent == null) return;
 
-            var ev = new PlayerBanClass
+            var ev = new PlayerBanEvent
             {
                 Issuer = issuer,
                 Duration = duration,
@@ -126,7 +129,7 @@ namespace Synapse.Events
         {
             if (PlayerDeathEvent == null) return;
 
-            var ev = new PlayerDeathClass
+            var ev = new PlayerDeathEvent
             {
                 Info = infos,
                 Killer = killer,
@@ -143,7 +146,7 @@ namespace Synapse.Events
         {
             if (PlayerHurtEvent == null) return;
 
-            var ev = new PlayerHurtClass
+            var ev = new PlayerHurtEvent
             {
                 Player = player,
                 Attacker = attacker,
@@ -161,7 +164,7 @@ namespace Synapse.Events
         {
             if (PlayerCuffedEvent == null) return;
 
-            var ev = new PlayerCuffedClass
+            var ev = new PlayerCuffedEvent
             {
                 Cuffed = cuffed,
                 Target = target,
@@ -180,7 +183,7 @@ namespace Synapse.Events
         {
             if (PlayerEscapeEvent == null) return;
 
-            var ev = new PlayerEscapeClass
+            var ev = new PlayerEscapeEvent
             {
                 Player = player,
                 Allow = allow,
@@ -201,7 +204,7 @@ namespace Synapse.Events
         {
             if (SyncDataEvent == null) return;
 
-            var ev = new SyncDataClass
+            var ev = new SyncDataEvent
             {
                 Allow = allow,
                 Player = player.GetComponent<ReferenceHub>(),
@@ -221,7 +224,7 @@ namespace Synapse.Events
         {
             if (PlayerReloadEvent == null) return;
 
-            var ev = new PlayerReloadClass()
+            var ev = new PlayerReloadEvent()
             {
                 Player = player,
                 Allow = allow,
@@ -233,6 +236,15 @@ namespace Synapse.Events
 
             allow = ev.Allow;
             weapon = ev.Weapon;
+        }
+
+        public static event OnFemurEnter FemurEnterEvent;
+
+        internal static void InvokeFemurEnterEvent(ReferenceHub player,ref bool allow)
+        {
+            if (FemurEnterEvent == null) return;
+
+            
         }
     }
 }
