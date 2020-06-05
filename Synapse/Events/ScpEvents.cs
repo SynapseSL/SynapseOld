@@ -7,7 +7,7 @@ namespace Synapse.Events
     public static partial class Events
     {
         //Scp049RecallEvent
-        public delegate void OnScp049Recall(ref Scp049RecallClass ev);
+        public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
 
         /// <summary>A Event which is activated when Scp049 Recalls a Player</summary>
         public static event OnScp049Recall Scp049RecallEvent;
@@ -17,7 +17,7 @@ namespace Synapse.Events
         {
             if (Scp049RecallEvent == null) return;
 
-            var ev = new Scp049RecallClass
+            var ev = new Scp049RecallEvent
             {
                 Allow = allow,
                 Ragdoll = ragdoll,

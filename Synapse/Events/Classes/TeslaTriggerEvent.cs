@@ -3,7 +3,7 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class TeslaTriggerClass
+    public class TeslaTriggerEvent
     {
         public ReferenceHub Player { get; internal set; }
 

@@ -27,7 +27,7 @@ namespace Synapse.Events
         }
 
         // Methods
-        private static void OnSyncData(ref SyncDataClass ev)
+        private static void OnSyncData(ref SyncDataEvent ev)
         {
             if (ev.Player.GetRole() != RoleType.ClassD &&
                 ev.Player.GetRole() != RoleType.Scientist &&
@@ -35,7 +35,7 @@ namespace Synapse.Events
                 ev.Player.characterClassManager.CmdRegisterEscape();
         }
 
-        private static void OnRemoteCommand(ref RemoteCommandClass ev)
+        private static void OnRemoteCommand(ref RemoteCommandEvent ev)
         {
             var args = ev.Command.Split(' ');
             switch (args[0].ToUpper())

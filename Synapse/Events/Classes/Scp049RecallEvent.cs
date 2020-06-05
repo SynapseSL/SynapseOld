@@ -2,7 +2,7 @@
 
 namespace Synapse.Events.Classes
 {
-    public class Scp049RecallClass : EventArgs
+    public class Scp049RecallEvent : EventArgs
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public ReferenceHub Player { get; internal set; }

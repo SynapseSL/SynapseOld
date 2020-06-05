@@ -2,7 +2,7 @@
 
 namespace Synapse.Events.Classes
 {
-    public class RemoteCommandClass : EventArgs
+    public class RemoteCommandEvent : EventArgs
     {
         public CommandSender Sender { get; internal set; }
 

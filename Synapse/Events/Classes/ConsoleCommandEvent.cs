@@ -3,7 +3,7 @@
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class ConsoleCommandClass
+    public class ConsoleCommandEvent
     {
         public ReferenceHub Player { get; internal set; }
 

@@ -34,32 +34,32 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\Documents\0Harmony.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\SynapseModLoaderPatcher\bin\Debug\Assembly-CSharp-Synapse_publizied.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\Mirror.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\Mirror.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\SCP Secret Laboratory Dedicated Server\SCPSL_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
-      <HintPath>..\..\..\Documents\YamlDotNet.dll</HintPath>
+      <HintPath>..\..\Synaps Verweise\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,26 +69,27 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
-    <Compile Include="Events\Classes\PlayerReloadClass.cs" />
-    <Compile Include="Events\Classes\TeamRespawnClass.cs" />
-    <Compile Include="Events\Classes\TeslaTriggerClass.cs" />
+    <Compile Include="Events\Classes\PlayerReloadEvent.cs" />
+    <Compile Include="Events\Classes\TeamRespawnEvent.cs" />
+    <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
     <Compile Include="Events\EventHandler.cs" />
-    <Compile Include="Events\Classes\PlayerEscapeClass.cs" />
+    <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
+    <Compile Include="Events\Patches\FemurEnterPatch.cs" />
     <Compile Include="Events\Patches\PlayerReloadPatch.cs" />
     <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
     <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
-    <Compile Include="Events\Classes\PlayerCuffedClass.cs" />
-    <Compile Include="Events\Classes\ConsoleCommandClass.cs" />
-    <Compile Include="Events\Classes\DoorInteractClass.cs" />
-    <Compile Include="Events\Classes\PlayerBanClass.cs" />
-    <Compile Include="Events\Classes\PlayerDeathClass.cs" />
-    <Compile Include="Events\Classes\PlayerHurtClass.cs" />
-    <Compile Include="Events\Classes\PlayerJoinClass.cs" />
-    <Compile Include="Events\Classes\PlayerLeaveClass.cs" />
-    <Compile Include="Events\Classes\RemoteCommandClass.cs" />
-    <Compile Include="Events\Classes\Scp049RecallClass.cs" />
-    <Compile Include="Events\Classes\SpeakEventClass.cs" />
-    <Compile Include="Events\Classes\SyncDataClass.cs" />
+    <Compile Include="Events\Classes\PlayerCuffedEvent.cs" />
+    <Compile Include="Events\Classes\ConsoleCommandEvent.cs" />
+    <Compile Include="Events\Classes\DoorInteractEvent.cs" />
+    <Compile Include="Events\Classes\PlayerBanEvent.cs" />
+    <Compile Include="Events\Classes\PlayerDeathEvent.cs" />
+    <Compile Include="Events\Classes\PlayerHurtEvent.cs" />
+    <Compile Include="Events\Classes\PlayerJoinEvent.cs" />
+    <Compile Include="Events\Classes\PlayerLeaveEvent.cs" />
+    <Compile Include="Events\Classes\RemoteCommandEvent.cs" />
+    <Compile Include="Events\Classes\Scp049RecallEvent.cs" />
+    <Compile Include="Events\Classes\SpeakEventEvent.cs" />
+    <Compile Include="Events\Classes\SyncDataEvent.cs" />
     <Compile Include="Events\MapEvents.cs" />
     <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
     <Compile Include="Events\Patches\DoorInteractPatch.cs" />
