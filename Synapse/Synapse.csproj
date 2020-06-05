@@ -70,10 +70,12 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\PlayerReloadClass.cs" />
     <Compile Include="Events\Classes\TeamRespawnClass.cs" />
     <Compile Include="Events\Classes\TeslaTriggerClass.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\Classes\PlayerEscapeClass.cs" />
+    <Compile Include="Events\Patches\PlayerReloadPatch.cs" />
     <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
     <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
     <Compile Include="Events\Classes\PlayerCuffedClass.cs" />

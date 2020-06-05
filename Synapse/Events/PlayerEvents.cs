@@ -35,6 +35,9 @@ namespace Synapse.Events
         //SyncDataEvent
         public delegate void OnSyncDataEvent(ref SyncDataClass ev);
 
+        //PlayerReloadEvent
+        public delegate void OnPlayerReload(ref PlayerReloadClass ev);
+
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
         public static event OnPlayerJoin PlayerJoinEvent;
@@ -210,6 +213,26 @@ namespace Synapse.Events
 
             allow = ev.Allow;
             speed = ev.Speed;
+        }
+
+        public static event OnPlayerReload PlayerReloadEvent;
+
+        internal static void InvokePlayerReloadEvent(ReferenceHub player,ref bool allow,ref WeaponManager.Weapon weapon,Inventory.SyncItemInfo syncItem)
+        {
+            if (PlayerReloadEvent == null) return;
+
+            var ev = new PlayerReloadClass()
+            {
+                Player = player,
+                Allow = allow,
+                InventorySlot = syncItem,
+                Weapon = weapon
+            };
+
+            PlayerReloadEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+            weapon = ev.Weapon;
         }
     }
 }

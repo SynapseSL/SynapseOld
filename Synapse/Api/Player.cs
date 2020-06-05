@@ -51,21 +51,18 @@ namespace Synapse.Api
             sender.RaReply($"{pluginName}#" + message, success, true, category);
         }
 
-        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f,bool fade_in_and_out = false)
+        /// <summary>
+        /// Gives The Player a Hint on the screen
+        /// </summary>
+        /// <param name="player">Player who becomes the Hint</param>
+        /// <param name="message">Message The Player becomes</param>
+        /// <param name="duration">How long should the player see it?</param>
+        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f)
         {
-            if (!fade_in_and_out) player.hints.Show(new TextHint(message, new HintParameter[]
+            player.hints.Show(new TextHint(message, new HintParameter[]
                 {
                     new StringHintParameter("")
                 }, HintEffectPresets.FadeInAndOut(duration), duration));
-            else
-            {
-                float fade = duration / 4;
-
-                player.hints.Show(new TextHint(message, new HintParameter[]
-                {
-                    new StringHintParameter("")
-                }, HintEffectPresets.FadeInAndOut(fade,fade*2,fade), duration));
-            }
         }
 
         /// <summary>Sends a Broadcast to a user</summary>
