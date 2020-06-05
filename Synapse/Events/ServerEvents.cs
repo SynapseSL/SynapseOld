@@ -8,26 +8,7 @@ namespace Synapse.Events
     [SuppressMessage("ReSharper", "EventNeverSubscribedTo.Global")]
     public static partial class Events
     {
-        //ConsoleCommandEvent
-        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
-
-
-        //RemoteCommandEvent
-        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
-
-        //RoundEndEvent
-        public delegate void OnRoundEnd();
-
-        // RoundRestartEvent
         public delegate void OnRoundRestart();
-
-
-        // RoundStartEvent
-        public delegate void OnRoundStart();
-
-        //TeamRespawnEvent
-        public delegate void TeamRespawn(ref TeamRespawnEvent ev);
-
         public static event OnRoundRestart RoundRestartEvent;
 
         internal static void InvokeRoundRestart()
@@ -38,6 +19,7 @@ namespace Synapse.Events
         /// <summary>
         ///     A Event which activate when the Round Ends (not a Restart!)
         /// </summary>
+        public delegate void OnRoundEnd();
         public static event OnRoundEnd RoundEndEvent;
 
         internal static void InvokeRoundEndEvent()
@@ -45,6 +27,7 @@ namespace Synapse.Events
             RoundEndEvent?.Invoke();
         }
 
+        public delegate void OnRoundStart();
         public static event OnRoundStart RoundStartEvent;
 
         internal static void InvokeRoundStart()
@@ -54,6 +37,7 @@ namespace Synapse.Events
 
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
+        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
         public static event OnRemoteCommand RemoteCommandEvent;
 
         internal static void InvokeRemoteCommandEvent(CommandSender sender, string command, ref bool allow)
@@ -73,6 +57,7 @@ namespace Synapse.Events
         }
 
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
+        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
         public static event OnConsoleCommand ConsoleCommandEvent;
 
         internal static void InvokeConsoleCommandEvent(ReferenceHub player, string command, out string color,
@@ -94,6 +79,7 @@ namespace Synapse.Events
             returning = ev.ReturnMessage;
         }
 
+        public delegate void TeamRespawn(ref TeamRespawnEvent ev);
         public static event TeamRespawn TeamRespawnEvent;
         
         internal static void InvokeTeamRespawnEvent(ref List<ReferenceHub> respawnlist, ref bool ischaos, ref bool allow ,ref bool useticktes)
