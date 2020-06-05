@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Synapse.Permissions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -151,6 +152,21 @@ namespace Synapse.Api
         {
             var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
             alpha.Detonate();
+        }
+
+        /// <param name="group">Name of the group you want to check</param>
+        /// <param name="permission">Permission you want to check</param>
+        /// <returns>Have the Group the permissions?</returns>
+        public static bool IsGroupAllowed(string group, string permission)
+        {
+            try
+            {
+                return PermissionReader.CheckGroupPermission(group, permission);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Synapse.Events
 {
     // ReSharper disable once UnusedType.Global
-    internal class EventHandler
+    public class EventHandler
     {
         // Variables
         private bool _roundInProgress;
