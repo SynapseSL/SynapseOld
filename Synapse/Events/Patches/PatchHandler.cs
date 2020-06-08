@@ -25,11 +25,5 @@ namespace Synapse.Events.Patches
                 Log.Error($"Harmony Event Patch Error: {e}");
             }
         }
-
-        // ReSharper disable once UnusedMember.Global
-        public void UnPatchMethods()
-        {
-            _instance.UnpatchAll();
-        }
     }
 }
