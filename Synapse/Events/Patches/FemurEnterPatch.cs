@@ -8,6 +8,8 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(CharacterClassManager), nameof(CharacterClassManager.AllowContain))]
     public class FemurEnterPatch
     {
+		public static int femurBrokePeople;
+
         public static bool Prefix(CharacterClassManager __instance)
         {
             try
@@ -23,8 +25,16 @@ namespace Synapse.Events.Patches
 						PlayerStats component2 = gameObject.GetComponent<PlayerStats>();
 						if (component.CurRole.team != Team.SCP && component.CurClass != RoleType.Spectator && !component.GodMode)
 						{
+							var allow = true;
+							var CloseFemur = femurBrokePeople + 1 >= Configs.requiredforFemur;
+							var player = __instance.GetComponent<ReferenceHub>();
+
+							Events.InvokeFemurEnterEvent(player, ref allow, ref CloseFemur);
+
+							if (!allow) return false;
 							component2.HurtPlayer(new PlayerStats.HitInfo(10000f, "WORLD", DamageTypes.Lure, 0), gameObject);
-							__instance._lureSpj.SetState(true);
+							femurBrokePeople++;
+							if (CloseFemur) __instance._lureSpj.SetState(true);
 						}
 					}
 				}

@@ -64,6 +64,7 @@ namespace Synapse
                 if (!File.Exists(configPath))
                     File.Create(configPath).Close();
 
+                Configs.ReloadConfig();
                 Plugin.Config = new YamlConfig(configPath);
 
                 OnEnable();

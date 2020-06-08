@@ -223,14 +223,24 @@ namespace Synapse.Events
         }
         
         //FemurEnterEvent
-        public delegate void OnFemurEnter();
+        public delegate void OnFemurEnter(ref FemurEnterEvent ev);
         public static event OnFemurEnter FemurEnterEvent;
 
-        internal static void InvokeFemurEnterEvent(ReferenceHub player,ref bool allow)
+        internal static void InvokeFemurEnterEvent(ReferenceHub player,ref bool allow,ref bool closeFemur)
         {
             if (FemurEnterEvent == null) return;
 
-            
+            var ev = new FemurEnterEvent()
+            {
+                Player = player,
+                Allow = allow,
+                CloseFemur = closeFemur,
+            };
+
+            FemurEnterEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+            closeFemur = ev.CloseFemur;
         }
         //DroppedItemEvent
         public delegate void OnDropItem(ref DropItemEvent ev);
