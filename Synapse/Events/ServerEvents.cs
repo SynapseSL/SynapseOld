@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
+using LiteNetLib;
 using Synapse.Events.Classes;
 
 namespace Synapse.Events
@@ -100,6 +100,24 @@ namespace Synapse.Events
             ischaos = ev.IsChaos;
             allow = ev.Allow;
             useticktes = ev.UseTickets;
+        }
+        
+        public delegate void OnPreAuthenticationEvent(ref PreAuthenticationEvent ev);
+        public static event OnPreAuthenticationEvent PreAuthenticationEvent;
+
+        internal static void InvokePreAuthentication(string userId, ConnectionRequest request, int position, byte flags,
+            string country, ref bool allow)
+        {
+            var ev = new PreAuthenticationEvent()
+            {
+               Allow = allow,
+               Request = request,
+               UserId = userId
+            };
+            
+            PreAuthenticationEvent?.Invoke(ref ev);
+
+            allow = ev.Allow;
         }
     }
 }
