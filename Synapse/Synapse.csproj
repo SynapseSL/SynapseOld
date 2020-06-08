@@ -36,11 +36,12 @@
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synaps Verweise\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\SynapseModLoaderPatcher\bin\Debug\Assembly-CSharp-Synapse_publizied.dll</HintPath>
-    </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-Synapse_publizied, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-Synapse_publizied.dll</HintPath>
     </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synaps Verweise\Mirror.dll</HintPath>
@@ -79,6 +80,7 @@
     <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
+    <Compile Include="Events\Patches\WaitingForPlayersPatch.cs" />
     <Compile Include="Events\Patches\DropItemPatch.cs" />
     <Compile Include="Events\Patches\FemurEnterPatch.cs" />
     <Compile Include="Events\Patches\PlayerReloadPatch.cs" />

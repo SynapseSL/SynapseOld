@@ -23,9 +23,10 @@ namespace Synapse.Events.Patches
 					{
 						CharacterClassManager component = gameObject.GetComponent<CharacterClassManager>();
 						PlayerStats component2 = gameObject.GetComponent<PlayerStats>();
-						if (component.CurRole.team != Team.SCP && component.CurClass != RoleType.Spectator && !component.GodMode)
+						if (component.CurClass != RoleType.Spectator && !component.GodMode)
 						{
-							var allow = true;
+							var allow = component.CurRole.team != Team.SCP;
+
 							var CloseFemur = femurBrokePeople + 1 >= Configs.requiredforFemur;
 							var player = __instance.GetComponent<ReferenceHub>();
 
