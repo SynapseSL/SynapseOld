@@ -33,7 +33,8 @@ namespace Synapse.Events.Patches
             data.Put((byte) 10);
             request.RejectForce(data);
         }
-
+        
+        //TODO: Explain this code to other contrib.
         static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
