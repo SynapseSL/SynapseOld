@@ -46,5 +46,10 @@ namespace Synapse.Events
 
             activated = ev.Triggerable;
         }
+
+        public delegate void OnWarheadDetonation();
+        public static event OnWarheadDetonation WarheadDetonationEvent;
+
+        internal static void InvokeWarheadDetonation() => WarheadDetonationEvent?.Invoke();
     }
 }
