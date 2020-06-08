@@ -70,6 +70,8 @@
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Configs.cs" />
+    <Compile Include="Events\Classes\FemurEnterEvent.cs" />
     <Compile Include="Events\Classes\DropItemEvent.cs" />
     <Compile Include="Events\Classes\PlayerReloadEvent.cs" />
     <Compile Include="Events\Classes\TeamRespawnEvent.cs" />
