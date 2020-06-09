@@ -75,6 +75,7 @@
     <Compile Include="Events\Classes\DropItemEvent.cs" />
     <Compile Include="Events\Classes\PlayerReloadEvent.cs" />
     <Compile Include="Events\Classes\PocketDimensionEvent.cs" />
+    <Compile Include="Events\Classes\PreAuthenticationEvent.cs" />
     <Compile Include="Events\Classes\Scp106ContainmentEvent.cs" />
     <Compile Include="Events\Classes\TeamRespawnEvent.cs" />
     <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Events\Patches\FemurEnterPatch.cs" />
     <Compile Include="Events\Patches\PlayerReloadPatch.cs" />
     <Compile Include="Events\Patches\PocketDimensionEnterPatch.cs" />
+    <Compile Include="Events\Patches\PreAuthenticationPatch.cs" />
     <Compile Include="Events\Patches\Scp106ContaimentPatch.cs" />
     <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
     <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
@@ -117,6 +119,7 @@
     <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
     <Compile Include="Events\Patches\SyncDataPatch.cs" />
+    <Compile Include="Events\Patches\WarheadDetonationPatch.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ScpEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
