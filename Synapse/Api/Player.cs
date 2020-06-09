@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Reflection;
 using Hints;
+using Mirror;
 using Synapse.Permissions;
 using UnityEngine;
 
@@ -11,6 +14,19 @@ namespace Synapse.Api
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class Player
     {
+        private static MethodInfo sendSpawnMessage;
+        public static MethodInfo SendSpawnMessage
+        {
+            get
+            {
+                if (sendSpawnMessage == null)
+                    sendSpawnMessage = typeof(NetworkServer).GetMethod("SendSpawnMessage",BindingFlags.Instance | BindingFlags.InvokeMethod
+                        | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public);
+
+                return sendSpawnMessage;
+            }
+        }
+
         /// <summary>Gives a User a Message im Remote Admin</summary>
         /// <param name="sender">The User who you send the Message</param>
         /// <param name="pluginName">The Name from which is it at the beginning of the Message</param>
@@ -276,6 +292,35 @@ namespace Synapse.Api
             else
             {
                 SetRole(player, roleType);
+            }
+        }
+
+        /// <summary>
+        /// Gives you the size the Player currently is
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns>Vector3 with the x y z scales of the player</returns>
+        public static Vector3 GetScale(this ReferenceHub player) => player.transform.localScale;
+
+        /// <summary>
+        /// Changes The Scale of the Player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        public static void SetScale(this ReferenceHub player, float x, float y, float z)
+        {
+            try
+            {
+                player.transform.localScale = new Vector3(x, y, z);
+
+                foreach (ReferenceHub hub in GetHubs())
+                    SendSpawnMessage?.Invoke(null, new object[] { player.GetComponent<NetworkIdentity>(), hub.scp079PlayerScript.connectionToClient });
+            }
+            catch (Exception e)
+            {
+                Log.Error($"SetScale Error. {e}");
             }
         }
     }
