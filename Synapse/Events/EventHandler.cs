@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Synapse.Events
 {
     // ReSharper disable once UnusedType.Global
-    public class EventHandler
+    internal class EventHandler
     {
         // Variables
         private bool _roundInProgress;
@@ -24,6 +24,24 @@ namespace Synapse.Events
             Events.RoundStartEvent += OnRoundStart;
             Events.RoundEndEvent += OnRoundEnd;
             Events.RoundRestartEvent += OnRoundRestart;
+            Events.DoorInteractEvent += OnDoorInteract;
+        }
+
+        private void OnDoorInteract(ref DoorInteractEvent ev)
+        {
+            if (Configs.remotekeycard)
+            {
+                if (ev.Allow) return;
+
+                foreach (var item in ev.Player.inventory.items)
+                {
+                    if (ev.Player.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))
+                    {
+                        ev.Allow = true;
+                        return;
+                    }
+                }
+            }
         }
 
         // Methods

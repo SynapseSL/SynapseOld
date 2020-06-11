@@ -9,6 +9,7 @@ namespace Synapse
 
         //Configs
         internal static int requiredforFemur;
+        internal static bool remotekeycard;
 
         //Methods
         internal static void ReloadConfig()
@@ -16,6 +17,7 @@ namespace Synapse
             if (Config == null) Config = new YamlConfig(Path.Combine(PluginManager.ServerConfigDirectory, "server-config.yml"));
 
             requiredforFemur = Config.GetInt("synapse.femur",1);
+            remotekeycard = Config.GetBool("synapse.remote.keycard", true);
         }
     }
 }
