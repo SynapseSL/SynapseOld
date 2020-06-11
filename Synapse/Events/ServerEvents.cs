@@ -119,15 +119,5 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
-
-        //WaitingforPlayersEvent
-        public delegate void OnWaitingforPlayers();
-        public static event OnWaitingforPlayers WaitingforPlayersEvent;
-        internal static void InvokeWaitingforPlayers()
-        {
-            if (WaitingforPlayersEvent == null) return;
-
-            WaitingforPlayersEvent.Invoke();
-        }
     }
 }

@@ -294,6 +294,16 @@ namespace Synapse.Api
                 SetRole(player, roleType);
             }
         }
+        
+        /// <summary>
+        ///     Disconnects a Player from the Server
+        /// </summary>
+        /// <param name="player">the player to be kicked</param>
+        /// <param name="message">the message shown to the player</param>
+        public static void KickPlayer(this ReferenceHub player, string message)
+        {
+            ServerConsole.Disconnect(player.gameObject, message);
+        }
 
         /// <summary>
         /// Gives you the size the Player currently is
@@ -322,16 +332,6 @@ namespace Synapse.Api
             {
                 Log.Error($"SetScale Error. {e}");
             }
-        }
-        
-        /// <summary>
-        ///     Disconnects a Player from the Server
-        /// </summary>
-        /// <param name="player">the player to be kicked</param>
-        /// <param name="message">the message shown to the player</param>
-        public static void KickPlayer(this ReferenceHub player, string message)
-        {
-            ServerConsole.Disconnect(player.gameObject, message);
         }
     }
 }
