@@ -28,7 +28,7 @@ namespace Synapse
             CustomNetworkManager.Modded = true;
             try
             {
-                Timing.RunCoroutine(PluginManager.LoadPlugins());
+                Timing.RunCoroutine(PluginManager.StartSynapse());
             }
             catch
             {

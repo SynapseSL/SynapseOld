@@ -39,7 +39,7 @@ namespace Synapse
                 if (!File.Exists(_owntransTranslationFile))
                     File.Create(_owntransTranslationFile);
 
-                return OwnTranslationFile;
+                return _owntransTranslationFile;
             }
             internal set => _owntransTranslationFile = value;
         }

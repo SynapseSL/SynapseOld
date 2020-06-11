@@ -24,64 +24,75 @@ namespace Synapse
         internal static string MainConfigDirectory { get; } = Path.Combine(SynapseDirectory, "ServerConfigs");
         private static string ServerPluginDirectory { get; set; }
         internal static string ServerConfigDirectory { get; private set; }
+        private static string ServerConfigFile { get; set; }
 
         internal static Events.EventHandler EventHandler;
 
         // Methods
-        public static IEnumerator<float> LoadPlugins()
+        internal static IEnumerator<float> StartSynapse()
         {
             yield return Timing.WaitForSeconds(0.5f);
             try
             {
-                LoadDependencies();
+                Files();
 
-                var serverPluginDirectory =
-                    Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
-                ServerPluginDirectory = serverPluginDirectory;
+                LoadPlugins();
 
-                if (!Directory.Exists(serverPluginDirectory))
-                    Directory.CreateDirectory(serverPluginDirectory);
-
-                var plugins = Directory.GetFiles(serverPluginDirectory);
-
-                foreach (var plugin in plugins)
-                {
-                    if (plugin.EndsWith("Synapse.dll")) continue;
-
-                    if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
-                }
-
-                HarmonyPatch();
-                
-                EventHandler = new Events.EventHandler();
-
-                ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
-                if (!Directory.Exists(ServerConfigDirectory))
-                    Directory.CreateDirectory(ServerConfigDirectory);
-
-                var configPath = Path.Combine(ServerConfigDirectory, "server-config.yml");
-
-                if (!File.Exists(configPath))
-                    File.Create(configPath).Close();
-
-                Configs.ReloadConfig();
-                Plugin.Config = new YamlConfig(configPath);
-
-                OnEnable();
-                try
-                {
-                    PermissionReader.Init();
-                }
-                catch (Exception e)
-                {
-                    Log.Error($"Your Permission in invalid: {e}");
-                }
+                LoadSynapse();
             }
             catch (Exception e)
             {
                 Log.Error($"Synapse could not Start : {e}");
             }
         }
+
+        private static void Files()
+        {
+            ServerPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
+            if (!Directory.Exists(ServerPluginDirectory))
+                Directory.CreateDirectory(ServerPluginDirectory);
+
+            ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
+            if (!Directory.Exists(ServerConfigDirectory))
+                Directory.CreateDirectory(ServerConfigDirectory);
+
+            ServerConfigFile = Path.Combine(ServerConfigDirectory, "server-config.yml");
+            if (!File.Exists(ServerConfigFile))
+                File.Create(ServerConfigFile).Close();
+        }
+
+        private static void LoadPlugins()
+        {
+            LoadDependencies();
+
+            var plugins = Directory.GetFiles(ServerPluginDirectory);
+
+            foreach (var plugin in plugins)
+            {
+                if (plugin.EndsWith("Synapse.dll")) continue;
+
+                if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
+            }
+            Plugin.Config = new YamlConfig(ServerConfigFile);
+            OnEnable();
+        }
+
+        private static void LoadSynapse()
+        {
+            Configs.ReloadConfig();
+            HarmonyPatch();
+            EventHandler = new Events.EventHandler();
+
+            try
+            {
+                PermissionReader.Init();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Your Permission in invalid: {e}");
+            }
+        }
+
 
         private static void LoadDependencies()
         {
