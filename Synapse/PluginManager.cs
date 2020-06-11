@@ -141,6 +141,7 @@ namespace Synapse
             foreach (var plugin in Plugins)
                 try
                 {
+                    plugin.OwnTranslationFile = Path.Combine(ServerConfigDirectory, plugin.GetName + "-translation.txt");
                     plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
                     plugin.OnEnable();
                 }

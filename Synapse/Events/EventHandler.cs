@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MEC;
 using Synapse.Api;
 using Synapse.Events.Classes;
@@ -35,7 +36,7 @@ namespace Synapse.Events
 
                 foreach (var item in ev.Player.inventory.items)
                 {
-                    if (ev.Player.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))
+                    if (ev.Player.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))//update to backwardsCompatPermissions when neccesary
                     {
                         ev.Allow = true;
                         return;
