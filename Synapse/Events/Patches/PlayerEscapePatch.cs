@@ -24,7 +24,7 @@ namespace Synapse.Events.Classes
 
                 //Event vars
                 var player = __instance.GetComponent<ReferenceHub>();
-                var spawnRole = player.GetRole();
+                var spawnRole = player.GetPlayer().Role;
                 var cufferRole = RoleType.None;
                 var allow = true;
                 var isCuffed = false;

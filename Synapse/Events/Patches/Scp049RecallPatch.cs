@@ -92,8 +92,8 @@ namespace Synapse.Events.Patches
 
                     var pos3 = component.transform.position;
                     pos3.y += 2;
-                    referenceHub.SetRole(role, true);
-                    Timing.CallDelayed(0.5f, () => referenceHub.SetPosition(pos3));
+                    referenceHub.GetPlayer().ChangeRoleAtPosition(role);
+                    Timing.CallDelayed(0.5f, () => referenceHub.GetPlayer().Position = pos3);
                     referenceHub.GetComponent<PlayerStats>().Health = live;
                     if (component.CompareTag("Ragdoll")) NetworkServer.Destroy(component.gameObject);
                     __instance._recallInProgressServer = false;

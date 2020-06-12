@@ -48,9 +48,9 @@ namespace Synapse.Events
         // Methods
         private static void OnSyncData(ref SyncDataEvent ev)
         {
-            if (ev.Player.GetRole() != RoleType.ClassD &&
-                ev.Player.GetRole() != RoleType.Scientist &&
-                !(Vector3.Distance(ev.Player.GetPosition(), ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
+            if (ev.Player.GetPlayer().Role != RoleType.ClassD &&
+                ev.Player.GetPlayer().Role != RoleType.Scientist &&
+                !(Vector3.Distance(ev.Player.GetPlayer().Position, ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
                 ev.Player.characterClassManager.CmdRegisterEscape();
         }
 
@@ -61,7 +61,7 @@ namespace Synapse.Events
             {
                 case "RELOADPERMISSION":
                 {
-                    if (!ev.Player.IsAllowed("sy.reload"))
+                    if (!ev.Player.CheckPermission("sy.reload"))
                     {
                         ev.Sender.RaMessage("Synapse", "You have no Permission for Reload", false,
                             RaCategory.AdminTools);

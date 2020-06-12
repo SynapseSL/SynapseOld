@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
 using Hints;
 using Mirror;
 using Synapse.Permissions;
@@ -10,125 +8,104 @@ using UnityEngine;
 
 namespace Synapse.Api
 {
-    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
-    [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static class Player
+    public class Player : MonoBehaviour
     {
-        private static MethodInfo sendSpawnMessage;
-        public static MethodInfo SendSpawnMessage
+        public static Player Server { get => PlayerManager.localPlayer.GetPlayer(); }
+
+
+        public ReferenceHub Hub { get => this.GetComponent<ReferenceHub>(); }
+
+        public string NickName { get => Hub.nicknameSync.MyNick; set => Hub.nicknameSync.MyNick = value; }
+
+        public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
+
+        public string UserID { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
+
+        public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
+
+        public Vector3 Scale 
+        { 
+            get => Hub.transform.localScale;
+            set
+            {
+                try
+                {
+                    Hub.transform.localScale = value;
+
+                    foreach (var player in PlayerExtensions.GetAllPlayers())
+                        PlayerExtensions.SendSpawnMessage?.Invoke(null, new object[] { Hub.GetComponent<NetworkIdentity>(), player.Connection });
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"SetScale Error. {e}");
+                }
+            }
+        }
+
+        public Vector3 Position { get => Hub.transform.position; set => Hub.transform.position = value; }
+
+        public RoleType Role
+        {
+            get => Hub.characterClassManager.NetworkCurClass;
+            set => Hub.characterClassManager.SetPlayersClass(value, gameObject);
+        }
+
+        public Team Team { get => Hub.characterClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
+
+        public Room CurRoom
         {
             get
             {
-                if (sendSpawnMessage == null)
-                    sendSpawnMessage = typeof(NetworkServer).GetMethod("SendSpawnMessage",BindingFlags.Instance | BindingFlags.InvokeMethod
-                        | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public);
+                var playerPos = Position;
+                var end = playerPos - new Vector3(0f, 10f, 0f);
+                var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
 
-                return sendSpawnMessage;
-            }
-        }
+                if (!flag || rayCastHit.transform == null)
+                    return null;
 
-        /// <summary>Gives a User a Message im Remote Admin</summary>
-        /// <param name="sender">The User who you send the Message</param>
-        /// <param name="pluginName">The Name from which is it at the beginning of the Message</param>
-        /// <param name="message">The Message you want to send</param>
-        /// <param name="success">True = green the command is right you have permission and execute it successfully</param>
-        /// <param name="type">In Which Category should you see it too?</param>
-        public static void RaMessage(this CommandSender sender, string pluginName, string message, bool success = true,
-            RaCategory type = RaCategory.None)
-        {
-            var category = "";
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
-            switch (type)
-            {
-                case RaCategory.None:
-                    category = "";
-                    break;
-                case RaCategory.PlayerInfo:
-                    category = "PlayerInfo";
-                    break;
-                case RaCategory.ServerEvents:
-                    category = "ServerEvents";
-                    break;
-                case RaCategory.DoorsManagement:
-                    category = "DoorsManagement";
-                    break;
-                case RaCategory.AdminTools:
-                    category = "AdminTools";
-                    break;
-                case RaCategory.ServerConfigs:
-                    category = "ServerConfigs";
-                    break;
-                case RaCategory.PlayersManagement:
-                    category = "PlayersManagement";
-                    break;
-            }
+                var transform = rayCastHit.transform;
 
+                while (transform.parent != null && transform.parent.parent != null)
+                    transform = transform.parent;
 
-            sender.RaReply($"{pluginName}#" + message, success, true, category);
-        }
+                foreach (var room in Map.Rooms.Where(room => room.Position == transform.position))
+                    return room;
 
-        /// <summary>
-        /// Gives The Player a Hint on the screen
-        /// </summary>
-        /// <param name="player">Player who becomes the Hint</param>
-        /// <param name="message">Message The Player becomes</param>
-        /// <param name="duration">How long should the player see it?</param>
-        public static void GiveTextHint(this ReferenceHub player,string message,float duration = 5f)
-        {
-            player.hints.Show(new TextHint(message, new HintParameter[]
+                return new Room
                 {
-                    new StringHintParameter("")
-                }, HintEffectPresets.FadeInAndOut(duration), duration));
+                    Name = transform.name,
+                    Position = transform.position,
+                    Transform = transform
+                };
+            }
+            set => Position = Map.Rooms.FirstOrDefault(x => x == value).Position;
         }
 
-        /// <summary>Sends a Broadcast to a user</summary>
-        /// <param name="rh">The User you want to send a Broadcast</param>
-        /// <param name="time">How Long should he see it?</param>
-        /// <param name="message">The message you send</param>
-        public static void Broadcast(this ReferenceHub rh, ushort time, string message)
+        public NetworkConnection Connection { get => Hub.scp079PlayerScript.connectionToClient; }
+
+        public Player Cuffer { get => PlayerExtensions.GetPlayer(GetComponent<Handcuffs>().CufferId); } 
+
+        public uint Ammo5 { get => Hub.ammoBox.amount[0]; set => Hub.ammoBox.amount[0] = value; }
+
+        public uint Ammo7 { get => Hub.ammoBox.amount[1]; set => Hub.ammoBox.amount[1] = value; }
+
+        public uint Ammo9 { get => Hub.ammoBox.amount[2]; set => Hub.ammoBox.amount[2] = value; }
+
+
+        public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
+
+        public void ChangeRoleAtPosition(RoleType role)
         {
-            rh.GetComponent<Broadcast>().TargetAddElement(rh.scp079PlayerScript.connectionToClient, message, time,
-                new Broadcast.BroadcastFlags());
+            Hub.characterClassManager.NetworkCurClass = role;
+            Hub.playerStats.SetHPAmount(Hub.characterClassManager.Classes.SafeGet(Role).maxHP);
         }
 
-        /// <summary>Sends a broadcast to the user and delete all previous so that he see it instantly</summary>
-        /// <param name="rh">The user</param>
-        /// <param name="time">How long should the new Broadcast be shown?</param>
-        /// <param name="message">the broadcast message</param>
-        public static void BroadcastInstant(this ReferenceHub rh, ushort time, string message)
+        public bool CheckPermission(string permission)
         {
-            rh.ClearBroadcasts();
-            rh.Broadcast(time, message);
-        }
-
-        /// <summary>Clears all of the current Broadcast the user has</summary>
-        /// <param name="player">The Player which Broadcast should be cleared</param>
-        public static void ClearBroadcasts(this ReferenceHub player)
-        {
-            player.GetComponent<Broadcast>()
-                .TargetClearElements(player.scp079PlayerScript.connectionToClient);
-        }
-
-        /// <summary>
-        ///     Sets the Ammo a user have
-        /// </summary>
-        /// <param name="player">Player you want to set ammo</param>
-        /// <param name="ammoType">The AmmoType you give</param>
-        /// <param name="amount">How much ammo</param>
-        public static void SetAmmo(this ReferenceHub player, AmmoType ammoType, uint amount)
-        {
-            player.ammoBox.amount[(int) ammoType] = amount;
-        }
-
-        /// <param name="hub"></param>
-        /// <param name="permission">Have the Player the Permission?</param>
-        /// <returns></returns>
-        public static bool IsAllowed(this ReferenceHub hub, string permission)
-        {
-            if (hub == PlayerManager.localPlayer) return true;
+            if (Hub == PlayerManager.localPlayer) return true;
             try
             {
-                return PermissionReader.CheckPermission(hub, permission);
+                return PermissionReader.CheckPermission(this, permission);
             }
             catch
             {
@@ -136,202 +113,22 @@ namespace Synapse.Api
             }
         }
 
-        /// <returns>A List of all Players on the Server which are not the Server</returns>
-        public static IEnumerable<ReferenceHub> GetHubs()
+        public void GiveTextHint(string message, float duration = 5f)
         {
-            return (from gameObject in PlayerManager.players
-                where gameObject != PlayerManager.localPlayer && gameObject != null
-                select gameObject.GetComponent<ReferenceHub>()).ToList();
+            Hub.hints.Show(new TextHint(message, new HintParameter[]
+                {
+                    new StringHintParameter("")
+                }, HintEffectPresets.FadeInAndOut(duration), duration));
         }
 
-        /// <param name="id">PlayerId of the User</param>
-        /// <returns>Object ReferenceHub from the USer with the id</returns>
-        public static ReferenceHub GetPlayer(int id)
+        public void ClearBroadcasts() => GetComponent<Broadcast>().TargetClearElements(Connection);
+
+        public void Broadcast(ushort time,string message) => GetComponent<Broadcast>().TargetAddElement(Connection, message, time, new Broadcast.BroadcastFlags());
+
+        public void InstantBroadcast(ushort time, string message)
         {
-            return GetHubs().FirstOrDefault(hub => hub.GetPlayerId() == id);
-        }
-
-        public static ReferenceHub GetPlayer(string args)
-        {
-            if (short.TryParse(args, out var playerId))
-                return GetPlayer(playerId);
-
-            if (!args.EndsWith("@steam") && !args.EndsWith("@discord") && !args.EndsWith("@northwood") &&
-                !args.EndsWith("@patreon"))
-                return GetHubs().FirstOrDefault(hub => hub.GetNickName().ToLower().Contains(args.ToLower()));
-            foreach (var player in GetHubs())
-                if (player.GetUserId() == args)
-                    return player;
-
-            return GetHubs().FirstOrDefault(hub => hub.GetNickName().ToLower().Contains(args.ToLower()));
-        }
-
-        public static ReferenceHub GetCuffs(this ReferenceHub player)
-        {
-            return GetPlayer(player.GetComponent<Handcuffs>().CufferId);
-        }
-
-        public static string GetNickName(this ReferenceHub player)
-        {
-            return player.nicknameSync.MyNick;
-        }
-
-        /// <param name="player"></param>
-        /// <returns>The PlayerID of the User</returns>
-        public static int GetPlayerId(this ReferenceHub player)
-        {
-            return player.queryProcessor.NetworkPlayerId;
-        }
-
-        /// <param name="player">The User you want the Id of</param>
-        /// <returns>The User ID (1234@steam) of the User</returns>
-        public static string GetUserId(this ReferenceHub player)
-        {
-            return player.characterClassManager.UserId;
-        }
-
-        /// <summary>Gives you The Position of the User</summary>
-        /// <param name="player">The User which Position you want to have</param>
-        public static Vector3 GetPosition(this ReferenceHub player)
-        {
-            return player.playerMovementSync.transform.position;
-        }
-
-        public static void SetPosition(this ReferenceHub player, Vector3 position, bool forceGround = false)
-        {
-            player.playerMovementSync.OverridePosition(position, 0f, forceGround);
-        }
-
-        /// <summary>Gives You the Current Room the user is in</summary>
-        /// <returns></returns>
-        public static Room GetCurrentRoom(this ReferenceHub player)
-        {
-            var playerPos = player.GetPosition();
-            var end = playerPos - new Vector3(0f, 10f, 0f);
-            var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
-
-            if (!flag || rayCastHit.transform == null)
-                return null;
-
-            var transform = rayCastHit.transform;
-
-            while (transform.parent != null && transform.parent.parent != null)
-                transform = transform.parent;
-
-            foreach (var room in Map.Rooms.Where(room => room.Position == transform.position))
-                return room;
-
-            return new Room
-            {
-                Name = transform.name,
-                Position = transform.position,
-                Transform = transform
-            };
-        }
-
-        /// <summary>
-        ///     Gets' a players OverWatch status
-        /// </summary>
-        /// <param name="player">The Player that needs to be checked</param>
-        /// <returns type="bool">The OverWatch Status</returns>
-        public static bool GetOverWatch(this ReferenceHub player)
-        {
-            return player.serverRoles.OverwatchEnabled;
-        }
-
-        /// <summary>
-        ///     Sets' a players OverWatch status
-        /// </summary>
-        /// <param name="player">player to be modified</param>
-        /// <param name="newStatus">new status to modify</param>
-        public static void SetOverWatch(this ReferenceHub player, bool newStatus)
-        {
-            player.serverRoles.SetOverwatchStatus(newStatus);
-        }
-
-        /// <summary>
-        /// Gives you the Team of the player
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns>The Team of the Player which is stored in the Role so anyone can change it</returns>
-        public static Team GetTeam(this ReferenceHub player) => player.characterClassManager.CurRole.team;
-
-        /// <summary>
-        ///     Get the active role that the player currently is.
-        /// </summary>
-        /// <param name="player">The Player to be checked</param>
-        /// <returns>A RoleType identifier</returns>
-        public static RoleType GetRole(this ReferenceHub player)
-        {
-            return player.characterClassManager.CurClass;
-        }
-
-        /// <summary>
-        ///     Setting the player as a different Role
-        /// </summary>
-        /// <param name="player">the player to be changed</param>
-        /// <param name="roleType">the role the player should change to</param>
-        public static void SetRole(this ReferenceHub player, RoleType roleType)
-        {
-            player.characterClassManager.SetPlayersClass(roleType, player.gameObject);
-        }
-
-        /// <summary>
-        ///     Setting the player as a different Role
-        /// </summary>
-        /// <param name="player">the player to be changed</param>
-        /// <param name="roleType">the role the player should change to</param>
-        /// <param name="stayAtPosition">set the player to the current position on the screen.</param>
-        public static void SetRole(this ReferenceHub player, RoleType roleType, bool stayAtPosition)
-        {
-            if (stayAtPosition)
-            {
-                player.characterClassManager.NetworkCurClass = roleType;
-                player.playerStats.SetHPAmount(player.characterClassManager.Classes.SafeGet(player.GetRole()).maxHP);
-            }
-            else
-            {
-                SetRole(player, roleType);
-            }
-        }
-        
-        /// <summary>
-        ///     Disconnects a Player from the Server
-        /// </summary>
-        /// <param name="player">the player to be kicked</param>
-        /// <param name="message">the message shown to the player</param>
-        public static void KickPlayer(this ReferenceHub player, string message)
-        {
-            ServerConsole.Disconnect(player.gameObject, message);
-        }
-
-        /// <summary>
-        /// Gives you the size the Player currently is
-        /// </summary>
-        /// <param name="player"></param>
-        /// <returns>Vector3 with the x y z scales of the player</returns>
-        public static Vector3 GetScale(this ReferenceHub player) => player.transform.localScale;
-
-        /// <summary>
-        /// Changes The Scale of the Player
-        /// </summary>
-        /// <param name="player"></param>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="z"></param>
-        public static void SetScale(this ReferenceHub player, float x, float y, float z)
-        {
-            try
-            {
-                player.transform.localScale = new Vector3(x, y, z);
-
-                foreach (ReferenceHub hub in GetHubs())
-                    SendSpawnMessage?.Invoke(null, new object[] { player.GetComponent<NetworkIdentity>(), hub.scp079PlayerScript.connectionToClient });
-            }
-            catch (Exception e)
-            {
-                Log.Error($"SetScale Error. {e}");
-            }
+            ClearBroadcasts();
+            GetComponent<Broadcast>().TargetAddElement(Connection, message, time, new Broadcast.BroadcastFlags());
         }
     }
 }

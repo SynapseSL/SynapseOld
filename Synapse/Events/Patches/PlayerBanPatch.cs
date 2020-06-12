@@ -15,9 +15,9 @@ namespace Synapse.Events.Patches
             try
             {
                 var player = user.GetComponent<ReferenceHub>();
-                var banIssuer = Player.GetPlayer(issuer);
+                var banIssuer = PlayerExtensions.GetPlayer(issuer);
                 var allow = true;
-                Events.InvokePlayerBanEvent(player, player.GetUserId(), duration, ref allow, reason, banIssuer);
+                Events.InvokePlayerBanEvent(player, player.GetPlayer().UserID, duration, ref allow, reason, banIssuer.Hub);
 
                 return isGlobalBan && ConfigFile.ServerConfig.GetBool("gban_ban_ip") || allow;
             }

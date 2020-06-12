@@ -62,7 +62,7 @@ namespace Synapse.Permissions
             return (from gr in _permissionsConfig.Groups where gr.Value.Northwood select gr.Value).FirstOrDefault();
         }
 
-        internal static bool CheckPermission(ReferenceHub player, string permission)
+        internal static bool CheckPermission(Player player, string permission)
         {
             if (player == null)
             {
@@ -77,13 +77,13 @@ namespace Synapse.Permissions
                 return false;
             }
 
-            var userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.GetUserId());
+            var userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.UserID);
 
             Group group = null;
             if (userGroup != null)
             {
                 var groupName = ServerStatic.GetPermissionsHandler()._groups
-                    .FirstOrDefault(g => g.Value == player.serverRoles.Group).Key;
+                    .FirstOrDefault(g => g.Value == player.Hub.serverRoles.Group).Key;
                 if (_permissionsConfig == null)
                 {
                     Log.Error("Permission config is null.");
@@ -104,7 +104,7 @@ namespace Synapse.Permissions
             }
             else
             {
-                if (player.serverRoles.Staff || player.GetUserId().EndsWith("@northwood")) group = GetNwGroup();
+                if (player.Hub.serverRoles.Staff || player.UserID.EndsWith("@northwood")) group = GetNwGroup();
                 else group = GetDefaultGroup();
             }
 

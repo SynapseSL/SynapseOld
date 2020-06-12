@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Synapse.Api;
+using System;
 
 namespace Synapse.Events.Classes
 {
@@ -6,9 +7,9 @@ namespace Synapse.Events.Classes
     {
         public CommandSender Sender { get; internal set; }
 
-        public ReferenceHub Player => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE"
-            ? ReferenceHub.GetHub(PlayerManager.localPlayer)
-            : Api.Player.GetPlayer(Sender.SenderId);
+        public Player Player => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE"
+            ? Player.Server
+            : Api.PlayerExtensions.GetPlayer(Sender.SenderId);
 
         public bool Allow { get; set; }
 

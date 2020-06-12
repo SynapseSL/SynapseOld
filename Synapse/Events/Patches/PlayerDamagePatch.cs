@@ -17,7 +17,7 @@ namespace Synapse.Events.Patches
                 var killer = __instance.GetComponent<ReferenceHub>();
 
                 if (info.GetDamageType() == DamageTypes.Grenade)
-                    killer = Player.GetPlayer(info.PlayerId);
+                    killer = PlayerExtensions.GetPlayer(info.PlayerId).Hub;
 
                 var player = go.GetComponent<ReferenceHub>();
 
@@ -36,7 +36,7 @@ namespace Synapse.Events.Patches
                 var killer = __instance.GetComponent<ReferenceHub>();
                 var player = go.GetComponent<ReferenceHub>();
 
-                if (player.GetRole() == RoleType.Spectator)
+                if (player.GetPlayer().Role == RoleType.Spectator)
                     Events.InvokePlayerDieEvent(player, killer, info);
             }
             catch (Exception e)
