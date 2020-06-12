@@ -48,6 +48,8 @@ namespace Synapse.Api
 
         public Vector3 Position { get => Hub.transform.position; set => Hub.playerMovementSync.OverridePosition(value,0f,true); }
 
+        public float Health { get => Hub.playerStats.Health; set => Hub.playerStats.Health = value; }
+
         public RoleType Role
         {
             get => Hub.characterClassManager.NetworkCurClass;
