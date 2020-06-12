@@ -24,8 +24,16 @@ namespace Synapse
             {
                 if (lines.Count() > position)
                 {
-                    dictionary.Add(pair.Key, lines[position]);
-                    newlines.Add(lines[position]);
+                    if (string.IsNullOrEmpty(lines[position]))
+                    {
+                        dictionary.Add(pair.Key, pair.Value);
+                        newlines.Add(pair.Value);
+                    }
+                    else
+                    {
+                        dictionary.Add(pair.Key, lines[position]);
+                        newlines.Add(lines[position]);
+                    }
                 }
                 else
                 {
