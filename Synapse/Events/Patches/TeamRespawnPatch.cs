@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GameCore;
 using Harmony;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -44,17 +45,17 @@ namespace Synapse.Events.Patches
 
                 //Event
                 var allow = true;
-                var respawnlist = new List<ReferenceHub>();
+                var respawnlist = new List<Player>();
                 var usetickets = true;
 
                 foreach (GameObject player in list)
-                    respawnlist.Add(player.GetComponent<ReferenceHub>());
+                    respawnlist.Add(player.GetPlayer());
 
                 Events.InvokeTeamRespawnEvent(ref respawnlist,ref __instance.nextWaveIsCI,ref allow,ref usetickets);
 
                 if (!allow) return false;
                 list.Clear();
-                foreach (ReferenceHub hub in respawnlist)
+                foreach (Player hub in respawnlist)
                     list.Add(hub.gameObject);
 
                 if (usetickets) __instance.NextWaveRespawnTickets -= num2 - list.Count;

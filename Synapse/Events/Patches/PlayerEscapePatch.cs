@@ -23,8 +23,8 @@ namespace Synapse.Events.Classes
                     Escape.radius * 2) return false;
 
                 //Event vars
-                var player = __instance.GetComponent<ReferenceHub>();
-                var spawnRole = player.GetPlayer().Role;
+                var player = __instance.GetPlayer();
+                var spawnRole = player.Role;
                 var cufferRole = RoleType.None;
                 var allow = true;
                 var isCuffed = false;

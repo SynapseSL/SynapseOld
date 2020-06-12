@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Synapse.Api;
+using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
 namespace Synapse.Events.Classes
@@ -6,7 +7,7 @@ namespace Synapse.Events.Classes
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class SyncDataEvent
     {
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
         public int State { get; internal set; }
 

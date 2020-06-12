@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Synapse.Api;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Synapse.Events.Classes
@@ -7,14 +8,7 @@ namespace Synapse.Events.Classes
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     public class PlayerJoinEvent : EventArgs
     {
-        // Constructor
-        public PlayerJoinEvent(ReferenceHub player)
-        {
-            Player = player;
-        }
-
-        // Properties
-        public ReferenceHub Player { get; }
+        public Player Player { get; internal set; }
 
         public string Nick { get; set; }
     }

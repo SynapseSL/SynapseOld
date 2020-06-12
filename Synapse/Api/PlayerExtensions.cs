@@ -71,12 +71,12 @@ namespace Synapse.Api
         {
             return (from gameobject in PlayerManager.players
                     where gameobject != PlayerManager.localPlayer && gameobject != null
-                    select gameobject.GetComponent<Player>()).ToList();
+                    select gameobject.GetPlayer()).ToList();
         }
 
-        public static Player GetPlayer(this ReferenceHub hub) => hub.GetComponent<Player>();
+        public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
 
-        public static Player GetPlayer(this GameObject playerobject) => playerobject.GetComponent<Player>();
+        public static Player GetPlayer(this GameObject gameObject) => gameObject.GetComponent<Player>();
 
         public static Player GetPlayer(int id) => GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
 

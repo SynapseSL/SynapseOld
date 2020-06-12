@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Synapse.Api;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Synapse.Events.Classes
 {
     public class FemurEnterEvent
     {
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
         public bool Allow { get; set; }
 

@@ -14,12 +14,12 @@ namespace Synapse.Events.Patches
             {
                 if (go == null) return;
 
-                var killer = __instance.GetComponent<ReferenceHub>();
+                var killer = __instance.GetPlayer();
 
                 if (info.GetDamageType() == DamageTypes.Grenade)
-                    killer = PlayerExtensions.GetPlayer(info.PlayerId).Hub;
+                    killer = PlayerExtensions.GetPlayer(info.PlayerId);
 
-                var player = go.GetComponent<ReferenceHub>();
+                var player = go.GetPlayer();
 
                 Events.InvokePlayerHurtEvent(player, killer, ref info);
             }
@@ -33,10 +33,10 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                var killer = __instance.GetComponent<ReferenceHub>();
-                var player = go.GetComponent<ReferenceHub>();
+                var killer = __instance.GetPlayer();
+                var player = go.GetPlayer();
 
-                if (player.GetPlayer().Role == RoleType.Spectator)
+                if (player.Role == RoleType.Spectator)
                     Events.InvokePlayerDieEvent(player, killer, info);
             }
             catch (Exception e)

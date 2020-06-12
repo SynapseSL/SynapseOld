@@ -1,6 +1,7 @@
 ﻿using System;
 using Harmony;
 using RemoteAdmin;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -12,7 +13,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokeConsoleCommandEvent(__instance.GetComponent<ReferenceHub>(), query, out var color,
+                Events.InvokeConsoleCommandEvent(__instance.GetPlayer(), query, out var color,
                     out var returning);
 
                 if (string.IsNullOrEmpty(color))

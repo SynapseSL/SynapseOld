@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Synapse.Api;
 using Synapse.Events.Classes;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Synapse.Events
 
         public static event OnDoorInteract DoorInteractEvent;
 
-        internal static void InvokeDoorInteraction(ReferenceHub player, Door door, ref bool allow)
+        internal static void InvokeDoorInteraction(Player player, Door door, ref bool allow)
         {
             if (DoorInteractEvent == null) return;
 
@@ -31,13 +32,13 @@ namespace Synapse.Events
         public delegate void OnTriggerTesla(ref TeslaTriggerEvent ev);
         public static event OnTriggerTesla TeslaTriggerEvent;
 
-        internal static void InvokeTeslaTrigger(GameObject player, bool inRange, ref bool activated)
+        internal static void InvokeTeslaTrigger(Player player, bool inRange, ref bool activated)
         {
             if (TeslaTriggerEvent == null) return;
 
             var ev = new TeslaTriggerEvent
             {
-                Player = player.GetComponent<ReferenceHub>(),
+                Player = player,
                 IsHurtRange = inRange,
                 Triggerable = activated
             };

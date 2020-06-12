@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Synapse.Api;
+using System;
 
 namespace Synapse.Events.Classes
 {
     public class Scp049RecallEvent : EventArgs
     {
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
-        public ReferenceHub Target { get; set; }
+        public Player Target { get; set; }
 
         public bool Allow { get; set; }
 

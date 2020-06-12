@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using LiteNetLib;
+using Synapse.Api;
 using Synapse.Events.Classes;
 
 namespace Synapse.Events
@@ -60,7 +61,7 @@ namespace Synapse.Events
         public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
         public static event OnConsoleCommand ConsoleCommandEvent;
 
-        internal static void InvokeConsoleCommandEvent(ReferenceHub player, string command, out string color,
+        internal static void InvokeConsoleCommandEvent(Player player, string command, out string color,
             out string returning)
         {
             color = "red";
@@ -82,7 +83,7 @@ namespace Synapse.Events
         public delegate void TeamRespawn(ref TeamRespawnEvent ev);
         public static event TeamRespawn TeamRespawnEvent;
         
-        internal static void InvokeTeamRespawnEvent(ref List<ReferenceHub> respawnlist, ref bool ischaos, ref bool allow ,ref bool useticktes)
+        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnlist, ref bool ischaos, ref bool allow ,ref bool useticktes)
         {
             if (TeamRespawnEvent == null) return;
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -19,7 +20,7 @@ namespace Synapse.Events.Patches
 
                 var allow = true;
 
-                Events.InvokeDropItem(__instance.gameObject, ref syncItemInfo, ref allow);
+                Events.InvokeDropItem(__instance.GetPlayer(), ref syncItemInfo, ref allow);
 
                 if (!allow) return false;
 

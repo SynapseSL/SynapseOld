@@ -34,9 +34,9 @@ namespace Synapse.Events
             {
                 if (ev.Allow) return;
 
-                foreach (var item in ev.Player.inventory.items)
+                foreach (var item in ev.Player.Items)
                 {
-                    if (ev.Player.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))//update to backwardsCompatPermissions when neccesary
+                    if (ev.Player.Hub.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))//update to backwardsCompatPermissions when neccesary
                     {
                         ev.Allow = true;
                         return;
@@ -48,10 +48,10 @@ namespace Synapse.Events
         // Methods
         private static void OnSyncData(ref SyncDataEvent ev)
         {
-            if (ev.Player.GetPlayer().Role != RoleType.ClassD &&
-                ev.Player.GetPlayer().Role != RoleType.Scientist &&
-                !(Vector3.Distance(ev.Player.GetPlayer().Position, ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
-                ev.Player.characterClassManager.CmdRegisterEscape();
+            if (ev.Player.Role != RoleType.ClassD &&
+                ev.Player.Role != RoleType.Scientist &&
+                !(Vector3.Distance(ev.Player.Position, ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
+                ev.Player.Hub.characterClassManager.CmdRegisterEscape();
         }
 
         private static void OnRemoteCommand(ref RemoteCommandEvent ev)

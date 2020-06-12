@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using Assets._Scripts.Dissonance;
+using Synapse.Api;
 
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class SpeakEventEvent : EventArgs
     {
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
         public DissonanceUserSetup DissonanceUserSetup { get; internal set; }
 

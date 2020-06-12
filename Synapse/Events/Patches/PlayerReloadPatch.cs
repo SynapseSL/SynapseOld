@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -16,7 +17,7 @@ namespace Synapse.Events.Patches
                 var itemIndex = __instance.hub.inventory.GetItemIndex();
                 var weapon = __instance.weapons[__instance._reloadingWeapon];
                 var inventoryslot = __instance.hub.inventory.items[itemIndex];
-                var player = __instance.hub;
+                var player = __instance.hub.GetPlayer();
 
                 if (itemIndex < 0 || itemIndex >= __instance.hub.inventory.items.Count) return false;
                 if (__instance.curWeapon < 0 || __instance.hub.inventory.curItem != __instance.weapons[__instance.curWeapon].inventoryID) return false;

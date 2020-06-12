@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Assets._Scripts.Dissonance;
+using Synapse.Api;
 using Synapse.Events.Classes;
 using UnityEngine;
 
@@ -13,11 +14,12 @@ namespace Synapse.Events
         public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
         public static event OnPlayerJoin PlayerJoinEvent;
 
-        internal static void InvokePlayerJoinEvent(ReferenceHub player, ref string nick)
+        internal static void InvokePlayerJoinEvent(Player player, ref string nick)
         {
             if (PlayerJoinEvent == null) return;
-            var ev = new PlayerJoinEvent(player)
+            var ev = new PlayerJoinEvent()
             {
+                Player = player,
                 Nick = nick
             };
 
@@ -43,7 +45,7 @@ namespace Synapse.Events
                 ScpChat = scpChat,
                 SpectatorChat = spectator,
                 DissonanceUserSetup = dissonance,
-                Player = dissonance.gameObject.GetComponent<ReferenceHub>()
+                Player = dissonance.gameObject.GetPlayer()
             };
 
             SpeakEvent.Invoke(ref ev);
@@ -61,7 +63,7 @@ namespace Synapse.Events
         public delegate void OnPlayerLeave(PlayerLeaveEvent ev);
         public static event OnPlayerLeave PlayerLeaveEvent;
 
-        internal static void InvokePlayerLeaveEvent(ReferenceHub player)
+        internal static void InvokePlayerLeaveEvent(Player player)
         {
             if (PlayerLeaveEvent == null) return;
 
@@ -76,8 +78,8 @@ namespace Synapse.Events
         public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
 
-        internal static void InvokePlayerBanEvent(ReferenceHub player, string userId, int duration, ref bool allow,
-            string reason, ReferenceHub issuer)
+        internal static void InvokePlayerBanEvent(Player player, string userId, int duration, ref bool allow,
+            string reason, Player issuer)
         {
             if (PlayerBanEvent == null) return;
 
@@ -99,7 +101,7 @@ namespace Synapse.Events
         public delegate void OnPlayerDeath(PlayerDeathEvent ev);
         public static event OnPlayerDeath PlayerDeathEvent;
 
-        internal static void InvokePlayerDieEvent(ReferenceHub player, ReferenceHub killer, PlayerStats.HitInfo infos)
+        internal static void InvokePlayerDieEvent(Player player, Player killer, PlayerStats.HitInfo infos)
         {
             if (PlayerDeathEvent == null) return;
 
@@ -117,7 +119,7 @@ namespace Synapse.Events
         public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
         public static event OnPlayerHurt PlayerHurtEvent;
 
-        internal static void InvokePlayerHurtEvent(ReferenceHub player, ReferenceHub attacker,
+        internal static void InvokePlayerHurtEvent(Player player, Player attacker,
             ref PlayerStats.HitInfo info)
         {
             if (PlayerHurtEvent == null) return;
@@ -138,7 +140,7 @@ namespace Synapse.Events
         public delegate void OnPlayerCuffed(ref PlayerCuffedEvent ev);
         public static event OnPlayerCuffed PlayerCuffedEvent;
 
-        internal static void InvokePlayerCuffedEvent(ReferenceHub cuffed, ReferenceHub target, ref bool allow)
+        internal static void InvokePlayerCuffedEvent(Player cuffed, Player target, ref bool allow)
         {
             if (PlayerCuffedEvent == null) return;
 
@@ -158,7 +160,7 @@ namespace Synapse.Events
         public delegate void OnPlayerEscape(ref PlayerEscapeEvent ev);
         public static event OnPlayerEscape PlayerEscapeEvent;
 
-        internal static void InvokePlayerEscapeEvent(ReferenceHub player, ref bool allow, ref RoleType spawnRole,
+        internal static void InvokePlayerEscapeEvent(Player player, ref bool allow, ref RoleType spawnRole,
             RoleType cuffedRole, bool isCuffed)
         {
             if (PlayerEscapeEvent == null) return;
@@ -182,14 +184,14 @@ namespace Synapse.Events
         public delegate void OnSyncDataEvent(ref SyncDataEvent ev);
         public static event OnSyncDataEvent SyncDataEvent;
 
-        internal static void InvokeSyncDataEvent(GameObject player, ref bool allow, ref Vector2 speed, int state)
+        internal static void InvokeSyncDataEvent(Player player, ref bool allow, ref Vector2 speed, int state)
         {
             if (SyncDataEvent == null) return;
 
             var ev = new SyncDataEvent
             {
                 Allow = allow,
-                Player = player.GetComponent<ReferenceHub>(),
+                Player = player,
                 Speed = speed,
                 State = state
             };
@@ -204,7 +206,7 @@ namespace Synapse.Events
         public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
         public static event OnPlayerReload PlayerReloadEvent;
 
-        internal static void InvokePlayerReloadEvent(ReferenceHub player,ref bool allow,ref WeaponManager.Weapon weapon,Inventory.SyncItemInfo syncItem)
+        internal static void InvokePlayerReloadEvent(Player player,ref bool allow,ref WeaponManager.Weapon weapon,Inventory.SyncItemInfo syncItem)
         {
             if (PlayerReloadEvent == null) return;
 
@@ -226,7 +228,7 @@ namespace Synapse.Events
         public delegate void OnFemurEnter(ref FemurEnterEvent ev);
         public static event OnFemurEnter FemurEnterEvent;
 
-        internal static void InvokeFemurEnterEvent(ReferenceHub player,ref bool allow,ref bool closeFemur)
+        internal static void InvokeFemurEnterEvent(Player player,ref bool allow,ref bool closeFemur)
         {
             if (FemurEnterEvent == null) return;
 
@@ -246,13 +248,13 @@ namespace Synapse.Events
         public delegate void OnDropItem(ref DropItemEvent ev);
         public static event OnDropItem DropItemEvent;
 
-        public static void InvokeDropItem(GameObject player, ref Inventory.SyncItemInfo item, ref bool allow)
+        public static void InvokeDropItem(Player player, ref Inventory.SyncItemInfo item, ref bool allow)
         {
             if (DropItemEvent == null) return;
             
             DropItemEvent ev = new DropItemEvent()
             {
-                Player = player.GetComponent<ReferenceHub>(),
+                Player = player,
                 Item = item,
                 Allow = allow
             };

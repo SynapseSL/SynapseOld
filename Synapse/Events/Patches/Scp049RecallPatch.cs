@@ -40,9 +40,9 @@ namespace Synapse.Events.Patches
                     if (go == null) return false;
                     var component = go.GetComponent<Ragdoll>();
                     if (component == null) return false;
-                    var referenceHub = PlayerManager.players.Select(ReferenceHub.GetHub)
-                        .FirstOrDefault(hub => hub.queryProcessor.PlayerId == component.owner.PlayerId);
-                    if (referenceHub == null)
+                    var target = PlayerManager.players.Select(ReferenceHub.GetHub)
+                        .FirstOrDefault(hub => hub.queryProcessor.PlayerId == component.owner.PlayerId).GetPlayer();
+                    if (target == null)
                     {
                         Console.AddDebugLog("SCPCTRL", "SCP-049 | Request 'finish recalling' rejected; no target found",
                             MessageImportance.LessImportant);
@@ -50,7 +50,7 @@ namespace Synapse.Events.Patches
                     }
 
                     if (!__instance._recallInProgressServer ||
-                        referenceHub.gameObject != __instance._recallObjectServer ||
+                        target.gameObject != __instance._recallObjectServer ||
                         __instance._recallProgressServer < 0.85f)
                     {
                         Console.AddDebugLog("SCPCTRL", "SCP-049 | Request 'finish recalling' rejected; Debug code: ",
@@ -61,9 +61,9 @@ namespace Synapse.Events.Patches
                                 : "<color=red>ERROR</color> - " + __instance._recallInProgressServer),
                             MessageImportance.LessImportant, true);
                         Console.AddDebugLog("SCPCTRL",
-                            "SCP-049 | CONDITION#2 " + (referenceHub == __instance._recallObjectServer
+                            "SCP-049 | CONDITION#2 " + (target == __instance._recallObjectServer
                                 ? "<color=green>PASSED</color>"
-                                : string.Concat("<color=red>ERROR</color> - ", referenceHub.queryProcessor.PlayerId,
+                                : string.Concat("<color=red>ERROR</color> - ", target.PlayerId,
                                     "-",
                                     __instance._recallObjectServer == null
                                         ? "null"
@@ -77,13 +77,13 @@ namespace Synapse.Events.Patches
                         return false;
                     }
 
-                    if (referenceHub.characterClassManager.CurClass != RoleType.Spectator) return false;
+                    if (target.Hub.characterClassManager.CurClass != RoleType.Spectator) return false;
 
                     //Event
                     var allow = true;
                     var role = RoleType.Scp0492;
-                    float live = referenceHub.characterClassManager.Classes.Get(RoleType.Scp0492).maxHP;
-                    Events.InvokeScp049RecallEvent(__instance.Hub, ref component, ref referenceHub, ref allow, ref role,
+                    float live = target.Hub.characterClassManager.Classes.Get(RoleType.Scp0492).maxHP;
+                    Events.InvokeScp049RecallEvent(__instance.Hub.GetPlayer(), ref component, ref target, ref allow, ref role,
                         ref live);
 
                     Console.AddDebugLog("SCPCTRL", "SCP-049 | Request 'finish recalling' accepted",
@@ -92,9 +92,9 @@ namespace Synapse.Events.Patches
 
                     var pos3 = component.transform.position;
                     pos3.y += 2;
-                    referenceHub.GetPlayer().ChangeRoleAtPosition(role);
-                    Timing.CallDelayed(0.5f, () => referenceHub.GetPlayer().Position = pos3);
-                    referenceHub.GetComponent<PlayerStats>().Health = live;
+                    target.ChangeRoleAtPosition(role);
+                    Timing.CallDelayed(0.5f, () => target.Position = pos3);
+                    target.GetComponent<PlayerStats>().Health = live;
                     if (component.CompareTag("Ragdoll")) NetworkServer.Destroy(component.gameObject);
                     __instance._recallInProgressServer = false;
                     __instance._recallObjectServer = null;

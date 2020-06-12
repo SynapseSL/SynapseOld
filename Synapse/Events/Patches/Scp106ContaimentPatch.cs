@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -11,7 +12,7 @@ namespace Synapse.Events.Patches
             try
             {
                 var allow = true;
-                Events.InvokeScp106ContaimentEvent(__instance.gameObject.GetComponent<ReferenceHub>(), ref allow);
+                Events.InvokeScp106ContaimentEvent(__instance.GetPlayer(), ref allow);
 
                 return allow;
             }

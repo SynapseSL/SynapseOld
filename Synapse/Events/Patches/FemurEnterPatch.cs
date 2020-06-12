@@ -1,6 +1,7 @@
 ﻿using System;
 using Harmony;
 using Mirror;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -28,7 +29,7 @@ namespace Synapse.Events.Patches
 							var allow = component.CurRole.team != Team.SCP;
 
 							var CloseFemur = femurBrokePeople + 1 >= Configs.requiredforFemur;
-							var player = __instance.GetComponent<ReferenceHub>();
+							var player = __instance.GetPlayer();
 
 							Events.InvokeFemurEnterEvent(player, ref allow, ref CloseFemur);
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using GameCore;
 using Harmony;
+using Synapse.Api;
 using UnityEngine;
 
 // ReSharper disable SwitchStatementMissingSomeEnumCasesNoDefault
@@ -78,8 +79,8 @@ namespace Synapse.Events.Patches
                 }
 
                 //Event
-                var cuffer = __instance.MyReferenceHub;
-                var target2 = handcuffs.MyReferenceHub;
+                var cuffer = __instance.GetPlayer();
+                var target2 = handcuffs.GetPlayer();
                 Events.InvokePlayerCuffedEvent(cuffer, target2, ref flag);
 
                 if (!flag) return false;

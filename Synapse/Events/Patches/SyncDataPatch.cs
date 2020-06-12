@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -13,7 +14,7 @@ namespace Synapse.Events.Patches
             {
                 var allow = true;
 
-                Events.InvokeSyncDataEvent(__instance.gameObject, ref allow, ref v2, state);
+                Events.InvokeSyncDataEvent(__instance.GetPlayer(), ref allow, ref v2, state);
 
                 return allow;
             }

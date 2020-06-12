@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -11,9 +12,9 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                var player = __instance.GetComponent<ReferenceHub>();
+                var player = __instance.GetPlayer();
 
-                if (!string.IsNullOrEmpty(player.characterClassManager.UserId))
+                if (!string.IsNullOrEmpty(player.UserID))
                     Events.InvokePlayerJoinEvent(player, ref n);
             }
             catch (Exception e)

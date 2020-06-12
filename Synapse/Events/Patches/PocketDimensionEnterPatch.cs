@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using CustomPlayerEffects;
 using Harmony;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -16,8 +17,8 @@ namespace Synapse.Events.Patches
                 if (!__instance._iawRateLimit.CanExecute()) return false;
                 if (ply == null) return false;
 
-                var player = ply.GetComponent<ReferenceHub>();
-                var charClassManager = player.characterClassManager;
+                var player = ply.GetPlayer();
+                var charClassManager = player.ClassManager;
 
                 if (charClassManager == null || charClassManager.GodMode || charClassManager.IsAnyScp()) return false;
 
@@ -48,10 +49,10 @@ namespace Synapse.Events.Patches
                     new PlayerStats.HitInfo(40f,
                         $"{__instance.GetComponent<NicknameSync>().MyNick} ({__instance.hub.characterClassManager.UserId})",
                         DamageTypes.Scp106, __instance.GetComponent<RemoteAdmin.QueryProcessor>().PlayerId), ply);
-                
-                player.playerMovementSync.OverridePosition(Vector3.down * 1998.5f, 0f, true);
-                player.playerEffectsController.GetEffect<Corroding>().IsInPd = true;
-                player.playerEffectsController.EnableEffect<Corroding>();
+
+                player.Position = Vector3.down * 1998.5f;
+                player.EffectsController.GetEffect<Corroding>().IsInPd = true;
+                player.EffectsController.EnableEffect<Corroding>();
 
                 return false;
             }

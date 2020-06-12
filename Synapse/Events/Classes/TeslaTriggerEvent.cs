@@ -1,11 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Synapse.Api;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
     public class TeslaTriggerEvent
     {
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
         public bool IsHurtRange { get; internal set; }
 

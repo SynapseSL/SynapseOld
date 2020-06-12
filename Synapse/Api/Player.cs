@@ -15,6 +15,10 @@ namespace Synapse.Api
 
         public ReferenceHub Hub { get => this.GetComponent<ReferenceHub>(); }
 
+        public CharacterClassManager ClassManager { get => Hub.characterClassManager; }
+
+        public PlayerEffectsController EffectsController { get => Hub.playerEffectsController; }
+
         public string NickName { get => Hub.nicknameSync.MyNick; set => Hub.nicknameSync.MyNick = value; }
 
         public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
@@ -42,7 +46,7 @@ namespace Synapse.Api
             }
         }
 
-        public Vector3 Position { get => Hub.transform.position; set => Hub.transform.position = value; }
+        public Vector3 Position { get => Hub.transform.position; set => Hub.playerMovementSync.OverridePosition(value,0f,true); }
 
         public RoleType Role
         {
@@ -82,6 +86,8 @@ namespace Synapse.Api
         }
 
         public NetworkConnection Connection { get => Hub.scp079PlayerScript.connectionToClient; }
+
+        public Inventory.SyncListItemInfo Items { get => Hub.inventory.items; set => Hub.inventory.items = value; }
 
         public Player Cuffer { get => PlayerExtensions.GetPlayer(GetComponent<Handcuffs>().CufferId); } 
 

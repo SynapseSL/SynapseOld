@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Synapse.Api;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Synapse.Events.Classes
 {
@@ -12,8 +13,8 @@ namespace Synapse.Events.Classes
         private PlayerStats.HitInfo _info;
 
         // Properties
-        public ReferenceHub Player { get; internal set; }
-        public ReferenceHub Attacker { get; internal set; }
+        public Player Player { get; internal set; }
+        public Player Attacker { get; internal set; }
 
         public PlayerStats.HitInfo Info
         {

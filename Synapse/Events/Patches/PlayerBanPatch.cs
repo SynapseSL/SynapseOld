@@ -14,10 +14,10 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                var player = user.GetComponent<ReferenceHub>();
+                var player = user.GetPlayer();
                 var banIssuer = PlayerExtensions.GetPlayer(issuer);
                 var allow = true;
-                Events.InvokePlayerBanEvent(player, player.GetPlayer().UserID, duration, ref allow, reason, banIssuer.Hub);
+                Events.InvokePlayerBanEvent(player, player.UserID, duration, ref allow, reason, banIssuer);
 
                 return isGlobalBan && ConfigFile.ServerConfig.GetBool("gban_ban_ip") || allow;
             }

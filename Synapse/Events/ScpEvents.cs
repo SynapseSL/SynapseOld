@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Synapse.Api;
 using Synapse.Events.Classes;
 
 namespace Synapse.Events
@@ -9,7 +10,7 @@ namespace Synapse.Events
         public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
         public static event OnScp049Recall Scp049RecallEvent;
 
-        internal static void InvokeScp049RecallEvent(ReferenceHub player, ref Ragdoll ragdoll, ref ReferenceHub target,
+        internal static void InvokeScp049RecallEvent(Player player, ref Ragdoll ragdoll, ref Player target,
             ref bool allow, ref RoleType role, ref float lives)
         {
             if (Scp049RecallEvent == null) return;
@@ -36,7 +37,7 @@ namespace Synapse.Events
         public delegate void OnPocketDimensionEnter(ref PocketDimensionEvent ev);
         public static event OnPocketDimensionEnter PocketDimensionEnterEvent;
 
-        internal static void InvokePocketDimensionEnterEvent(ReferenceHub player, ref bool allow)
+        internal static void InvokePocketDimensionEnterEvent(Player player, ref bool allow)
         {
             if (PocketDimensionEnterEvent == null) return;
 
@@ -54,7 +55,7 @@ namespace Synapse.Events
         public delegate void OnScp106Containment(ref Scp106ContainmentEvent ev);
         public static event OnScp106Containment Scp106ContaimentEvent;
 
-        internal static void InvokeScp106ContaimentEvent(ReferenceHub player, ref bool allow)
+        internal static void InvokeScp106ContaimentEvent(Player player, ref bool allow)
         {
             if (Scp106ContaimentEvent == null) return;
 

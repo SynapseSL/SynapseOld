@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -11,7 +12,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokePlayerLeaveEvent(__instance);
+                Events.InvokePlayerLeaveEvent(__instance.GetPlayer());
             }
             catch (Exception e)
             {

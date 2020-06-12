@@ -1,8 +1,10 @@
-﻿namespace Synapse.Events.Classes
+﻿using Synapse.Api;
+
+namespace Synapse.Events.Classes
 {
     public class PlayerReloadEvent
     {
-        public ReferenceHub Player { get; internal set; }
+        public Player Player { get; internal set; }
 
         public bool Allow { get; set; }
 
