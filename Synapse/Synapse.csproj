@@ -35,33 +35,33 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\0Harmony.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-Synapse_publizied, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-Synapse_publizied.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-Synapse_publizied.dll</HintPath>
     </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\Mirror.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\UnityEngine.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\Synaps Verweise\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
-      <HintPath>..\..\Synaps Verweise\YamlDotNet.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,7 @@
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
     <Compile Include="Configs.cs" />
+    <Compile Include="Events\Classes\CheckRoundEndEvent.cs" />
     <Compile Include="Events\Classes\FemurEnterEvent.cs" />
     <Compile Include="Events\Classes\DropItemEvent.cs" />
     <Compile Include="Events\Classes\PlayerReloadEvent.cs" />

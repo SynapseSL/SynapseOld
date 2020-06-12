@@ -123,5 +123,7 @@ namespace Synapse.Events
         public delegate void OnWaitingForPlayers();
         public static event OnWaitingForPlayers WaitingForPlayersEvent;
         internal static void InvokeWaitingForPlayers() => WaitingForPlayersEvent?.Invoke();
+
+        public delegate void OnCheckRoundEnd(ref CheckRoundEndEvent ev);
     }
 }
