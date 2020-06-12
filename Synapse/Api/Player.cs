@@ -28,6 +28,8 @@ namespace Synapse.Api
 
         public bool Bypass { get => Hub.serverRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
 
+        public bool GodMode { get => ClassManager.GodMode; set => ClassManager.GodMode = value; }
+
         public Vector3 Scale 
         { 
             get => Hub.transform.localScale;
@@ -54,6 +56,12 @@ namespace Synapse.Api
         public Vector2 Rotation { get => Hub.playerMovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
 
         public float Health { get => Hub.playerStats.Health; set => Hub.playerStats.Health = value; }
+
+        public int MaxHealth { get => Hub.playerStats.maxHP; set => Hub.playerStats.maxHP = value; }
+
+        public float ArtificialHealth { get => Hub.playerStats.unsyncedArtificialHealth; set => Hub.playerStats.unsyncedArtificialHealth = value; }
+
+        public int MaxArtificialHealth { get => Hub.playerStats.maxArtificialHealth; set => Hub.playerStats.maxArtificialHealth = value; }
 
         public RoleType Role
         {
@@ -117,6 +125,10 @@ namespace Synapse.Api
 
         public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
 
+        public bool IsMuted { get => ClassManager.NetworkMuted; set => ClassManager.NetworkMuted = value; }
+
+        public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
+
 
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
 
@@ -158,5 +170,11 @@ namespace Synapse.Api
         }
 
         public void SendConsoleMessage(string message, string color) => ClassManager.TargetConsolePrint(Connection, message, color);
+
+        public void HideTag() => ClassManager.CallCmdRequestHideTag();
+
+        public void ShowTag(bool global = false) => ClassManager.CallCmdRequestShowTag(global);
+
+        public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
     }
 }
