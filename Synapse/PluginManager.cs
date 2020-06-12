@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using MEC;
-using Synapse.Events;
 using Synapse.Events.Patches;
 using Synapse.Permissions;
 
@@ -152,7 +151,8 @@ namespace Synapse
             foreach (var plugin in Plugins)
                 try
                 {
-                    plugin.OwnTranslationFile = Path.Combine(ServerConfigDirectory, plugin.GetName + "-translation.txt");
+                    plugin.Translation = new Translation();
+                    plugin.Translation.plugin = plugin;
                     plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
                     plugin.OnEnable();
                 }

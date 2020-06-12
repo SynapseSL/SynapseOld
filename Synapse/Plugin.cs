@@ -10,9 +10,9 @@ namespace Synapse
         // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
 
-        private string _ownPluginFolder;
+        public Translation Translation { get; internal set; }
 
-        private string _owntransTranslationFile;
+        private string _ownPluginFolder;
 
         /// <summary>
         ///     A Directory especially for your Plugin which are created by Synapse for you!
@@ -29,19 +29,6 @@ namespace Synapse
                 return _ownPluginFolder + Path.DirectorySeparatorChar;
             }
             internal set => _ownPluginFolder = value;
-        }
-
-        public string OwnTranslationFile
-        {
-            // ReSharper disable once UnusedMember.Global
-            get
-            {
-                if (!File.Exists(_owntransTranslationFile))
-                    File.Create(_owntransTranslationFile);
-
-                return _owntransTranslationFile;
-            }
-            internal set => _owntransTranslationFile = value;
         }
 
         public abstract string GetName { get; }
