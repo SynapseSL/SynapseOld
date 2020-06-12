@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Hints;
 using Mirror;
@@ -48,7 +47,11 @@ namespace Synapse.Api
             }
         }
 
-        public Vector3 Position { get => Hub.transform.position; set => Hub.playerMovementSync.OverridePosition(value,0f,true); }
+        public Vector3 Position { get => Hub.playerMovementSync.transform.position; set => Hub.playerMovementSync.OverridePosition(value,0f,true); }
+
+        public Vector3 RotationVector { get => ClassManager._plyCam.transform.forward; set => ClassManager._plyCam.transform.forward = value; }
+
+        public Vector2 Rotation { get => Hub.playerMovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
 
         public float Health { get => Hub.playerStats.Health; set => Hub.playerStats.Health = value; }
 
@@ -101,6 +104,19 @@ namespace Synapse.Api
 
         public uint Ammo9 { get => Hub.ammoBox.amount[2]; set => Hub.ammoBox.amount[2] = value; }
 
+        public UserGroup Rank 
+        {
+            get => Hub.serverRoles.Group; 
+            set
+            {
+                Hub.serverRoles.SetGroup(value, false, false, false);
+            }
+        }
+
+        public string RankColor { get => Rank.BadgeColor; set => Hub.serverRoles.SetColor(value); }
+
+        public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
+
 
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
 
@@ -140,5 +156,7 @@ namespace Synapse.Api
             ClearBroadcasts();
             GetComponent<Broadcast>().TargetAddElement(Connection, message, time, new Broadcast.BroadcastFlags());
         }
+
+        public void SendConsoleMessage(string message, string color) => ClassManager.TargetConsolePrint(Connection, message, color);
     }
 }
