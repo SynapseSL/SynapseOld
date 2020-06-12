@@ -27,6 +27,8 @@ namespace Synapse.Api
 
         public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
 
+        public bool Bypass { get => Hub.serverRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
+
         public Vector3 Scale 
         { 
             get => Hub.transform.localScale;
