@@ -168,6 +168,8 @@ namespace Synapse.Api
 
         public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
 
+        public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
+
 
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
 
