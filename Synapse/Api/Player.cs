@@ -241,5 +241,7 @@ namespace Synapse.Api
         public void ShowTag(bool global = false) => ClassManager.CallCmdRequestShowTag(global);
 
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
+
+        public void ClearInventory() => Hub.inventory.Clear();
     }
 }
