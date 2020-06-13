@@ -11,8 +11,14 @@ namespace Synapse.Events.Patches
         {
             if (__instance.GetComponent<Player>() == null)
                 __instance.gameObject.AddComponent<Player>();
-
-            Events.InvokeLoadComponents(__instance.gameObject);
+            try
+            {
+                Events.InvokeLoadComponents(__instance.gameObject);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"LoadComponentsEvent Error: {e}");
+            }
         }
     }
 }
