@@ -63,13 +63,13 @@ namespace Synapse.Events
                 {
                     if (!ev.Player.CheckPermission("sy.reload"))
                     {
-                        ev.Sender.RaMessage("Synapse", "You have no Permission for Reload", false,
+                        ev.Sender.RaMessage("You have no Permission for Reload", false,
                             RaCategory.AdminTools);
                         return;
                     }
 
                     PermissionReader.ReloadPermission();
-                    ev.Sender.RaMessage("Synapse", "Permissions Reloaded!", true, RaCategory.AdminTools);
+                    ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.AdminTools);
                     return;
                 }
             }

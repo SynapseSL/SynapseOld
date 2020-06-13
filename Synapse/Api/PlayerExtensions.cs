@@ -33,7 +33,7 @@ namespace Synapse.Api
         /// <param name="message">The Message you want to send</param>
         /// <param name="success">True = green the command is right you have permission and execute it successfully</param>
         /// <param name="type">In Which Category should you see it too?</param>
-        public static void RaMessage(this CommandSender sender, string pluginName, string message, bool success = true,
+        public static void RaMessage(this CommandSender sender, string message, bool success = true,
             RaCategory type = RaCategory.None)
         {
             var category = "";
@@ -64,7 +64,7 @@ namespace Synapse.Api
             }
 
 
-            sender.RaReply($"{pluginName}#" + message, success, true, category);
+            sender.RaReply($"{Assembly.GetCallingAssembly().GetName().Name}#" + message, success, true, category);
         }
 
         public static IEnumerable<Player> GetAllPlayers()

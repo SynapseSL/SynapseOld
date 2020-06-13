@@ -24,7 +24,11 @@ namespace Synapse.Api
 
         public string UserID { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
 
+        public string CustomUserId { get => ClassManager.UserId2; set => ClassManager.UserId2 = value; }
+
         public string IpAddress { get => Hub.queryProcessor._ipAddress; }
+
+        public bool Noclip { get => Hub.serverRoles.NoclipReady; set => Hub.serverRoles.NoclipReady = value; }
 
         public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
 
@@ -51,7 +55,7 @@ namespace Synapse.Api
             }
         }
 
-        public Vector3 Position { get => Hub.playerMovementSync.transform.position; set => Hub.playerMovementSync.OverridePosition(value,0f,true); }
+        public Vector3 Position { get => Hub.playerMovementSync.GetRealPosition(); set => Hub.playerMovementSync.OverridePosition(value,RotationFloat,false); }
 
         public Vector3 RotationVector { get => ClassManager._plyCam.transform.forward; set => ClassManager._plyCam.transform.forward = value; }
 
@@ -160,6 +164,8 @@ namespace Synapse.Api
             }
         }
 
+        public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
+
         public string RankColor { get => Rank.BadgeColor; set => Hub.serverRoles.SetColor(value); }
 
         public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
@@ -168,11 +174,23 @@ namespace Synapse.Api
 
         public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
 
-        public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
-
         public bool FriendlyFire { get => Hub.weaponManager.NetworkfriendlyFire; set => Hub.weaponManager.NetworkfriendlyFire = value; }
 
+        public Camera079 Camera { get => Hub.scp079PlayerScript.currentCamera; set => Hub.scp079PlayerScript?.RpcSwitchCamera(value.cameraId, false); }
 
+
+        public float RotationFloat => Hub.transform.rotation.eulerAngles.y;
+
+        public bool IsCuffed => (Cuffer == null) ? false : true;
+
+        public bool IsReloading => Hub.weaponManager.IsReloading();
+
+        public bool IsZooming => Hub.weaponManager.ZoomInProgress();
+
+        public bool IsDead => Team == Team.RIP;
+
+
+        //Methods
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
 
         public void Ban(int duration, string reason, string issuer = "Plugin") => Server.GetComponent<BanPlayer>().BanUser(gameObject, duration, reason, issuer);
