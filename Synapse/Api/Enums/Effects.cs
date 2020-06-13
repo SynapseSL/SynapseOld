@@ -1,4 +1,4 @@
-﻿namespace Synapse.Api.Enums
+﻿namespace Synapse.Api
 {
     public enum Effect
     {
