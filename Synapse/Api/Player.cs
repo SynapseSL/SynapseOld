@@ -170,6 +170,8 @@ namespace Synapse.Api
 
         public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
 
+        public bool FriendlyFire { get => Hub.weaponManager.NetworkfriendlyFire; set => Hub.weaponManager.NetworkfriendlyFire = value; }
+
 
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
 
