@@ -97,7 +97,7 @@ namespace Synapse.Api
                     Transform = transform
                 };
             }
-            set => Position = Map.Rooms.FirstOrDefault(x => x == value).Position;
+            set => Position = value.Position;
         }
 
         public NetworkConnection Connection { get => Hub.scp079PlayerScript.connectionToClient; }

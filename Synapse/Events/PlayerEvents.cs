@@ -248,7 +248,7 @@ namespace Synapse.Events
         public delegate void OnDropItem(ref DropItemEvent ev);
         public static event OnDropItem DropItemEvent;
 
-        public static void InvokeDropItem(Player player, ref Inventory.SyncItemInfo item, ref bool allow)
+        internal static void InvokeDropItem(Player player, ref Inventory.SyncItemInfo item, ref bool allow)
         {
             if (DropItemEvent == null) return;
             
@@ -263,6 +263,15 @@ namespace Synapse.Events
 
             allow = ev.Allow;
             item = ev.Item;
+        }
+
+        public delegate void OnLoadComponents(LoadComponentsEvent ev);
+        public static event OnLoadComponents LoadComponentsEvent;
+        internal static void InvokeLoadComponents(Player player)
+        {
+            if (LoadComponentsEvent == null) return;
+
+            LoadComponentsEvent.Invoke(new LoadComponentsEvent() { Player = player });
         }
     }
 }

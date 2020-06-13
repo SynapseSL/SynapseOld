@@ -71,6 +71,7 @@
     <Compile Include="Api\PlayerExtensions.cs" />
     <Compile Include="Api\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
     <Compile Include="Events\Patches\ComponentsPatch.cs" />
     <Compile Include="Events\Patches\GeneratorPatches.cs" />
     <Compile Include="Translation.cs" />

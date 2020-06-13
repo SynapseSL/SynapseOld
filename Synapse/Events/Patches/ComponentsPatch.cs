@@ -11,6 +11,8 @@ namespace Synapse.Events.Patches
         {
             if (__instance.GetComponent<Player>() == null)
                 __instance.gameObject.AddComponent<Player>();
+
+            Events.InvokeLoadComponents(__instance.GetPlayer());
         }
     }
 }
