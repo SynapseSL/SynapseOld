@@ -1,9 +1,10 @@
 ﻿using Synapse.Api;
+using UnityEngine;
 
 namespace Synapse.Events.Classes
 {
     public class LoadComponentsEvent
     {
-        public Player Player { get; internal set; }
+        public GameObject Player { get; internal set; }
     }
 }

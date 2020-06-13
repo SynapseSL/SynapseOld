@@ -267,11 +267,6 @@ namespace Synapse.Events
 
         public delegate void OnLoadComponents(LoadComponentsEvent ev);
         public static event OnLoadComponents LoadComponentsEvent;
-        internal static void InvokeLoadComponents(Player player)
-        {
-            if (LoadComponentsEvent == null) return;
-
-            LoadComponentsEvent.Invoke(new LoadComponentsEvent() { Player = player });
-        }
+        internal static void InvokeLoadComponents(GameObject player) => LoadComponentsEvent?.Invoke(new LoadComponentsEvent() { Player = player });
     }
 }
