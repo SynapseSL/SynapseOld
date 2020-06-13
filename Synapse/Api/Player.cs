@@ -18,11 +18,13 @@ namespace Synapse.Api
 
         public PlayerEffectsController EffectsController { get => Hub.playerEffectsController; }
 
-        public string NickName { get => Hub.nicknameSync.MyNick; set => Hub.nicknameSync.MyNick = value; }
+        public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
         public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
 
         public string UserID { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
+
+        public string IpAddress { get => Hub.queryProcessor._ipAddress; }
 
         public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
 
@@ -71,6 +73,24 @@ namespace Synapse.Api
 
         public Team Team { get => Hub.characterClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
 
+        public Team Side
+        {
+            get
+            {
+                switch (Team)
+                {
+                    case Team.RSC:
+                        return Team.MTF;
+
+                    case Team.CDP:
+                        return Team.CHI;
+
+                    default:
+                        return Team;
+                }
+            }
+        }
+
         public Room CurRoom
         {
             get
@@ -104,7 +124,26 @@ namespace Synapse.Api
 
         public Inventory.SyncListItemInfo Items { get => Hub.inventory.items; set => Hub.inventory.items = value; }
 
-        public Player Cuffer { get => PlayerExtensions.GetPlayer(GetComponent<Handcuffs>().CufferId); } 
+        /// <summary>
+        /// The Person Who has cuffed the Player
+        /// </summary>
+        /// <remarks>Set Cuffer to null and he will be disarmed</remarks>
+        public Player Cuffer 
+        { 
+            get => PlayerExtensions.GetPlayer(Hub.handcuffs.CufferId);
+            set
+            {
+                var handcuff = value.Hub.handcuffs;
+
+                if (handcuff == null || value == null)
+                {
+                    handcuff.NetworkCufferId = -1;
+                    return;
+                }
+
+                handcuff.NetworkCufferId = value.PlayerId;
+            }
+        } 
 
         public uint Ammo5 { get => Hub.ammoBox.amount[0]; set => Hub.ammoBox.amount[0] = value; }
 
@@ -131,6 +170,8 @@ namespace Synapse.Api
 
 
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
+
+        public void Ban(int duration, string reason, string issuer = "Plugin") => Server.GetComponent<BanPlayer>().BanUser(gameObject, duration, reason, issuer);
 
         public void ChangeRoleAtPosition(RoleType role)
         {
