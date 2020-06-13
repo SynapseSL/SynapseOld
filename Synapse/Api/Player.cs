@@ -173,6 +173,8 @@ namespace Synapse.Api
 
         public void Ban(int duration, string reason, string issuer = "Plugin") => Server.GetComponent<BanPlayer>().BanUser(gameObject, duration, reason, issuer);
 
+        public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
+
         public void ChangeRoleAtPosition(RoleType role)
         {
             Hub.characterClassManager.NetworkCurClass = role;
