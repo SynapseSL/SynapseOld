@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using CustomPlayerEffects;
 using Hints;
 using Mirror;
+using Synapse.Api.Enums;
 using Synapse.Permissions;
 using UnityEngine;
 
@@ -243,5 +245,7 @@ namespace Synapse.Api
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
         public void ClearInventory() => Hub.inventory.Clear();
+
+        public void GiveEffect(Effect effect,byte intens = 1,float duration = 0) => EffectsController.ChangeByString(effect.ToString(), intens, duration);
     }
 }

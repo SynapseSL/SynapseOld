@@ -65,11 +65,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Enums\Effects.cs" />
     <Compile Include="Api\Player.cs" />
-    <Compile Include="Api\ZoneType.cs" />
+    <Compile Include="Api\Enums\ZoneType.cs" />
     <Compile Include="Api\Room.cs" />
     <Compile Include="Api\PlayerExtensions.cs" />
-    <Compile Include="Api\RaCategory.cs" />
+    <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
     <Compile Include="Events\Patches\ComponentsPatch.cs" />
