@@ -139,7 +139,9 @@ namespace Synapse.Api
             {
                 var handcuff = value.Hub.handcuffs;
 
-                if (handcuff == null || value == null)
+                if (handcuff == null) return;
+
+                if (value == null)
                 {
                     handcuff.NetworkCufferId = -1;
                     return;
@@ -155,14 +157,7 @@ namespace Synapse.Api
 
         public uint Ammo9 { get => Hub.ammoBox.amount[2]; set => Hub.ammoBox.amount[2] = value; }
 
-        public UserGroup Rank 
-        {
-            get => Hub.serverRoles.Group; 
-            set
-            {
-                Hub.serverRoles.SetGroup(value, false, false, false);
-            }
-        }
+        public UserGroup Rank { get => Hub.serverRoles.Group; set => Hub.serverRoles.SetGroup(value, false, false, false); }
 
         public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
 
