@@ -1,5 +1,6 @@
 ﻿using System;
 using Harmony;
+using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -11,6 +12,14 @@ namespace Synapse.Events.Patches
         {
             try
             {
+				var player = person.GetPlayer();
+
+				if (player == null)
+                {
+					Log.Error("GeneratorEventError: a gameobject which is not a Player used a Generator?");
+					return false;
+                }
+
 				if (command.StartsWith("EPS_DOOR")) return true;
 
 				if (command.StartsWith("EPS_TABLET"))
@@ -24,8 +33,8 @@ namespace Synapse.Events.Patches
 						Inventory.SyncItemInfo syncItemInfo = enumerator.Current;
 						if (syncItemInfo.id == ItemType.WeaponManagerTablet)
 						{
-							bool allow = true;
-							//Tablet inserted Event
+							bool allow = player.Team != Team.SCP;
+							Events.InvokeGeneratorInserted(player, __instance, ref allow);
 							if (allow)
 							{
 								component.items.Remove(syncItemInfo);
@@ -41,7 +50,7 @@ namespace Synapse.Events.Patches
 					if (!__instance.isTabletConnected) return false;
 					bool allow = true;
 
-					//Tablet ejectet Event
+					Events.InvokeGeneratorEjected(player, __instance, ref allow);
 					return allow;
 				}
 				return true;
@@ -59,6 +68,8 @@ namespace Synapse.Events.Patches
     {
         public static bool Prefix(Generator079 __instance, GameObject person)
         {
+			var player = person.GetPlayer();
+
 			Inventory component = person.GetComponent<Inventory>();
 			if (component == null || __instance.doorAnimationCooldown > 0f || __instance.deniedCooldown > 0f) return false;
 
@@ -68,11 +79,11 @@ namespace Synapse.Events.Patches
 				bool allow = true;
 				if (!__instance.NetworkisDoorOpen)
                 {
-					//GeneratorOpenEvent
+					Events.InvokeGeneratorOpen(player, __instance, ref allow);
                 }
                 else
                 {
-					//GeneratorCloseEvent
+					Events.InvokeGeneratorClose(player, __instance, ref allow);
                 }
 
 				if (!allow)
@@ -88,8 +99,10 @@ namespace Synapse.Events.Patches
 			}
 
 			//Unlock The Generator
-			bool flag = person.GetComponent<ServerRoles>().BypassMode;
-			if (component.curItem > ItemType.KeycardJanitor)
+			bool flag = player.Bypass;
+			bool flag2 = player.Team != Team.SCP;
+			
+			if (flag2 && component.curItem > ItemType.KeycardJanitor)
 			{
 				string[] permissions = component.GetItemByID(component.curItem).permissions;
 
@@ -98,7 +111,7 @@ namespace Synapse.Events.Patches
 						flag = true;
 			}
 
-			//Generator unlock event player = person,allow = flag,__instance
+			Events.InvokeGeneratorUnlock(player, __instance, ref flag);
 
 			if (flag)
 			{

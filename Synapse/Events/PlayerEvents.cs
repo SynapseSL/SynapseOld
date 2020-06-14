@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Permissions;
 using Assets._Scripts.Dissonance;
 using Synapse.Api;
 using Synapse.Events.Classes;
@@ -268,5 +270,95 @@ namespace Synapse.Events
         public delegate void OnLoadComponents(LoadComponentsEvent ev);
         public static event OnLoadComponents LoadComponentsEvent;
         internal static void InvokeLoadComponents(GameObject player) => LoadComponentsEvent?.Invoke(new LoadComponentsEvent() { Player = player });
+
+        public delegate void OnGeneratorInserted(ref GeneratorEvent ev);
+        public static event OnGeneratorInserted GeneratorInsertedEvent;
+        internal static void InvokeGeneratorInserted(Player player, Generator079 generator, ref bool allow)
+        {
+            if (GeneratorInsertedEvent == null) return;
+
+            var ev = new GeneratorEvent
+            {
+                Allow = allow,
+                Generator = generator,
+                Player = player
+            };
+
+            GeneratorInsertedEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
+
+        public delegate void OnGeneratorEjected(ref GeneratorEvent ev);
+        public static event OnGeneratorEjected GeneratorEjectedEvent;
+        internal static void InvokeGeneratorEjected(Player player, Generator079 generator, ref bool allow)
+        {
+            if (GeneratorEjectedEvent == null) return;
+
+            var ev = new GeneratorEvent
+            {
+                Allow = allow,
+                Generator = generator,
+                Player = player
+            };
+
+            GeneratorEjectedEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
+
+        public delegate void OnGeneratorUnlock(ref GeneratorEvent ev);
+        public static event OnGeneratorUnlock GeneratorUnlockEvent;
+        internal static void InvokeGeneratorUnlock(Player player,Generator079 generator, ref bool allow)
+        {
+            if (GeneratorUnlockEvent == null) return;
+
+            var ev = new GeneratorEvent
+            {
+                Allow = allow,
+                Generator = generator,
+                Player = player
+            };
+
+            GeneratorUnlockEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
+
+        public delegate void OnGeneratorOpen(ref GeneratorEvent ev);
+        public static event OnGeneratorOpen GeneratorOpenEvent;
+        internal static void InvokeGeneratorOpen(Player player, Generator079 generator, ref bool allow)
+        {
+            if (GeneratorOpenEvent == null) return;
+
+            var ev = new GeneratorEvent
+            {
+                Allow = allow,
+                Generator = generator,
+                Player = player
+            };
+
+            GeneratorOpenEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
+
+        public delegate void OnGeneratorClose(ref GeneratorEvent ev);
+        public static event OnGeneratorClose GeneratorCloseEvent;
+        internal static void InvokeGeneratorClose(Player player, Generator079 generator, ref bool allow)
+        {
+            if (GeneratorCloseEvent == null) return;
+
+            var ev = new GeneratorEvent
+            {
+                Allow = allow,
+                Generator = generator,
+                Player = player
+            };
+
+            GeneratorCloseEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
     }
 }
