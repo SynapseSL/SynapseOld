@@ -146,7 +146,7 @@ namespace Synapse.Events
 
             var ev = new PlayerCuffedEvent
             {
-                Cuffed = cuffed,
+                Cuffer = cuffed,
                 Target = target,
                 Allow = allow
             };

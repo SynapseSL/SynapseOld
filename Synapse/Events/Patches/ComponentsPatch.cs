@@ -11,6 +11,10 @@ namespace Synapse.Events.Patches
         {
             if (__instance.GetComponent<Player>() == null)
                 __instance.gameObject.AddComponent<Player>();
+
+            if (__instance.GetComponent<Jail>() == null)
+                __instance.gameObject.AddComponent<Jail>();
+
             try
             {
                 Events.InvokeLoadComponents(__instance.gameObject);

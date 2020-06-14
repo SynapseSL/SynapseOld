@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Discord;
 using MEC;
 using Synapse.Api;
 using Synapse.Events.Classes;
@@ -28,6 +29,7 @@ namespace Synapse.Events
             Events.DoorInteractEvent += OnDoorInteract;
         }
 
+        // Methods
         private void OnDoorInteract(ref DoorInteractEvent ev)
         {
             if (Configs.remotekeycard)
@@ -45,7 +47,6 @@ namespace Synapse.Events
             }
         }
 
-        // Methods
         private static void OnSyncData(ref SyncDataEvent ev)
         {
             if (ev.Player.Role != RoleType.ClassD &&
@@ -72,6 +73,31 @@ namespace Synapse.Events
                     ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.AdminTools);
                     return;
                 }
+                case "JAIL":
+                    ev.Allow = false;
+                    if (args.Length < 2)
+                    {
+                        ev.Sender.RaMessage("Jail Player");
+                        return;
+                    }
+
+                    var Player = PlayerExtensions.GetPlayer(args[1]);
+                    if (Player == null)
+                    {
+                        ev.Sender.RaMessage("Invalid Player");
+                        return;
+                    }
+                    var Jail = Player.GetComponent<Jail>();
+
+                    if (Jail.IsJailed)
+                    {
+                        Jail.UnJail();
+                        ev.Sender.RaMessage("User was unjailed");
+                        return;
+                    }
+                    Jail.DoJail(ev.Player);
+                    ev.Sender.RaMessage("User was jailed");
+                    return;
             }
         }
 

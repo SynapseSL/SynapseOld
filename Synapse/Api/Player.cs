@@ -12,11 +12,13 @@ namespace Synapse.Api
         public static Player Server { get => PlayerManager.localPlayer.GetPlayer(); }
 
 
-        public ReferenceHub Hub { get => this.GetComponent<ReferenceHub>(); }
+        public ReferenceHub Hub { get => GetComponent<ReferenceHub>(); }
 
         public CharacterClassManager ClassManager { get => Hub.characterClassManager; }
 
         public PlayerEffectsController EffectsController { get => Hub.playerEffectsController; }
+
+        public Jail Jail => GetComponent<Jail>();
 
         public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
@@ -71,8 +73,8 @@ namespace Synapse.Api
 
         public RoleType Role
         {
-            get => Hub.characterClassManager.NetworkCurClass;
-            set => Hub.characterClassManager.SetPlayersClass(value, gameObject);
+            get => Hub.characterClassManager.CurClass;
+            set => Hub.characterClassManager.SetPlayersClass(value,gameObject);
         }
 
         public Team Team { get => Hub.characterClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
@@ -199,6 +201,7 @@ namespace Synapse.Api
 
         public void ChangeRoleAtPosition(RoleType role)
         {
+            //TODO: Fix this shit
             Hub.characterClassManager.NetworkCurClass = role;
             Hub.playerStats.SetHPAmount(Hub.characterClassManager.Classes.SafeGet(Role).maxHP);
         }
