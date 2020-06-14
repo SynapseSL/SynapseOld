@@ -5,14 +5,14 @@ using System.Reflection;
 
 namespace SynapseModLoader
 {
+    // ReSharper disable once UnusedType.Global
     public class ModLoader
     {
-        // Token: 0x060027B3 RID: 10163 RVA: 0x000C17DC File Offset: 0x000BF9DC
-        public static byte[] ReadFile(string path)
+        private static byte[] ReadFile(string path)
         {
-            FileStream fileStream = File.Open(path, FileMode.Open);
+            var fileStream = File.Open(path, FileMode.Open);
             byte[] result;
-            using (MemoryStream memoryStream = new MemoryStream())
+            using (var memoryStream = new MemoryStream())
             {
                 fileStream.CopyTo(memoryStream);
                 result = memoryStream.ToArray();
@@ -20,16 +20,16 @@ namespace SynapseModLoader
             fileStream.Close();
             return result;
         }
-
-        // Token: 0x060027B4 RID: 10164 RVA: 0x000C1828 File Offset: 0x000BFA28
+        
+        // ReSharper disable once UnusedMember.Global
         public static void LoadModSystem()
         {
             if (_loaded)
             {
                 return;
             }
-            ServerConsole.AddLog("Synapse Mod-Loader is now intialising.. :)", ConsoleColor.Blue);
-            string text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
+            ServerConsole.AddLog("Synapse Mod-Loader is now initialising.. :)", ConsoleColor.Blue);
+            var text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
             if (!Directory.Exists(text))
             {
                 Directory.CreateDirectory(text);
@@ -39,7 +39,8 @@ namespace SynapseModLoader
                 ServerConsole.AddLog("Error while loading Synapse! The Synapse.dll is missing!", ConsoleColor.Red);
                 return;
             }
-            var methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes().SelectMany((p) => p.GetMethods()).FirstOrDefault((f) => f.Name == "LoaderExecutionCode");
+            var methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes()
+                .SelectMany(p => p.GetMethods()).FirstOrDefault(f => f.Name == "LoaderExecutionCode");
             if (!(methodInfo != null))
             {
                 return;
@@ -48,7 +49,6 @@ namespace SynapseModLoader
             _loaded = true;
         }
 
-        // Token: 0x040022BC RID: 8892
         private static bool _loaded;
     }
 }

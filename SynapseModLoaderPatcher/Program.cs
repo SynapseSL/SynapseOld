@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using dnlib.DotNet;
 using dnlib.DotNet.Emit;
@@ -13,6 +12,7 @@ using TypeAttributes = dnlib.DotNet.TypeAttributes;
 
 namespace SynapseModLoaderPatcher
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     internal class Program
     {
         public static void Main(string[] args)
@@ -68,7 +68,7 @@ namespace SynapseModLoaderPatcher
             modRefType.DeclaringType = null;
             module.Types.Add(modRefType);
 
-            MethodDef call = FindMethod(modRefType, "LoadModSystem");
+            var call = FindMethod(modRefType, "LoadModSystem");
 
             if (call == null)
             {
@@ -79,8 +79,9 @@ namespace SynapseModLoaderPatcher
             Console.WriteLine("Synapse-Inject: Injected!");
             Console.WriteLine("Synapse: Patching...");
 
-            TypeDef def = FindType(module.Assembly, "ServerConsoleSender");
+            var def = FindType(module.Assembly, "ServerConsoleSender");
             
+            // ReSharper disable once IdentifierTypo
             MethodDef bctor = new MethodDefUser(".ctor", MethodSig.CreateInstance(module.CorLibTypes.Void),
                 MethodImplAttributes.IL | MethodImplAttributes.Managed,
                 MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName);
@@ -110,7 +111,7 @@ namespace SynapseModLoaderPatcher
 
             foreach (var type in allTypes)
             {
-                if (!type?.IsPublic ?? false && !type.IsNestedPublic)
+                if (!type?.IsPublic ?? false)
                 {
                     type.Attributes = type.IsNested ? TypeAttributes.NestedPublic : TypeAttributes.Public;
                 }
@@ -133,15 +134,14 @@ namespace SynapseModLoaderPatcher
                 }
             }
             
-            module.Write("Assembly-CSharp-Synapse_publizied.dll");
+            module.Write("Assembly-CSharp-Synapse_publicised.dll");
 
-            Console.WriteLine("Synapse-Public: Created Publizied DLL");
+            Console.WriteLine("Synapse-Public: Created Publicised DLL");
         }
         
         private static MethodDef FindMethod(TypeDef type, string methodName)
         {
-            if (type == null) return null;
-            return type.Methods.FirstOrDefault(method => method.Name == methodName);
+            return type?.Methods.FirstOrDefault(method => method.Name == methodName);
         }
 
         private static TypeDef FindType(AssemblyDef asm, string classPath)
