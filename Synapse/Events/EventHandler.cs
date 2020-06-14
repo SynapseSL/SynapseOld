@@ -73,31 +73,6 @@ namespace Synapse.Events
                     ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.AdminTools);
                     return;
                 }
-                case "JAIL":
-                    ev.Allow = false;
-                    if (args.Length < 2)
-                    {
-                        ev.Sender.RaMessage("Jail Player");
-                        return;
-                    }
-
-                    var Player = PlayerExtensions.GetPlayer(args[1]);
-                    if (Player == null)
-                    {
-                        ev.Sender.RaMessage("Invalid Player");
-                        return;
-                    }
-                    var Jail = Player.GetComponent<Jail>();
-
-                    if (Jail.IsJailed)
-                    {
-                        Jail.UnJail();
-                        ev.Sender.RaMessage("User was unjailed");
-                        return;
-                    }
-                    Jail.DoJail(ev.Player);
-                    ev.Sender.RaMessage("User was jailed");
-                    return;
             }
         }
 

@@ -18,8 +18,6 @@ namespace Synapse.Api
 
         public PlayerEffectsController EffectsController { get => Hub.playerEffectsController; }
 
-        public Jail Jail => GetComponent<Jail>();
-
         public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
         public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
