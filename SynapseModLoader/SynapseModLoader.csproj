@@ -33,14 +33,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp-Synapse_publizied">
-      <HintPath>..\..\Synaps Verweise\Assembly-CSharp-Synapse_publizied.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-Synapse_publizied.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\Synaps Verweise\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
