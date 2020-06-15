@@ -1,5 +1,4 @@
-﻿using Synapse.Api;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Synapse.Events.Classes
 {

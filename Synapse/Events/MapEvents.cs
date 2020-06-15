@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Synapse.Api;
 using Synapse.Events.Classes;
-using UnityEngine;
 
 namespace Synapse.Events
 {

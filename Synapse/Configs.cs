@@ -4,20 +4,20 @@ namespace Synapse
 {
     internal static class Configs
     {
-        //Variablen
-        private static YamlConfig Config;
+        // Variables
+        private static YamlConfig _config;
 
-        //Configs
-        internal static int requiredforFemur;
-        internal static bool remotekeycard;
+        // Configs
+        internal static int RequiredForFemur;
+        internal static bool RemoteKeyCard;
 
-        //Methods
+        // Methods
         internal static void ReloadConfig()
         {
-            if (Config == null) Config = new YamlConfig(Path.Combine(PluginManager.ServerConfigDirectory, "server-config.yml"));
+            if (_config == null) _config = new YamlConfig(Path.Combine(PluginManager.ServerConfigDirectory, "server-config.yml"));
 
-            requiredforFemur = Config.GetInt("synapse.femur",1);
-            remotekeycard = Config.GetBool("synapse.remote.keycard", true);
+            RequiredForFemur = _config.GetInt("synapse.femur",1);
+            RemoteKeyCard = _config.GetBool("synapse.remote.keyCard", true);
         }
     }
 }

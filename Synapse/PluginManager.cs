@@ -25,7 +25,8 @@ namespace Synapse
         internal static string ServerConfigDirectory { get; private set; }
         private static string ServerConfigFile { get; set; }
 
-        internal static Events.EventHandler EventHandler;
+        // ReSharper disable once NotAccessedField.Local
+        private static Events.EventHandler _eventHandler;
 
         // Methods
         internal static IEnumerator<float> StartSynapse()
@@ -80,7 +81,7 @@ namespace Synapse
         {
             Configs.ReloadConfig();
             HarmonyPatch();
-            EventHandler = new Events.EventHandler();
+            _eventHandler = new Events.EventHandler();
 
             try
             {
@@ -151,8 +152,7 @@ namespace Synapse
             foreach (var plugin in Plugins)
                 try
                 {
-                    plugin.Translation = new Translation();
-                    plugin.Translation.plugin = plugin;
+                    plugin.Translation = new Translation {Plugin = plugin};
                     plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
                     plugin.OnEnable();
                 }

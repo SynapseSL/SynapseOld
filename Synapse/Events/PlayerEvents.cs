@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
-using System.Security.Permissions;
+﻿using System.Diagnostics.CodeAnalysis;
 using Assets._Scripts.Dissonance;
 using Synapse.Api;
 using Synapse.Events.Classes;
@@ -19,7 +17,7 @@ namespace Synapse.Events
         internal static void InvokePlayerJoinEvent(Player player, ref string nick)
         {
             if (PlayerJoinEvent == null) return;
-            var ev = new PlayerJoinEvent()
+            var ev = new PlayerJoinEvent
             {
                 Player = player,
                 Nick = nick
@@ -212,7 +210,7 @@ namespace Synapse.Events
         {
             if (PlayerReloadEvent == null) return;
 
-            var ev = new PlayerReloadEvent()
+            var ev = new PlayerReloadEvent
             {
                 Player = player,
                 Allow = allow,
@@ -234,11 +232,11 @@ namespace Synapse.Events
         {
             if (FemurEnterEvent == null) return;
 
-            var ev = new FemurEnterEvent()
+            var ev = new FemurEnterEvent
             {
                 Player = player,
                 Allow = allow,
-                CloseFemur = closeFemur,
+                CloseFemur = closeFemur
             };
 
             FemurEnterEvent.Invoke(ref ev);
@@ -254,7 +252,7 @@ namespace Synapse.Events
         {
             if (DropItemEvent == null) return;
             
-            DropItemEvent ev = new DropItemEvent()
+            var ev = new DropItemEvent
             {
                 Player = player,
                 Item = item,
@@ -269,7 +267,7 @@ namespace Synapse.Events
 
         public delegate void OnLoadComponents(LoadComponentsEvent ev);
         public static event OnLoadComponents LoadComponentsEvent;
-        internal static void InvokeLoadComponents(GameObject player) => LoadComponentsEvent?.Invoke(new LoadComponentsEvent() { Player = player });
+        internal static void InvokeLoadComponents(GameObject player) => LoadComponentsEvent?.Invoke(new LoadComponentsEvent { Player = player });
 
         public delegate void OnGeneratorInserted(ref GeneratorEvent ev);
         public static event OnGeneratorInserted GeneratorInsertedEvent;

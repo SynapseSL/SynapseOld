@@ -10,6 +10,7 @@ namespace Synapse
         // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
 
+        // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }
 
         private string _ownPluginFolder;

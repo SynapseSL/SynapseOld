@@ -1,34 +1,39 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hints;
 using Mirror;
+using Synapse.Api.Enums;
 using Synapse.Permissions;
 using UnityEngine;
 
 namespace Synapse.Api
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
+    [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Player : MonoBehaviour
     {
-        public static Player Server { get => PlayerManager.localPlayer.GetPlayer(); }
+        public static Player Server => PlayerManager.localPlayer.GetPlayer();
 
 
-        public ReferenceHub Hub { get => GetComponent<ReferenceHub>(); }
+        public ReferenceHub Hub => GetComponent<ReferenceHub>();
 
-        public CharacterClassManager ClassManager { get => Hub.characterClassManager; }
+        public CharacterClassManager ClassManager => Hub.characterClassManager;
 
-        public PlayerEffectsController EffectsController { get => Hub.playerEffectsController; }
+        public PlayerEffectsController EffectsController => Hub.playerEffectsController;
 
         public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
         public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
 
-        public string UserID { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
+        public string UserId { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
 
         public string CustomUserId { get => ClassManager.UserId2; set => ClassManager.UserId2 = value; }
 
-        public string IpAddress { get => Hub.queryProcessor._ipAddress; }
+        public string IpAddress => Hub.queryProcessor._ipAddress;
 
-        public bool Noclip { get => Hub.serverRoles.NoclipReady; set => Hub.serverRoles.NoclipReady = value; }
+        public bool NoClip { get => Hub.serverRoles.NoclipReady; set => Hub.serverRoles.NoclipReady = value; }
 
         public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
 
@@ -55,7 +60,7 @@ namespace Synapse.Api
             }
         }
 
-        public Vector3 Position { get => Hub.playerMovementSync.GetRealPosition(); set => Hub.playerMovementSync.OverridePosition(value,RotationFloat,false); }
+        public Vector3 Position { get => Hub.playerMovementSync.GetRealPosition(); set => Hub.playerMovementSync.OverridePosition(value,RotationFloat); }
 
         public Vector3 RotationVector { get => ClassManager._plyCam.transform.forward; set => ClassManager._plyCam.transform.forward = value; }
 
@@ -81,6 +86,7 @@ namespace Synapse.Api
         {
             get
             {
+                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
                 switch (Team)
                 {
                     case Team.RSC:
@@ -106,25 +112,25 @@ namespace Synapse.Api
                 if (!flag || rayCastHit.transform == null)
                     return null;
 
-                var transform = rayCastHit.transform;
+                var infoTransform = rayCastHit.transform;
 
-                while (transform.parent != null && transform.parent.parent != null)
-                    transform = transform.parent;
+                while (infoTransform.parent != null && infoTransform.parent.parent != null)
+                    infoTransform = infoTransform.parent;
 
-                foreach (var room in Map.Rooms.Where(room => room.Position == transform.position))
+                foreach (var room in Map.Rooms.Where(room => room.Position == infoTransform.position))
                     return room;
 
                 return new Room
                 {
-                    Name = transform.name,
-                    Position = transform.position,
-                    Transform = transform
+                    Name = infoTransform.name,
+                    Position = infoTransform.position,
+                    Transform = infoTransform
                 };
             }
             set => Position = value.Position;
         }
 
-        public NetworkConnection Connection { get => Hub.scp079PlayerScript.connectionToClient; }
+        public NetworkConnection Connection => Hub.scp079PlayerScript.connectionToClient;
 
         public Inventory.SyncListItemInfo Items { get => Hub.inventory.items; set => Hub.inventory.items = value; }
 
@@ -157,9 +163,9 @@ namespace Synapse.Api
 
         public uint Ammo9 { get => Hub.ammoBox.amount[2]; set => Hub.ammoBox.amount[2] = value; }
 
-        public UserGroup Rank { get => Hub.serverRoles.Group; set => Hub.serverRoles.SetGroup(value, false, false, false); }
+        public UserGroup Rank { get => Hub.serverRoles.Group; set => Hub.serverRoles.SetGroup(value, false); }
 
-        public string GroupName { get => ServerStatic.PermissionsHandler._members[UserID]; }
+        public string GroupName => ServerStatic.PermissionsHandler._members[UserId];
 
         public string RankColor { get => Rank.BadgeColor; set => Hub.serverRoles.SetColor(value); }
 
@@ -176,7 +182,7 @@ namespace Synapse.Api
 
         public float RotationFloat => Hub.transform.rotation.eulerAngles.y;
 
-        public bool IsCuffed => (Cuffer == null) ? false : true;
+        public bool IsCuffed => Cuffer != null;
 
         public bool IsReloading => Hub.weaponManager.IsReloading();
 
@@ -240,6 +246,6 @@ namespace Synapse.Api
 
         public void ClearInventory() => Hub.inventory.Clear();
 
-        public void GiveEffect(Effect effect,byte intens = 1,float duration = -1f) => EffectsController.ChangeByString(effect.ToString().ToLower(), intens, duration);
+        public void GiveEffect(Effect effect,byte intensity = 1,float duration = -1f) => EffectsController.ChangeByString(effect.ToString().ToLower(), intensity, duration);
     }
 }

@@ -1,12 +1,11 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Synapse.Api;
+﻿using Synapse.Api;
 using Synapse.Events.Classes;
 
 namespace Synapse.Events
 {
     public static partial class Events
     {
-        /// <summary>A Event which is activated when Scp049 Respawnes a Player</summary>
+        /// <summary>A Event which is activated when Scp049 respawns a Player</summary>
         public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
         public static event OnScp049Recall Scp049RecallEvent;
 
@@ -41,7 +40,7 @@ namespace Synapse.Events
         {
             if (PocketDimensionEnterEvent == null) return;
 
-            var ev = new PocketDimensionEvent()
+            var ev = new PocketDimensionEvent
             {
                 Player = player,
                 Allow = allow
@@ -53,19 +52,19 @@ namespace Synapse.Events
         }
 
         public delegate void OnScp106Containment(ref Scp106ContainmentEvent ev);
-        public static event OnScp106Containment Scp106ContaimentEvent;
+        public static event OnScp106Containment Scp106ContainmentEvent;
 
-        internal static void InvokeScp106ContaimentEvent(Player player, ref bool allow)
+        internal static void InvokeScp106ContainmentEvent(Player player, ref bool allow)
         {
-            if (Scp106ContaimentEvent == null) return;
+            if (Scp106ContainmentEvent == null) return;
 
-            var ev = new Scp106ContainmentEvent()
+            var ev = new Scp106ContainmentEvent
             {
                 Player = player,
                 Allow = allow
             };
             
-            Scp106ContaimentEvent.Invoke(ref ev);
+            Scp106ContainmentEvent.Invoke(ref ev);
 
             allow = ev.Allow;
         }

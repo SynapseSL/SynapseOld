@@ -9,7 +9,7 @@ namespace Synapse.Events.Classes
 
         public Player Player => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE"
             ? Player.Server
-            : Api.PlayerExtensions.GetPlayer(Sender.SenderId);
+            : PlayerExtensions.GetPlayer(Sender.SenderId);
 
         public bool Allow { get; set; }
 

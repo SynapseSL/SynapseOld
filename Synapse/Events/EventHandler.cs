@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using Discord;
 using MEC;
 using Synapse.Api;
+using Synapse.Api.Enums;
 using Synapse.Events.Classes;
 using Synapse.Permissions;
 using UnityEngine;
@@ -30,20 +29,17 @@ namespace Synapse.Events
         }
 
         // Methods
-        private void OnDoorInteract(ref DoorInteractEvent ev)
+        private static void OnDoorInteract(ref DoorInteractEvent ev)
         {
-            if (Configs.remotekeycard)
-            {
-                if (ev.Allow) return;
+            if (!Configs.RemoteKeyCard) return;
+            if (ev.Allow) return;
 
-                foreach (var item in ev.Player.Items)
-                {
-                    if (ev.Player.Hub.inventory.GetItemByID(item.id).permissions.Contains(ev.Door.permissionLevel))//update to backwardsCompatPermissions when neccesary
-                    {
-                        ev.Allow = true;
-                        return;
-                    }
-                }
+            foreach (var item in ev.Player.Items)
+            {
+                if (!ev.Player.Hub.inventory.GetItemByID(item.id).permissions
+                    .Contains(ev.Door.permissionLevel)) continue;  //update to backwardsCompatPermissions when necessary
+                ev.Allow = true;
+                return;
             }
         }
 
