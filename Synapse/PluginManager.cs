@@ -48,11 +48,11 @@ namespace Synapse
 
         private static void Files()
         {
-            ServerPluginDirectory = Path.Combine(MainPluginDirectory, $"Server{ServerStatic.ServerPort} Plugins");
+            ServerPluginDirectory = Path.Combine(MainPluginDirectory, $"Server-{ServerStatic.ServerPort}");
             if (!Directory.Exists(ServerPluginDirectory))
                 Directory.CreateDirectory(ServerPluginDirectory);
 
-            ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server{ServerStatic.ServerPort}-Configs");
+            ServerConfigDirectory = Path.Combine(MainConfigDirectory, $"Server-{ServerStatic.ServerPort}");
             if (!Directory.Exists(ServerConfigDirectory))
                 Directory.CreateDirectory(ServerConfigDirectory);
 
