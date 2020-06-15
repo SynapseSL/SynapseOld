@@ -50,7 +50,7 @@ namespace Synapse.Api
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"SetScale Error. {e}");
+                    Log.Error($"SetScale Error: {e}");
                 }
             }
         }
