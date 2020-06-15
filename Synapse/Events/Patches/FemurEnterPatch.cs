@@ -28,7 +28,7 @@ namespace Synapse.Events.Patches
 						{
 							var allow = component.CurRole.team != Team.SCP;
 
-							var CloseFemur = femurBrokePeople + 1 >= Configs.requiredforFemur;
+							var CloseFemur = femurBrokePeople + 1 >= Configs.RequiredForFemur;
 							var player = __instance.GetPlayer();
 
 							Events.InvokeFemurEnterEvent(player, ref allow, ref CloseFemur);

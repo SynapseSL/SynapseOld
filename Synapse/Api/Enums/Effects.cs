@@ -1,45 +1,48 @@
-﻿namespace Synapse.Api
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Synapse.Api.Enums
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public enum Effect
     {
         /// <summary>
-        /// The Player cant open his Inventory and Reload his Weapons
+        /// The Player can't open his inventory and reload his weapons
         /// </summary>
-        /// <remarks>0 = Disabled,1 = Enabled</remarks>
+        /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Amnesia,
         /// <summary>
-        /// Quickly drains stamina then Health If theres none left
+        /// Quickly drains stamina then health if there is none left
         /// </summary>
-        /// <remarks>0 = Disabled,1 = Enabled</remarks>
+        /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Asphyxiated,
         /// <summary>
-        /// Damage-over time starting high and ramping low.Ticks every 5s.
+        /// Damage-over time starting high and getting low. Ticks every 5s.
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Bleeding,
         /// <summary>
-        /// applies extrem screen blur
+        /// Applies extreme screen blur
         /// </summary>
         Blinded,
         /// <summary>
-        /// slightly inreases all damage taken
+        /// Slightly increases all damage taken
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Burned,
         /// <summary>
         /// Blurs the screen as the Player turns
         /// </summary>
-        /// <remarks>0 = Disabled, 1 = Enabel</remarks>
+        /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Concussed,
         /// <summary>
-        /// Teleports to the Pocket Dimension and drains Hp until he escapes
+        /// Teleports to the pocket dimension and drains hp until he escapes
         /// </summary>
         /// <remarks>1 = Enabled</remarks>
         Corroding,
         /// <summary>
         /// Heavily muffles all sounds
         /// </summary>
-        /// <remarks>0 = Disabled, 1 = Enablked</remarks>
+        /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Deafened,
         /// <summary>
         /// Remove 10% of max health each second
@@ -47,17 +50,17 @@
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Decontaminating,
         /// <summary>
-        /// Slows all Movement speed
+        /// Slows all movement
         /// </summary>
-        /// <remarks>0 = Diabled, 1 = Enabled</remarks>
+        /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Disabled,
         /// <summary>
-        /// prevents all movement
+        /// Prevents all movement
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Ensnared,
         /// <summary>
-        /// laves stamina capacity and regeneration rate
+        /// Laves stamina capacity and regeneration rate
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Exhausted,
@@ -67,22 +70,22 @@
         /// <remarks>0 = Disabled, 1-244 = time in ms 255 = forever</remarks>
         Flashed,
         /// <summary>
-        /// Sprinting drains 2 Hp/s
+        /// Sprinting drains 2 hp/s
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Hemorrhage,
         /// <summary>
-        /// Infinte Stamina
+        /// Infinite stamina
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Invigorated,
         /// <summary>
-        /// slightly Increases stamina consumption
+        /// Slightly increases stamina consumption
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Panic,
         /// <summary>
-        /// Damage-over time starting low and ramping high.Ticks every 5s.
+        /// Damage-over time starting low and rising high. Ticks every 5s.
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         Poisoned,
@@ -92,19 +95,19 @@
         /// <remarks>0 = Disabled, 1 = 1xCola, 2 = 2xCola, 3 = 3xCola, 4 = 4xCola</remarks>
         Scp207,
         /// <summary>
-        /// The Player cant be seen by other Humans.He need do activate Scp268 in his Inventory
+        /// The Player cant be seen by other entities. He need do activate Scp268 in his inventory
         /// </summary>
         /// <remarks>0 = Disabled,1 = Enabled</remarks>
         Scp268,
         /// <summary>
-        /// Slows down Players but not Scps
+        /// Slows down players but not SCP's
         /// </summary>
         /// <remarks>0 = Disabled, 1 = Enabled</remarks>
         SinkHole,
         /// <summary>
-        /// The Vision of Scp939
+        /// The vision of SCP-939
         /// </summary>
-        /// <remarks>0 = Disabled, 1 = OnlyMarker, 2 = Only Screen Filtest, 3 = Everything</remarks>
+        /// <remarks>0 = Disabled, 1 = OnlyMarker, 2 = Only Screen, 3 = Everything</remarks>
         Visuals939
     }
 }

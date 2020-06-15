@@ -1,28 +1,30 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
 namespace Synapse
 {
+    [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class Translation
     {
-        private Dictionary<string, string> translation = new Dictionary<string, string>();
-        private string translationpath;
-        internal Plugin plugin;
+        private Dictionary<string, string> _translation = new Dictionary<string, string>();
+        private string _translationPath;
+        internal Plugin Plugin;
 
         public void CreateTranslations(Dictionary<string,string> translations)
         {
-            translationpath = Path.Combine(PluginManager.ServerConfigDirectory, plugin.GetName + "-translation.txt");
-            if (!File.Exists(translationpath))
-                File.Create(translationpath).Close();
+            _translationPath = Path.Combine(PluginManager.ServerConfigDirectory, Plugin.GetName + "-translation.txt");
+            if (!File.Exists(_translationPath))
+                File.Create(_translationPath).Close();
             var dictionary = new Dictionary<string, string>();
-            string[] lines = File.ReadAllLines(translationpath);
-            List<string> newlines = new List<string>();
-            int position = 0;
+            var lines = File.ReadAllLines(_translationPath);
+            var newlines = new List<string>();
+            var position = 0;
 
             foreach (var pair in translations.ToList())
             {
-                if (lines.Count() > position)
+                if (lines.Length > position)
                 {
                     if (string.IsNullOrEmpty(lines[position]))
                     {
@@ -42,22 +44,22 @@ namespace Synapse
                 }
 
                 position++;
-                File.WriteAllLines(translationpath, newlines.ToArray());
+                File.WriteAllLines(_translationPath, newlines.ToArray());
             }
 
-            translation = dictionary;
+            _translation = dictionary;
         }
 
         public string GetTranslation(string translationName)
         {
             try
             {
-                string trans = translation.FirstOrDefault(x => x.Key == translationName).Value;
+                var trans = _translation.FirstOrDefault(x => x.Key == translationName).Value;
                 return trans;
             }
             catch
             {
-                return $"Invalid Translations Name";
+                return "Invalid Translations Name";
             }
         }
     }

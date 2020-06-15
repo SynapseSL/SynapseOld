@@ -1,4 +1,4 @@
-﻿namespace Synapse.Api
+﻿namespace Synapse.Api.Enums
 {
     public enum ZoneType
     {

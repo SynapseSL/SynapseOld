@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Synapse.Api.Enums;
+using UnityEngine;
 
 namespace Synapse.Api
 {
@@ -11,6 +12,7 @@ namespace Synapse.Api
         public Transform Transform { get; set; }
         public Vector3 Position { get; set; }
 
+        // ReSharper disable once UnusedMember.Global
         public ZoneType Zone
         {
             get

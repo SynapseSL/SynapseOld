@@ -22,7 +22,7 @@ namespace Synapse.Events.Patches
 
             var userId = CustomLiteNetLib4MirrorTransport.UserIds[request.RemoteEndPoint].UserId;
 
-            Events.InvokePreAuthentication(userId, request, request.Data.Position, 0, null, ref allow);
+            Events.InvokePreAuthentication(userId, request, ref allow);
 
             if (allow)
             {
@@ -35,7 +35,7 @@ namespace Synapse.Events.Patches
         }
         
         //TODO: Explain this code to other contrib.
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);
 
@@ -43,8 +43,8 @@ namespace Synapse.Events.Patches
             {
                 if (code.Value.opcode != OpCodes.Callvirt) continue;
                 if (codes[code.Index + 2].opcode != OpCodes.Ldstr) continue;
-                var strOperrand = codes[code.Index + 2].operand as string;
-                if (strOperrand == "Player {0} preauthenticated from endpoint {1}.")
+                var strOperand = codes[code.Index + 2].operand as string;
+                if (strOperand == "Player {0} preauthenticated from endpoint {1}.")
                 {
                     code.Value.opcode = OpCodes.Nop;
                 }

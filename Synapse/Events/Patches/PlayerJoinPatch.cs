@@ -14,7 +14,7 @@ namespace Synapse.Events.Patches
             {
                 var player = __instance.GetPlayer();
 
-                if (!string.IsNullOrEmpty(player.UserID))
+                if (!string.IsNullOrEmpty(player.UserId))
                     Events.InvokePlayerJoinEvent(player, ref n);
             }
             catch (Exception e)

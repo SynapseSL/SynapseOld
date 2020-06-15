@@ -83,33 +83,32 @@ namespace Synapse.Events
         public delegate void TeamRespawn(ref TeamRespawnEvent ev);
         public static event TeamRespawn TeamRespawnEvent;
         
-        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnlist, ref bool ischaos, ref bool allow ,ref bool useticktes)
+        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnList, ref bool isChaos, ref bool allow ,ref bool useTickets)
         {
             if (TeamRespawnEvent == null) return;
 
-            var ev = new TeamRespawnEvent()
+            var ev = new TeamRespawnEvent
             {
                 Allow = allow,
-                IsChaos = ischaos,
-                RespawnList = respawnlist,
-                UseTickets = useticktes
+                IsChaos = isChaos,
+                RespawnList = respawnList,
+                UseTickets = useTickets
             };
 
             TeamRespawnEvent.Invoke(ref ev);
 
-            respawnlist = ev.RespawnList;
-            ischaos = ev.IsChaos;
+            respawnList = ev.RespawnList;
+            isChaos = ev.IsChaos;
             allow = ev.Allow;
-            useticktes = ev.UseTickets;
+            useTickets = ev.UseTickets;
         }
         
         public delegate void OnPreAuthenticationEvent(ref PreAuthenticationEvent ev);
         public static event OnPreAuthenticationEvent PreAuthenticationEvent;
 
-        internal static void InvokePreAuthentication(string userId, ConnectionRequest request, int position, byte flags,
-            string country, ref bool allow)
+        internal static void InvokePreAuthentication(string userId, ConnectionRequest request, ref bool allow)
         {
-            var ev = new PreAuthenticationEvent()
+            var ev = new PreAuthenticationEvent
             {
                Allow = allow,
                Request = request,

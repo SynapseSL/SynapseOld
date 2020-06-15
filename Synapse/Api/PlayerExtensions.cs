@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Mirror;
+using Synapse.Api.Enums;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -11,22 +12,21 @@ namespace Synapse.Api
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class PlayerExtensions
     {
-        private static MethodInfo sendSpawnMessage;
+        private static MethodInfo _sendSpawnMessage;
         public static MethodInfo SendSpawnMessage
         {
             get
             {
-                if (sendSpawnMessage == null)
-                    sendSpawnMessage = typeof(NetworkServer).GetMethod("SendSpawnMessage",BindingFlags.Instance | BindingFlags.InvokeMethod
+                if (_sendSpawnMessage == null)
+                    _sendSpawnMessage = typeof(NetworkServer).GetMethod("SendSpawnMessage",BindingFlags.Instance | BindingFlags.InvokeMethod
                         | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public);
 
-                return sendSpawnMessage;
+                return _sendSpawnMessage;
             }
         }
 
         /// <summary>Gives a User a Message im Remote Admin</summary>
         /// <param name="sender">The User who you send the Message</param>
-        /// <param name="pluginName">The Name from which is it at the beginning of the Message</param>
         /// <param name="message">The Message you want to send</param>
         /// <param name="success">True = green the command is right you have permission and execute it successfully</param>
         /// <param name="type">In Which Category should you see it too?</param>
@@ -66,9 +66,9 @@ namespace Synapse.Api
 
         public static IEnumerable<Player> GetAllPlayers()
         {
-            return (from gameobject in PlayerManager.players
-                    where gameobject != PlayerManager.localPlayer && gameobject != null
-                    select gameobject.GetPlayer()).ToList();
+            return (from gameObject in PlayerManager.players
+                    where gameObject != PlayerManager.localPlayer && gameObject != null
+                    select gameObject.GetPlayer()).ToList();
         }
 
         public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
@@ -86,7 +86,7 @@ namespace Synapse.Api
                 !arg.EndsWith("@patreon"))
                 return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
             foreach (var player in GetAllPlayers())
-                if (player.UserID == arg)
+                if (player.UserId == arg)
                     return player;
 
             return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));

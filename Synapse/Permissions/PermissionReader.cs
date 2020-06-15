@@ -77,7 +77,7 @@ namespace Synapse.Permissions
                 return false;
             }
 
-            var userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.UserID);
+            var userGroup = ServerStatic.GetPermissionsHandler().GetUserGroup(player.UserId);
 
             Group group = null;
             if (userGroup != null)
@@ -104,7 +104,7 @@ namespace Synapse.Permissions
             }
             else
             {
-                if (player.Hub.serverRoles.Staff || player.UserID.EndsWith("@northwood")) group = GetNwGroup();
+                if (player.Hub.serverRoles.Staff || player.UserId.EndsWith("@northwood")) group = GetNwGroup();
                 else group = GetDefaultGroup();
             }
 
