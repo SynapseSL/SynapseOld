@@ -198,6 +198,7 @@ namespace Synapse.Api
 
         public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
 
+        [Obsolete("Didnt work properly in Scopophobia we will fix this")]
         public void ChangeRoleAtPosition(RoleType role)
         {
             //TODO: Fix this shit
@@ -247,5 +248,21 @@ namespace Synapse.Api
         public void ClearInventory() => Hub.inventory.Clear();
 
         public void GiveEffect(Effect effect,byte intensity = 1,float duration = -1f) => EffectsController.ChangeByString(effect.ToString().ToLower(), intensity, duration);
+
+        public void RaLogin()
+        {
+            Hub.serverRoles.RemoteAdmin = true;
+            Hub.serverRoles.Permissions = Hub.serverRoles.Group.Permissions;
+            Hub.serverRoles.RemoteAdminMode = ServerRoles.AccessMode.PasswordOverride;
+            Hub.serverRoles.TargetOpenRemoteAdmin(Connection, false);
+        }
+
+        public void RaLogout()
+        {
+            Hub.serverRoles.RemoteAdmin = false;
+            Hub.serverRoles.Permissions = 0UL;
+            Hub.serverRoles.RemoteAdminMode = ServerRoles.AccessMode.LocalAccess;
+            Hub.serverRoles.TargetCloseRemoteAdmin(Connection);
+        }
     }
 }

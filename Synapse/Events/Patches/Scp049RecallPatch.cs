@@ -92,7 +92,7 @@ namespace Synapse.Events.Patches
 
                     var pos3 = component.transform.position;
                     pos3.y += 2;
-                    target.ChangeRoleAtPosition(role);
+                    target.Role = role;
                     Timing.CallDelayed(0.5f, () => target.Position = pos3);
                     target.GetComponent<PlayerStats>().Health = live;
                     if (component.CompareTag("Ragdoll")) NetworkServer.Destroy(component.gameObject);
