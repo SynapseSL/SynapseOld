@@ -359,7 +359,7 @@ namespace Synapse.Events
             allow = ev.Allow;
         }
 
-        public delegate void OnUseItem(UseItemEvent ev);
+        public delegate void OnUseItem(ref UseItemEvent ev);
         public static event OnUseItem UseItemEvent;
         internal static void InvokeUseItemEvent(Player player, out bool allow)
         {
@@ -372,7 +372,7 @@ namespace Synapse.Events
                 Allow = true
             };
 
-            UseItemEvent.Invoke(ev);
+            UseItemEvent.Invoke(ref ev);
 
             allow = ev.Allow;
         }
