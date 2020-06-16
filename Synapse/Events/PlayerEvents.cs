@@ -358,5 +358,23 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+        public delegate void OnUseItem(UseItemEvent ev);
+        public static event OnUseItem UseItemEvent;
+        internal static void InvokeUseItemEvent(Player player, out bool allow)
+        {
+            allow = true;
+            if (UseItemEvent == null) return;
+
+            var ev = new UseItemEvent
+            {
+                Player = player,
+                Allow = true
+            };
+
+            UseItemEvent.Invoke(ev);
+
+            allow = ev.Allow;
+        }
     }
 }
