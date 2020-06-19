@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -70,6 +71,8 @@ namespace Synapse.Api
                     where gameObject != PlayerManager.localPlayer && gameObject != null
                     select gameObject.GetPlayer()).ToList();
         }
+
+        public static IEnumerable<Player> GetAllPlayers(this RoleType role) => GetAllPlayers().Where(x => x.Role == role);
 
         public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
 

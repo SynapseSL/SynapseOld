@@ -10,7 +10,7 @@ namespace Synapse
         public static void Info(string message)
         {
             var assembly = Assembly.GetCallingAssembly();
-            ServerConsole.AddLog($"[INFO] [{assembly.GetName().ToString().Split(',')[0]}] {message}",
+            ServerConsole.AddLog($"[INFO] [{assembly.GetName().Name}] {message}",
                 ConsoleColor.Blue);
         }
 
@@ -20,7 +20,7 @@ namespace Synapse
         public static void Warn(string message)
         {
             var assembly = Assembly.GetCallingAssembly();
-            ServerConsole.AddLog($"[WARN] [{assembly.GetName().ToString().Split(',')[0]}] {message}",
+            ServerConsole.AddLog($"[WARN] [{assembly.GetName().Name}] {message}",
                 ConsoleColor.Yellow);
         }
 
@@ -29,7 +29,7 @@ namespace Synapse
         public static void Error(string message)
         {
             var assembly = Assembly.GetCallingAssembly();
-            ServerConsole.AddLog($"[ERROR] [{assembly.GetName().ToString().Split(',')[0]}] {message}",
+            ServerConsole.AddLog($"[ERROR] [{assembly.GetName().Name}] {message}",
                 ConsoleColor.Red);
         }
     }
