@@ -125,5 +125,24 @@ namespace Synapse.Events
         internal static void InvokeWaitingForPlayers() => WaitingForPlayersEvent?.Invoke();
 
         public delegate void OnCheckRoundEnd(ref CheckRoundEndEvent ev);
+        public static event OnCheckRoundEnd CheckRoundEndEvent;
+
+        public static void InvokeCheckRoundEnd(ref bool forceEnd, ref bool allow, ref RoundSummary.LeadingTeam team,
+            ref bool teamChanged)
+        {
+            var ev = new CheckRoundEndEvent()
+            {
+                Allow = allow,
+                ForceEnd = forceEnd,
+                LeadingTeam = team
+            };
+            
+            CheckRoundEndEvent?.Invoke(ref ev);
+
+            teamChanged = team != ev.LeadingTeam;
+            team = ev.LeadingTeam;
+            allow = ev.Allow;
+            forceEnd = ev.ForceEnd;
+        }
     }
 }
