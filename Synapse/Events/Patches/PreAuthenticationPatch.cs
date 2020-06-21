@@ -16,7 +16,7 @@ namespace Synapse.Events.Patches
 
             if (!request.Data.EndOfData)
             {
-                Log.Warn("Server is not finished handling Authentication");
+                //The Server is not done handling the Authentication, so wait now.
                 return;
             }
 
