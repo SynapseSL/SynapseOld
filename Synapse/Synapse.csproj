@@ -76,6 +76,7 @@
     <Compile Include="Events\Classes\GeneratorEvent.cs" />
     <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
     <Compile Include="Events\Patches\Scp079GainLvlPatch.cs" />
+    <Compile Include="Events\Patches\SpawnFixPatch.cs" />
     <Compile Include="Events\Patches\UseItemPatch.cs" />
     <Compile Include="Events\Patches\ComponentsPatch.cs" />
     <Compile Include="Events\Patches\GeneratorPatches.cs" />
@@ -92,6 +93,7 @@
     <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
     <Compile Include="Events\EventHandler.cs" />
     <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
+    <Compile Include="Events\Patches\CheckRoundEndPatch.cs" />
     <Compile Include="Events\Patches\WaitingForPlayersPatch.cs" />
     <Compile Include="Events\Patches\DropItemPatch.cs" />
     <Compile Include="Events\Patches\FemurEnterPatch.cs" />
