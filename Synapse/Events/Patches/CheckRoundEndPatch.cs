@@ -39,10 +39,7 @@ namespace Synapse.Events.Patches
 
         public static IEnumerator<float> ProcessServerSide(RoundSummary instance)
         {
-            Log.Info("Cool");
             var roundSummary = instance;
-
-            Log.Info(roundSummary.ToString());
 
             while (roundSummary != null)
             {
@@ -94,8 +91,6 @@ namespace Synapse.Events.Patches
                 var mtfSum = newList.mtf_and_guards + newList.scientists;
                 var chaosSum = newList.chaos_insurgents + newList.class_ds;
                 var scpSum = newList.scps_except_zombies + newList.zombies;
-
-                Log.Warn($"mtfSum: {mtfSum} | chaosSum: {chaosSum} | scpSum: {scpSum}");
 
                 var escapedDs = (float)(roundSummary.classlistStart.class_ds == 0 ? 0 : (RoundSummary.escaped_ds + newList.class_ds) / roundSummary.classlistStart.class_ds);
                 var escapedScientists = (float)(roundSummary.classlistStart.scientists == 0 ? 1 : (RoundSummary.escaped_scientists + newList.scientists) / roundSummary.classlistStart.scientists);
