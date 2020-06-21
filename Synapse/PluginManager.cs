@@ -82,6 +82,8 @@ namespace Synapse
             Configs.ReloadConfig();
             HarmonyPatch();
             _eventHandler = new Events.EventHandler();
+            
+            ServerConsole.ReloadServerName();
 
             try
             {
