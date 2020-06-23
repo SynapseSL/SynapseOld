@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using CustomPlayerEffects;
 using Hints;
 using Mirror;
 using RemoteAdmin;
@@ -53,21 +54,21 @@ namespace Synapse.Api
 
         public HintDisplay HintDisplay => Hub.hints;
 
-        public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
+        public string NickName { get => NicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
-        public int PlayerId { get => Hub.queryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
+        public int PlayerId { get => QueryProcessor.NetworkPlayerId; set => Hub.queryProcessor.NetworkPlayerId = value; }
 
         public string UserId { get => Hub.characterClassManager.UserId; set => Hub.characterClassManager.UserId = value; }
 
         public string CustomUserId { get => ClassManager.UserId2; set => ClassManager.UserId2 = value; }
 
-        public string IpAddress => Hub.queryProcessor._ipAddress;
+        public string IpAddress => QueryProcessor._ipAddress;
 
-        public bool NoClip { get => Hub.serverRoles.NoclipReady; set => Hub.serverRoles.NoclipReady = value; }
+        public bool NoClip { get => ServerRoles.NoclipReady; set => Hub.serverRoles.NoclipReady = value; }
 
-        public bool OverWatch { get => Hub.serverRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
+        public bool OverWatch { get => ServerRoles.OverwatchEnabled; set => Hub.serverRoles.OverwatchEnabled = value; }
 
-        public bool Bypass { get => Hub.serverRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
+        public bool Bypass { get => ServerRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
 
         public bool GodMode { get => ClassManager.GodMode; set => ClassManager.GodMode = value; }
 
@@ -90,19 +91,19 @@ namespace Synapse.Api
             }
         }
 
-        public Vector3 Position { get => Hub.playerMovementSync.GetRealPosition(); set => Hub.playerMovementSync.OverridePosition(value,RotationFloat); }
+        public Vector3 Position { get => MovementSync.GetRealPosition(); set => Hub.playerMovementSync.OverridePosition(value,RotationFloat); }
 
         public Vector3 RotationVector { get => ClassManager._plyCam.transform.forward; set => ClassManager._plyCam.transform.forward = value; }
 
-        public Vector2 Rotation { get => Hub.playerMovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
+        public Vector2 Rotation { get => MovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
 
-        public float Health { get => Hub.playerStats.Health; set => Hub.playerStats.Health = value; }
+        public float Health { get => PlayerStats.Health; set => Hub.playerStats.Health = value; }
 
-        public int MaxHealth { get => Hub.playerStats.maxHP; set => Hub.playerStats.maxHP = value; }
+        public int MaxHealth { get => PlayerStats.maxHP; set => Hub.playerStats.maxHP = value; }
 
-        public float ArtificialHealth { get => Hub.playerStats.unsyncedArtificialHealth; set => Hub.playerStats.unsyncedArtificialHealth = value; }
+        public float ArtificialHealth { get => PlayerStats.unsyncedArtificialHealth; set => Hub.playerStats.unsyncedArtificialHealth = value; }
 
-        public int MaxArtificialHealth { get => Hub.playerStats.maxArtificialHealth; set => Hub.playerStats.maxArtificialHealth = value; }
+        public int MaxArtificialHealth { get => PlayerStats.maxArtificialHealth; set => Hub.playerStats.maxArtificialHealth = value; }
 
         public RoleType Role
         {
@@ -110,7 +111,7 @@ namespace Synapse.Api
             set => Hub.characterClassManager.SetPlayersClass(value,gameObject);
         }
 
-        public Team Team { get => Hub.characterClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
+        public Team Team { get => ClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
 
         public Team Side
         {
@@ -162,7 +163,7 @@ namespace Synapse.Api
 
         public NetworkConnection Connection => Hub.scp079PlayerScript.connectionToClient;
 
-        public Inventory.SyncListItemInfo Items { get => Hub.inventory.items; set => Hub.inventory.items = value; }
+        public Inventory.SyncListItemInfo Items { get => Inventory.items; set => Inventory.items = value; }
 
         /// <summary>
         /// The Person Who has cuffed the Player
@@ -170,20 +171,20 @@ namespace Synapse.Api
         /// <remarks>Set Cuffer to null and he will be disarmed</remarks>
         public Player Cuffer 
         { 
-            get => PlayerExtensions.GetPlayer(Hub.handcuffs.CufferId);
+            get => PlayerExtensions.GetPlayer(Handcuffs.CufferId);
             set
             {
-                var handcuff = value.Hub.handcuffs;
+                var handcuff = value.Handcuffs;
 
                 if (handcuff == null) return;
 
                 if (value == null)
                 {
-                    handcuff.NetworkCufferId = -1;
+                    Handcuffs.NetworkCufferId = -1;
                     return;
                 }
 
-                handcuff.NetworkCufferId = value.PlayerId;
+                Handcuffs.NetworkCufferId = value.PlayerId;
             }
         } 
 
@@ -193,7 +194,7 @@ namespace Synapse.Api
 
         public uint Ammo9 { get => Hub.ammoBox.amount[2]; set => Hub.ammoBox.amount[2] = value; }
 
-        public UserGroup Rank { get => Hub.serverRoles.Group; set => Hub.serverRoles.SetGroup(value, false); }
+        public UserGroup Rank { get => ServerRoles.Group; set => ServerRoles.SetGroup(value, false); }
 
         public string GroupName => ServerStatic.PermissionsHandler._members[UserId];
 
