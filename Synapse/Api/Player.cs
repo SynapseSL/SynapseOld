@@ -200,12 +200,10 @@ namespace Synapse.Api
 
         public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
 
-        [Obsolete("Didnt work properly in Scopophobia we will fix this")]
         public void ChangeRoleAtPosition(RoleType role)
         {
             //TODO: Fix this shit
-            Hub.characterClassManager.NetworkCurClass = role;
-            Hub.playerStats.SetHPAmount(Hub.characterClassManager.Classes.SafeGet(Role).maxHP);
+            Hub.characterClassManager.SetClassIDAdv(role, true);
         }
 
         public bool CheckPermission(string permission)

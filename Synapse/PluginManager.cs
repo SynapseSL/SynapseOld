@@ -164,6 +164,19 @@ namespace Synapse
                 }
         }
 
+        internal static void OnConfigReload()
+        {
+            foreach (var plugin in Plugins)
+                try
+                {
+                    plugin.InvokeReload();
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"Plugin {plugin.GetName} threw an exception while reloading {e}");
+                }
+        }
+
         private static void HarmonyPatch()
         {
             try

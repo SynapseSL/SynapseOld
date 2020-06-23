@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Text;
 using Synapse.Api;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -21,7 +23,7 @@ namespace Synapse.Permissions
         internal static void Init()
         {
             if (!File.Exists(PermissionPath))
-                File.Create(PermissionPath).Close();
+                File.WriteAllText(PermissionPath, "groups:\n    user:\n        default: true\n        permissions:\n        - plugin.permission\n    northwood:\n        northwood: true\n        permissions:\n        - plugin.permission\n    owner:\n        permissions:\n        - .*");
 
             ReloadPermission();
         }

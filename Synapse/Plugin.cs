@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Synapse
 {
@@ -9,6 +10,10 @@ namespace Synapse
         /// </summary>
         // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
+
+        internal delegate void OnConfigReload();
+        private event OnConfigReload ConfigReloadEvent;
+        internal void InvokeReload() => ConfigReloadEvent?.Invoke();
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }
