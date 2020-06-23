@@ -6,7 +6,7 @@ using UnityEngine;
 
 // ReSharper disable SwitchStatementMissingSomeEnumCasesNoDefault
 
-namespace Synapse.Events.Classes
+namespace Synapse.Events.Patches
 {
     [HarmonyPatch(typeof(CharacterClassManager), nameof(CharacterClassManager.CallCmdRegisterEscape))]
     public static class PlayerEscapePatch

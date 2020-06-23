@@ -45,20 +45,17 @@ namespace Synapse.Events.Patches
 
                 //Event
                 var allow = true;
-                var respawnlist = new List<Player>();
-                var usetickets = true;
+                var useTickets = true;
 
-                foreach (GameObject player in list)
-                    respawnlist.Add(player.GetPlayer());
+                var respawnList = list.Select(player => player.GetPlayer()).ToList();
 
-                Events.InvokeTeamRespawnEvent(ref respawnlist,ref __instance.nextWaveIsCI,ref allow,ref usetickets);
+                Events.InvokeTeamRespawnEvent(ref respawnList,ref __instance.nextWaveIsCI,ref allow,ref useTickets);
 
                 if (!allow) return false;
                 list.Clear();
-                foreach (Player hub in respawnlist)
-                    list.Add(hub.gameObject);
+                list.AddRange(respawnList.Select(hub => hub.gameObject));
 
-                if (usetickets) __instance.NextWaveRespawnTickets -= num2 - list.Count;
+                if (useTickets) __instance.NextWaveRespawnTickets -= num2 - list.Count;
 
                 if (ConfigFile.ServerConfig.GetBool("use_crypto_rng"))
                     list.ShuffleListSecure();
