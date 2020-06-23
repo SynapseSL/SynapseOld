@@ -3,6 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hints;
 using Mirror;
+using RemoteAdmin;
+using Searching;
 using Synapse.Api.Enums;
 using Synapse.Permissions;
 using UnityEngine;
@@ -21,7 +23,35 @@ namespace Synapse.Api
 
         public CharacterClassManager ClassManager => Hub.characterClassManager;
 
+        public Inventory Inventory => Hub.inventory;
+
+        public PlayerStats PlayerStats => Hub.playerStats;
+
+        public ServerRoles ServerRoles => Hub.serverRoles;
+
+        public QueryProcessor QueryProcessor => Hub.queryProcessor;
+
+        public PlayerMovementSync MovementSync => Hub.playerMovementSync;
+
+        public NicknameSync NicknameSync => Hub.nicknameSync;
+
+        public SpectatorManager SpectatorManager => Hub.spectatorManager;
+
+        public AnimationController AnimationController => Hub.animationController;
+
+        public FallDamage FallDamage => Hub.falldamage;
+
+        public Handcuffs Handcuffs => Hub.handcuffs;
+
+        public PlayerInteract PlayerInteract => Hub.playerInteract;
+
         public PlayerEffectsController EffectsController => Hub.playerEffectsController;
+
+        public FootstepSync FootstepSync => Hub.footstepSync;
+
+        public SearchCoordinator SearchCoordinator => Hub.searchCoordinator;
+
+        public HintDisplay HintDisplay => Hub.hints;
 
         public string NickName { get => Hub.nicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
 
@@ -189,8 +219,6 @@ namespace Synapse.Api
         public bool IsZooming => Hub.weaponManager.ZoomInProgress();
 
         public bool IsDead => Team == Team.RIP;
-
-        public Inventory Inventory => Hub.inventory;
 
 
         //Methods
