@@ -18,12 +18,12 @@ The installation of Synapse is very easy.
 Download the newest release from the [Releases](https://github.com/moelrobi/Synapse/releases) page.
 Then follow the instructions under the Wiki: [Hosting Guides](https://github.com/moelrobi/Synapse/wiki#hosting-guides)
 
-##**Developers**
+## **Developers**
 
 Developing for Synapse is just as easy as the Installation.
 Please check our [example plugin](https://github.com/GrafDimenzio/Example-Plugin) and our [Wiki](https://github.com/GrafDimenzio/Example-Plugin) for a full API documentation.
 
-##**Support & Credits**
+## **Support & Credits**
 In need of Support please join our [Discord](https://discord.gg/wSBHXwy)!
 
 First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) and Northwood Studios for creating this amazing Game. Please support them and the game via thier patron.
@@ -31,4 +31,4 @@ First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) an
 We also need to thank the [Harmony](https://github.com/pardeike/Harmony) Guys for developing a Runtime .NET Patcher.
 
 
-####**Created by Dimenzio and SirRoob**
+#### **Created by Dimenzio and SirRoob**
