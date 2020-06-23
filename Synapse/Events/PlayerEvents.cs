@@ -79,7 +79,7 @@ namespace Synapse.Events
         public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
 
-        internal static void InvokePlayerBanEvent(Player player, string userId, int duration, ref bool allow,
+        internal static void InvokePlayerBanEvent(Player player, int duration, ref bool allow,
             string reason, Player issuer)
         {
             if (PlayerBanEvent == null) return;
@@ -89,8 +89,7 @@ namespace Synapse.Events
                 Issuer = issuer,
                 Duration = duration,
                 Reason = reason,
-                BannedPlayer = player,
-                UserId = userId
+                BannedPlayer = player
             };
 
             PlayerBanEvent.Invoke(ref ev);

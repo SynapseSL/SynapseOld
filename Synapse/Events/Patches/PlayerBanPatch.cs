@@ -17,7 +17,7 @@ namespace Synapse.Events.Patches
                 var player = user.GetPlayer();
                 var banIssuer = PlayerExtensions.GetPlayer(issuer);
                 var allow = true;
-                Events.InvokePlayerBanEvent(player, player.UserId, duration, ref allow, reason, banIssuer);
+                Events.InvokePlayerBanEvent(player, duration, ref allow, reason, banIssuer);
 
                 return isGlobalBan && ConfigFile.ServerConfig.GetBool("gban_ban_ip") || allow;
             }
