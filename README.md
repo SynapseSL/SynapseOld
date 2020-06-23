@@ -26,7 +26,7 @@ Please check our [example plugin](https://github.com/GrafDimenzio/Example-Plugin
 ## **Support & Credits**
 In need of Support please join our [Discord](https://discord.gg/wSBHXwy)!
 
-First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) and Northwood Studios for creating this amazing Game. Please support them and the game via thier patron.
+First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) and Northwood Studios for creating this amazing game. Please support them and the game via thier patron.
 
 We also need to thank the [Harmony](https://github.com/pardeike/Harmony) guys for developing a Runtime .NET Patcher.
 
