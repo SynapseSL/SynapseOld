@@ -126,14 +126,14 @@ namespace Synapse.Api
         }
 
         /// <summary>Gives you the Position of the cubes you can see when you write "showrids" in the console!</summary>
-        /// <param name="room"></param>
+        /// <param name="ridname"></param>
         /// <returns></returns>
-        public static Vector3 GetRidPos(string room)
+        public static Vector3 GetRidPos(string ridname)
         {
             var position = new Vector3(53f, 1020f, -44f);
             var array = GameObject.FindGameObjectsWithTag("RoomID");
             foreach (var gameObject2 in array)
-                if (gameObject2.GetComponent<Rid>().id == room)
+                if (gameObject2.GetComponent<Rid>().id == ridname)
                     position = gameObject2.transform.position;
             return position;
         }

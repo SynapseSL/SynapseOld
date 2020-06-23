@@ -166,10 +166,11 @@ namespace Synapse
 
         internal static void OnConfigReload()
         {
+            Configs.ReloadConfig();
+
             foreach (var plugin in Plugins)
                 try
                 {
-                    Configs.ReloadConfig();
                     plugin.InvokeConfigReloadEvent();
                 }
                 catch (Exception e)

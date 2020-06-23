@@ -237,7 +237,7 @@ namespace Synapse.Api
 
         public bool CheckPermission(string permission)
         {
-            if (Hub == PlayerManager.localPlayer) return true;
+            if (this == Server) return true;
             try
             {
                 return PermissionReader.CheckPermission(this, permission);
