@@ -169,7 +169,8 @@ namespace Synapse
             foreach (var plugin in Plugins)
                 try
                 {
-                    plugin.InvokeReload();
+                    Configs.ReloadConfig();
+                    plugin.InvokeConfigReloadEvent();
                 }
                 catch (Exception e)
                 {
