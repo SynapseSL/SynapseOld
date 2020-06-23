@@ -58,17 +58,29 @@ namespace Synapse.Events
             {
                 case "RELOADPERMISSION":
                 {
-                    if (!ev.Player.CheckPermission("sy.reload"))
+                    if (!ev.Player.CheckPermission("sy.reload.permission"))
                     {
-                        ev.Sender.RaMessage("You have no Permission for Reload", false,
+                        ev.Sender.RaMessage("You have no Permission for Reload Permissions", false,
                             RaCategory.AdminTools);
                         return;
                     }
 
                     PermissionReader.ReloadPermission();
-                    ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.AdminTools);
+                    ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.ServerConfigs);
                     return;
                 }
+
+                case "RELOADCONFIGS":
+                    if (!ev.Player.CheckPermission("sy.reload.configs"))
+                    {
+                        ev.Sender.RaMessage("You have no Permission for Reload Configs", false,
+                            RaCategory.AdminTools);
+                        return;
+                    }
+
+                    PluginManager.OnConfigReload();
+                    ev.Sender.RaMessage("Configs Reloaded!", true, RaCategory.ServerConfigs);
+                    return;
             }
         }
 
