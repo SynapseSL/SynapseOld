@@ -206,7 +206,7 @@ namespace Synapse.Events
         public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
         public static event OnPlayerReload PlayerReloadEvent;
 
-        internal static void InvokePlayerReloadEvent(Player player,ref bool allow,ref WeaponManager.Weapon weapon,Inventory.SyncItemInfo syncItem)
+        internal static void InvokePlayerReloadEvent(Player player, ref bool allow, Inventory.SyncItemInfo syncItem)
         {
             if (PlayerReloadEvent == null) return;
 
@@ -215,13 +215,11 @@ namespace Synapse.Events
                 Player = player,
                 Allow = allow,
                 InventorySlot = syncItem,
-                Weapon = weapon
             };
 
             PlayerReloadEvent.Invoke(ref ev);
 
             allow = ev.Allow;
-            weapon = ev.Weapon;
         }
         
         //FemurEnterEvent

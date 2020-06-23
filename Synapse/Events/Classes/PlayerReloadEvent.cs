@@ -9,7 +9,5 @@ namespace Synapse.Events.Classes
         public bool Allow { get; set; }
 
         public Inventory.SyncItemInfo InventorySlot { get; internal set; }
-
-        public WeaponManager.Weapon Weapon { get; set; }
     }
 }

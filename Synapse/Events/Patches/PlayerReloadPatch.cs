@@ -15,7 +15,6 @@ namespace Synapse.Events.Patches
 
                 var allow = true;
                 var itemIndex = __instance.hub.inventory.GetItemIndex();
-                var weapon = __instance.weapons[__instance._reloadingWeapon];
                 var inventoryslot = __instance.hub.inventory.items[itemIndex];
                 var player = __instance.hub.GetPlayer();
 
@@ -23,9 +22,7 @@ namespace Synapse.Events.Patches
                 if (__instance.curWeapon < 0 || __instance.hub.inventory.curItem != __instance.weapons[__instance.curWeapon].inventoryID) return false;
                 if (__instance.hub.inventory.items[itemIndex].durability >= __instance.weapons[__instance.curWeapon].maxAmmo) return false;
 
-                Events.InvokePlayerReloadEvent(player, ref allow, ref weapon, inventoryslot);
-
-                __instance.weapons[__instance._reloadingWeapon] = weapon;
+                Events.InvokePlayerReloadEvent(player, ref allow, inventoryslot);
 
                 return allow;
             }

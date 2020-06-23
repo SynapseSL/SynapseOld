@@ -228,6 +228,7 @@ namespace Synapse.Api
 
         public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
 
+        [Obsolete("Does not work properly")]
         public void ChangeRoleAtPosition(RoleType role)
         {
             //TODO: Fix this shit
