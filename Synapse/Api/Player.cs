@@ -190,6 +190,8 @@ namespace Synapse.Api
 
         public bool IsDead => Team == Team.RIP;
 
+        public Inventory Inventory => Hub.inventory;
+
 
         //Methods
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);
