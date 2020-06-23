@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using MEC;
 using Synapse.Api;
 using Synapse.Api.Enums;
@@ -34,13 +35,12 @@ namespace Synapse.Events
             if (!Configs.RemoteKeyCard) return;
             if (ev.Allow) return;
 
-            foreach (var item in ev.Player.Items)
-            {
-                if (!ev.Player.Hub.inventory.GetItemByID(item.id).permissions
-                    .Contains(ev.Door.permissionLevel)) continue;  //update to backwardsCompatPermissions when necessary
-                ev.Allow = true;
-                return;
-            }
+            if (!ev.Player.Items.Any()) return;
+            var itemPerms = ev.Player.Inventory.GetItemByID(ev.Player.Inventory.curItem).permissions;
+            var door = ev.Door;
+            ev.Allow = itemPerms.Any(p =>
+                door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                door.PermissionLevels.HasPermission(flag));
         }
 
         private static void OnSyncData(ref SyncDataEvent ev)

@@ -16,7 +16,7 @@ namespace Synapse.Events.Patches
 
 				if (player == null)
                 {
-					Log.Error("GeneratorEventError: a gameobject which is not a Player used a Generator?");
+					Log.Error("GeneratorEventError: a GameObject which is not a Player used a Generator?");
 					return false;
                 }
 
@@ -30,31 +30,26 @@ namespace Synapse.Events.Patches
 					var enumerator = component.items.GetEnumerator();
 					while (enumerator.MoveNext())
 					{
-						Inventory.SyncItemInfo syncItemInfo = enumerator.Current;
-						if (syncItemInfo.id == ItemType.WeaponManagerTablet)
-						{
-							bool allow = player.Team != Team.SCP;
-							Events.InvokeGeneratorInserted(player, __instance, ref allow);
-							if (allow)
-							{
-								component.items.Remove(syncItemInfo);
-								__instance.NetworkisTabletConnected = true;
-							}
-							return false;
-						}
+						var syncItemInfo = enumerator.Current;
+						if (syncItemInfo.id != ItemType.WeaponManagerTablet) continue;
+						var allow = player.Team != Team.SCP;
+						Events.InvokeGeneratorInserted(player, __instance, ref allow);
+						if (!allow) return false;
+						component.items.Remove(syncItemInfo);
+						__instance.NetworkisTabletConnected = true;
+						return false;
 					}
 				}
 
-				if (command.StartsWith("EPS_CANCEL"))
+				if (!command.StartsWith("EPS_CANCEL")) return true;
 				{
 					if (!__instance.isTabletConnected) return false;
-					bool allow = true;
+					var allow = true;
 
 					Events.InvokeGeneratorEjected(player, __instance, ref allow);
 					return allow;
 				}
-				return true;
-			}
+            }
 			catch (Exception e)
             {
 				Log.Error($"GeneratorTablet Event Error: {e}");
@@ -70,7 +65,7 @@ namespace Synapse.Events.Patches
         {
 			var player = person.GetPlayer();
 
-			Inventory component = person.GetComponent<Inventory>();
+			var component = person.GetComponent<Inventory>();
 			if (component == null || __instance.doorAnimationCooldown > 0f || __instance.deniedCooldown > 0f) return false;
 
 			//Check if the Generator can be open or must be unlocked
@@ -99,15 +94,15 @@ namespace Synapse.Events.Patches
 			}
 
 			//Unlock The Generator
-			bool flag = player.Bypass;
-			bool flag2 = player.Team != Team.SCP;
+			var flag = player.Bypass;
+			var flag2 = player.Team != Team.SCP;
 			
 			if (flag2 && component.curItem > ItemType.KeycardJanitor)
 			{
-				string[] permissions = component.GetItemByID(component.curItem).permissions;
+				var permissions = component.GetItemByID(component.curItem).permissions;
 
-				for (int i = 0; i < permissions.Length; i++)
-					if (permissions[i] == "ARMORY_LVL_2")
+				foreach (var t in permissions)
+					if (t == "ARMORY_LVL_2")
 						flag = true;
 			}
 

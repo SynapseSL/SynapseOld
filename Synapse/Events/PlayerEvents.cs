@@ -214,7 +214,7 @@ namespace Synapse.Events
             {
                 Player = player,
                 Allow = allow,
-                InventorySlot = syncItem,
+                InventorySlot = syncItem
             };
 
             PlayerReloadEvent.Invoke(ref ev);
@@ -399,7 +399,7 @@ namespace Synapse.Events
 
         internal static void InvokePlayerSetClassEvent(Player player, ref RoleType type, ref List<ItemType> items)
         {
-            var ev = new PlayerSetClassEvent()
+            var ev = new PlayerSetClassEvent
             {
                 Items = items,
                 Player = player,

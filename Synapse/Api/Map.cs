@@ -184,7 +184,7 @@ namespace Synapse.Api
             }
         }
 
-        public static void Broadcast(string message, ushort duration) => BroadcastComponent.RpcAddElement(message, duration, new global::Broadcast.BroadcastFlags());
+        public static void Broadcast(string message, ushort duration) => BroadcastComponent.RpcAddElement(message, duration, new Broadcast.BroadcastFlags());
 
         public static void ClearBroadcasts() => BroadcastComponent.RpcClearElements();
 

@@ -9,7 +9,7 @@ namespace Synapse.Events.Patches
     [HarmonyPatch(typeof(CharacterClassManager), nameof(CharacterClassManager.AllowContain))]
     public class FemurEnterPatch
     {
-		public static int femurBrokePeople;
+		public static int FemurBrokePeople;
 
         public static bool Prefix(CharacterClassManager __instance)
         {
@@ -18,27 +18,24 @@ namespace Synapse.Events.Patches
 				if (!NetworkServer.active) return false;
 				if (!NonFacilityCompatibility.currentSceneSettings.enableStandardGamplayItems) return false;
 
-				foreach (GameObject gameObject in PlayerManager.players)
+				foreach (var gameObject in PlayerManager.players)
 				{
-					if (Vector3.Distance(gameObject.transform.position, __instance._lureSpj.transform.position) < 1.97f)
-					{
-						CharacterClassManager component = gameObject.GetComponent<CharacterClassManager>();
-						PlayerStats component2 = gameObject.GetComponent<PlayerStats>();
-						if (component.CurClass != RoleType.Spectator && !component.GodMode)
-						{
-							var allow = component.CurRole.team != Team.SCP;
+					if (!(Vector3.Distance(gameObject.transform.position, __instance._lureSpj.transform.position) <
+					      1.97f)) continue;
+					var component = gameObject.GetComponent<CharacterClassManager>();
+					var component2 = gameObject.GetComponent<PlayerStats>();
+					if (component.CurClass == RoleType.Spectator || component.GodMode) continue;
+					var allow = component.CurRole.team != Team.SCP;
 
-							var CloseFemur = femurBrokePeople + 1 >= Configs.RequiredForFemur;
-							var player = __instance.GetPlayer();
+					var closeFemur = FemurBrokePeople + 1 >= Configs.RequiredForFemur;
+					var player = __instance.GetPlayer();
 
-							Events.InvokeFemurEnterEvent(player, ref allow, ref CloseFemur);
+					Events.InvokeFemurEnterEvent(player, ref allow, ref closeFemur);
 
-							if (!allow) return false;
-							component2.HurtPlayer(new PlayerStats.HitInfo(10000f, "WORLD", DamageTypes.Lure, 0), gameObject);
-							femurBrokePeople++;
-							if (CloseFemur) __instance._lureSpj.SetState(true);
-						}
-					}
+					if (!allow) return false;
+					component2.HurtPlayer(new PlayerStats.HitInfo(10000f, "WORLD", DamageTypes.Lure, 0), gameObject);
+					FemurBrokePeople++;
+					if (closeFemur) __instance._lureSpj.SetState(true);
 				}
 
 				return false;

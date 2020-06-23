@@ -34,7 +34,9 @@ namespace Synapse.Events.Patches
             request.RejectForce(data);
         }
         
-        //TODO: Explain this code to other contrib.
+        /// <summary>
+        /// This transpiler removes the instruction to accept an incoming connection. :)
+        /// </summary>
         private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = new List<CodeInstruction>(instructions);

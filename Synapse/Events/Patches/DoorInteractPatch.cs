@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Harmony;
 using Synapse.Api;
 using UnityEngine;

@@ -30,8 +30,6 @@ namespace Synapse.Events.Patches
 
                 __instance.items.RemoveAt(itemInventoryIndex);
 
-                //TODO: InvokeItemDroped
-
                 return false;
             }
             catch (Exception e)
