@@ -21,7 +21,7 @@ Then follow the instructions under the Wiki: [Hosting Guides](https://github.com
 ## **Developers**
 
 Developing for Synapse is just as easy as the Installation.
-Please check our [example plugin](https://github.com/GrafDimenzio/Example-Plugin) and our [Wiki](https://github.com/GrafDimenzio/Example-Plugin) for a full API documentation.
+Please check our [example plugin](https://github.com/GrafDimenzio/Example-Plugin) and our [Wiki](https://github.com/moelrobi/Synapse/wiki#developer-guides) for a full API documentation.
 
 ## **Support & Credits**
 In need of Support please join our [Discord](https://discord.gg/wSBHXwy)!
