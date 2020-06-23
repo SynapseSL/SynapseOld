@@ -1,6 +1,6 @@
 # **Synapse**
 ### **The new SCP: Secret Laboratory mod / plugin loader**
-Synapse is a new found project created by two german Server-Hosters. We used Harmony to create a Framework which makes us easier to implement new functions, game updates and overall a new experience a player.
+Synapse is a new found project created by two german Server-Hosters. We used Harmony to create a framework which makes us easier to implement new functions, game updates and overall a new experience a player.
 
 ##**Features & Configs**
 
@@ -28,7 +28,7 @@ In need of Support please join our [Discord](https://discord.gg/wSBHXwy)!
 
 First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) and Northwood Studios for creating this amazing Game. Please support them and the game via thier patron.
 
-We also need to thank the [Harmony](https://github.com/pardeike/Harmony) Guys for developing a Runtime .NET Patcher.
+We also need to thank the [Harmony](https://github.com/pardeike/Harmony) guys for developing a Runtime .NET Patcher.
 
 
 ####**Created by Dimenzio and SirRoob**
