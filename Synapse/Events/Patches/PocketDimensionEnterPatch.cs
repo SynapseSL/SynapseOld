@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using CustomPlayerEffects;
 using Harmony;
@@ -36,15 +37,37 @@ namespace Synapse.Events.Patches
                 }
                 else
                 {
-                    //TODO: Implement SCP079 Shit
+                    foreach (var scp079PlayerScript in Scp079PlayerScript.instances)
+                    {
+                        var otherRoom = ply.GetComponent<Scp079PlayerScript>().GetOtherRoom();
+                        var filter = new[]
+                        {
+                            Scp079Interactable.InteractableType.Door,
+                            Scp079Interactable.InteractableType.Light,
+                            Scp079Interactable.InteractableType.Lockdown,
+                            Scp079Interactable.InteractableType.Tesla,
+                            Scp079Interactable.InteractableType.ElevatorUse
+                        };
+                        var flag = false;
+                        foreach (var zoneAndRoom in from scp079Interaction in scp079PlayerScript.ReturnRecentHistory(12f,
+                            filter) from zoneAndRoom in scp079Interaction.interactable
+                            .currentZonesAndRooms where zoneAndRoom.currentZone == otherRoom.currentZone &&
+                                                        zoneAndRoom.currentRoom == otherRoom.currentRoom select zoneAndRoom)
+                        {
+                            flag = true;
+                        }
+
+                        if (flag)
+                        {
+                            scp079PlayerScript.RpcGainExp(ExpGainType.PocketAssist, player.ClassManager.CurClass);
+                        }
+                    }
                 }
 
                 var canEnter = true;
                 Events.InvokePocketDimensionEnterEvent(player, ref canEnter);
                 if (!canEnter) return false;
-                
-                //TODO: Implement Damage Event
-                
+
                 __instance.hub.playerStats.HurtPlayer(
                     new PlayerStats.HitInfo(40f,
                         $"{__instance.GetComponent<NicknameSync>().MyNick} ({__instance.hub.characterClassManager.UserId})",
