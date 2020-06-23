@@ -2,7 +2,7 @@
 ### **The new SCP: Secret Laboratory mod / plugin loader**
 Synapse is a new found project created by two german Official Community Server-Hosters. We used Harmony to create a Framework which makes us easier to implement new functions, game updates and overall a new experience a player.
 
-##**Features & Configs**
+## **Features & Configs**
 
 Synapse itself has a ton of features some of these include:
  - A complete self written permission system
