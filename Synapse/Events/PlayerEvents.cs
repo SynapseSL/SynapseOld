@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Assets._Scripts.Dissonance;
 using Synapse.Api;
 using Synapse.Events.Classes;
@@ -391,6 +392,25 @@ namespace Synapse.Events
             PickupItemEvent.Invoke(ref ev);
 
             allow = ev.Allow;
+        }
+
+        public delegate void OnSetPlayerClass(ref PlayerSetClassEvent ev);
+
+        public static event OnSetPlayerClass PlayerSetClassEvent;
+
+        internal static void InvokePlayerSetClassEvent(Player player, ref RoleType type, ref List<ItemType> items)
+        {
+            var ev = new PlayerSetClassEvent()
+            {
+                Items = items,
+                Player = player,
+                Role = type
+            };
+            
+            PlayerSetClassEvent?.Invoke(ref ev);
+
+            items = ev.Items;
+            type = ev.Role;
         }
     }
 }
