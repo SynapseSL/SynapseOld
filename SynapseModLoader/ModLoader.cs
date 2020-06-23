@@ -6,6 +6,11 @@ using System.Reflection;
 namespace SynapseModLoader
 {
     // ReSharper disable once UnusedType.Global
+    
+    /// <summary>
+    /// This Class is injected directly into the Assembly-CSharp and calls the MainLoader of Synapse.
+    /// The Injection and Call happens not directly at Boot Time but when the ServerConsole gets constructed.
+    /// </summary>
     public class ModLoader
     {
         private static byte[] ReadFile(string path)
