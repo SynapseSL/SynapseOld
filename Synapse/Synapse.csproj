@@ -116,7 +116,7 @@
     <Compile Include="Events\Classes\PlayerLeaveEvent.cs" />
     <Compile Include="Events\Classes\RemoteCommandEvent.cs" />
     <Compile Include="Events\Classes\Scp049RecallEvent.cs" />
-    <Compile Include="Events\Classes\SpeakEventEvent.cs" />
+    <Compile Include="Events\Classes\PlayerSpeakEvent.cs" />
     <Compile Include="Events\Classes\SyncDataEvent.cs" />
     <Compile Include="Events\MapEvents.cs" />
     <Compile Include="Events\Patches\PlayerCuffPatch.cs" />

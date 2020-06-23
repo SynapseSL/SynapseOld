@@ -30,7 +30,7 @@ namespace Synapse.Events
         }
 
         /// <summary>A Event which is activated when a user press any voice HotKey</summary>
-        public delegate void OnSpeak(ref SpeakEventEvent ev);
+        public delegate void OnSpeak(ref PlayerSpeakEvent ev);
         public static event OnSpeak SpeakEvent;
 
         internal static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio,
@@ -38,7 +38,7 @@ namespace Synapse.Events
         {
             if (SpeakEvent == null) return;
 
-            var ev = new SpeakEventEvent
+            var ev = new PlayerSpeakEvent
             {
                 IntercomTalk = intercom,
                 RadioTalk = radio,

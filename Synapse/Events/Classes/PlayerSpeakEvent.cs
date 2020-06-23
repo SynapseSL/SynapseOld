@@ -6,7 +6,7 @@ using Synapse.Api;
 namespace Synapse.Events.Classes
 {
     [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
-    public class SpeakEventEvent : EventArgs
+    public class PlayerSpeakEvent : EventArgs
     {
         public Player Player { get; internal set; }
 
