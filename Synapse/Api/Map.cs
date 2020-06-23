@@ -11,6 +11,27 @@ namespace Synapse.Api
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class Map
     {
+        public static AlphaWarheadController WarheadController => Player.Server.GetComponent<AlphaWarheadController>();
+
+        public static bool RoundLock { get => RoundSummary.RoundLock; set => RoundSummary.RoundLock = value; }
+
+        public static bool LobbyLock { get => GameCore.RoundStart.LobbyLock; set => GameCore.RoundStart.LobbyLock = value; }
+
+        public static bool FriendlyFire
+        {
+            get => ServerConsole.FriendlyFire;
+            set
+            {
+                ServerConsole.FriendlyFire = value;
+                foreach (var player in PlayerExtensions.GetAllPlayers())
+                    player.FriendlyFire = value;
+            }
+        }
+
+        public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
+
+        private static Broadcast BroadcastComponent => Player.Server.GetComponent<Broadcast>();
+
         // Variables
         private static List<Room> _rooms = new List<Room>();
 
@@ -30,11 +51,13 @@ namespace Synapse.Api
 
         /// <summary>Gets The Status of is the NukeDetonated</summary>
         public static bool IsNukeDetonated =>
-            PlayerManager.localPlayer.GetComponent<AlphaWarheadController>().detonated;
+            WarheadController.detonated;
 
         /// <summary>Gets The Status of is the NukeInProgress</summary>
         public static bool IsNukeInProgress =>
-            PlayerManager.localPlayer.GetComponent<AlphaWarheadController>().inProgress;
+            WarheadController.inProgress;
+
+        public static int ActivatedGenerators => Generator079.mainGenerator.totalVoltage;
 
         // Methods
         /// <summary>Gives you the Position of the Door</summary>
@@ -141,18 +164,10 @@ namespace Synapse.Api
         }
 
         /// <summary>Stops the AlphaWarhead</summary>
-        public static void StopNuke()
-        {
-            var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
-            alpha.CancelDetonation();
-        }
+        public static void StopNuke() => WarheadController.CancelDetonation();
 
         /// <summary>Detonate the AlphaWarhead instantly</summary>
-        public static void DetonateNuke()
-        {
-            var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
-            alpha.Detonate();
-        }
+        public static void DetonateNuke() => WarheadController.Detonate();
 
         /// <param name="group">Name of the group you want to check</param>
         /// <param name="permission">Permission you want to check</param>
@@ -168,5 +183,11 @@ namespace Synapse.Api
                 return false;
             }
         }
+
+        public static void Broadcast(string message, ushort duration) => BroadcastComponent.RpcAddElement(message, duration, new global::Broadcast.BroadcastFlags());
+
+        public static void ClearBroadcasts() => BroadcastComponent.RpcClearElements();
+
+        public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.generators[0].RpcCustomOverchargeForOurBeautifulModCreators(duration, onlyHeavy);
     }
 }
