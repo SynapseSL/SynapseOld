@@ -13,7 +13,12 @@ namespace Synapse
 
         public delegate void OnConfigReload();
         public event OnConfigReload ConfigReloadEvent;
-        internal void InvokeConfigReloadEvent() => ConfigReloadEvent.Invoke();
+        internal void InvokeConfigReloadEvent()
+        {
+            if (ConfigReloadEvent == null) return;
+
+            ConfigReloadEvent.Invoke();
+        }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }

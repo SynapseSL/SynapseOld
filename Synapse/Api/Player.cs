@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using CustomPlayerEffects;
 using Hints;
 using Mirror;
 using RemoteAdmin;
@@ -238,7 +237,7 @@ namespace Synapse.Api
 
         public bool CheckPermission(string permission)
         {
-            if (Hub == PlayerManager.localPlayer) return true;
+            if (this == Server) return true;
             try
             {
                 return PermissionReader.CheckPermission(this, permission);

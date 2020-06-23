@@ -57,7 +57,7 @@ namespace Synapse.Events
             switch (args[0].ToUpper())
             {
                 case "RELOADPERMISSION":
-                {
+                    ev.Allow = false;
                     if (!ev.Player.CheckPermission("sy.reload.permission"))
                     {
                         ev.Sender.RaMessage("You have no Permission for Reload Permissions", false,
@@ -68,9 +68,9 @@ namespace Synapse.Events
                     PermissionReader.ReloadPermission();
                     ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.ServerConfigs);
                     return;
-                }
 
                 case "RELOADCONFIGS":
+                    ev.Allow = false;
                     if (!ev.Player.CheckPermission("sy.reload.configs"))
                     {
                         ev.Sender.RaMessage("You have no Permission for Reload Configs", false,
