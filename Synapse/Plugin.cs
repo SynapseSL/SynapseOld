@@ -11,9 +11,9 @@ namespace Synapse
         // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
 
-        internal delegate void OnConfigReload();
-        private event OnConfigReload ConfigReloadEvent;
-        internal void InvokeReload() => ConfigReloadEvent?.Invoke();
+        public delegate void OnConfigReload();
+        public event OnConfigReload ConfigReloadEvent;
+        internal void InvokeConfigReloadEvent() => ConfigReloadEvent.Invoke();
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }
