@@ -376,5 +376,23 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+        public delegate void OnPickupItem(ref PickupItemEvent ev);
+        public static event OnPickupItem PickupItemEvent;
+        internal static void InvokePickupItemEvent(Player player, Pickup pickup, ref bool allow)
+        {
+            if (PickupItemEvent == null) return;
+
+            var ev = new PickupItemEvent
+            {
+                Allow = allow,
+                Pickup = pickup,
+                Player = player
+            };
+
+            PickupItemEvent.Invoke(ref ev);
+
+            allow = ev.Allow;
+        }
     }
 }
