@@ -11,8 +11,6 @@ namespace Synapse.Events.Classes
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public bool Allowed { get; set; } = true;
 
-        public string UserId { get; internal set; }
-
         public int Duration { get; internal set; }
 
         public Player Issuer { get; internal set; }
