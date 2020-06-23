@@ -76,6 +76,8 @@ namespace Synapse.Api
 
         public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
 
+        public static Player GetPlayer(this PlayableScps.PlayableScp scp) => scp.Hub.GetPlayer();
+
         public static Player GetPlayer(this GameObject gameObject) => gameObject.GetComponent<Player>();
 
         public static Player GetPlayer(int id) => GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
