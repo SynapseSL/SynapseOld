@@ -268,7 +268,7 @@ namespace Synapse.Api
             GetComponent<Broadcast>().TargetAddElement(Connection, message, time, new Broadcast.BroadcastFlags());
         }
 
-        public void SendConsoleMessage(string message, string color) => ClassManager.TargetConsolePrint(Connection, message, color);
+        public void SendConsoleMessage(string message, string color = "red") => ClassManager.TargetConsolePrint(Connection, message, color);
 
         public void HideTag() => ClassManager.CallCmdRequestHideTag();
 
