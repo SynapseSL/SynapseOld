@@ -220,6 +220,8 @@ namespace Synapse.Api
 
         public bool IsDead => Team == Team.RIP;
 
+        public Jail Jail => GetComponent<Jail>();
+
 
         //Methods
         public void Kick(string message) => ServerConsole.Disconnect(gameObject, message);

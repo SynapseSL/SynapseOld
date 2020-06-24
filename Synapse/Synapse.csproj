@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\Enums\Effects.cs" />
+    <Compile Include="Api\Jail.cs" />
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\Enums\ZoneType.cs" />
     <Compile Include="Api\Room.cs" />

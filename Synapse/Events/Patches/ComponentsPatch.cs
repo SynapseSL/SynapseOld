@@ -9,8 +9,9 @@ namespace Synapse.Events.Patches
     {
         public static void Prefix(ReferenceHub __instance)
         {
-            if (__instance.GetComponent<Player>() == null)
-                __instance.gameObject.AddComponent<Player>();
+            if (__instance.GetComponent<Player>() == null) __instance.gameObject.AddComponent<Player>();
+
+            if (__instance.GetComponent<Jail>() == null) __instance.gameObject.AddComponent<Jail>();
 
             try
             {
