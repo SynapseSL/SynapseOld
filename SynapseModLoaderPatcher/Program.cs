@@ -15,6 +15,11 @@ namespace SynapseModLoaderPatcher
     // ReSharper disable once ClassNeverInstantiated.Global
     internal class Program
     {
+        /// <summary>
+        /// This Program is used to compile the Assembly-CSharp.
+        ///
+        /// For Instruction on how to use this Program please check the readme of this Project.
+        /// </summary>
         public static void Main(string[] args)
         {
             if (args.Length != 1)
