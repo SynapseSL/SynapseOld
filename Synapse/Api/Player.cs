@@ -106,7 +106,7 @@ namespace Synapse.Api
 
         public RoleType Role
         {
-            get => Hub.characterClassManager.CurClass;
+            get => Hub.characterClassManager.NetworkCurClass;
             set => Hub.characterClassManager.SetPlayersClass(value,gameObject);
         }
 
