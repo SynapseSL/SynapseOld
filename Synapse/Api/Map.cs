@@ -163,6 +163,12 @@ namespace Synapse.Api
             alpha.StartDetonation();
         }
 
+        /// <summary>
+        /// Spawns a Item on the Map
+        /// </summary>
+        public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
+            => Player.Server.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
+
         /// <summary>Stops the AlphaWarhead</summary>
         public static void StopNuke() => WarheadController.CancelDetonation();
 
