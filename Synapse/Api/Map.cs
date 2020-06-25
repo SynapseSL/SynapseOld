@@ -157,6 +157,14 @@ namespace Synapse.Api
         }
 
         /// <summary>
+        /// Sends a Cassie Message
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <param name="makeHold"></param>
+        /// <param name="makeNoise"></param>
+        public static void CassieMessage(string msg, bool makeHold, bool makeNoise) => Player.Server.GetComponent<MTFRespawn>().RpcPlayCustomAnnouncement(msg, makeHold, makeNoise);
+
+        /// <summary>
         /// Starts the Decontamination
         /// </summary>
         public static void StartDecontamination() => DecontaminationController.Singleton.FinishDecontamination();
