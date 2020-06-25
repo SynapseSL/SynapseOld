@@ -1,4 +1,5 @@
-﻿using Synapse.Permissions;
+﻿using LightContainmentZoneDecontamination;
+using Synapse.Permissions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -154,6 +155,12 @@ namespace Synapse.Api
         {
             return Object.FindObjectOfType<SpawnpointManager>().GetRandomPosition(type).transform.position;
         }
+
+        /// <summary>
+        /// Starts the Decontamination
+        /// </summary>
+        public static void StartDecontamination() => DecontaminationController.Singleton.FinishDecontamination();
+
 
         /// <summary>Starts the AlphaWarhead</summary>
         public static void StartNuke()
