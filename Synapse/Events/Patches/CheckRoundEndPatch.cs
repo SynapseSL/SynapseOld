@@ -40,7 +40,7 @@ namespace Synapse.Events.Patches
             while (roundSummary != null)
             {
                 while (RoundSummary.RoundLock || !RoundSummary.RoundInProgress() ||
-                       roundSummary.keepRoundOnOne && PlayerManager.players.Count < 2) yield return 0.0f;
+                       roundSummary._keepRoundOnOne && PlayerManager.players.Count < 2) yield return 0.0f;
                 
                 var newList = new RoundSummary.SumInfo_ClassList();
 
@@ -106,18 +106,18 @@ namespace Synapse.Events.Patches
                     continue;
                 }
 
-                if (forceEnd) roundSummary.roundEnded = true;
+                if (forceEnd) roundSummary._roundEnded = true;
                 
                 if(!allow) continue;
 
                 if (newList.class_ds == 0 && mtfSum == 0)
                 {
-                    roundSummary.roundEnded = true;
+                    roundSummary._roundEnded = true;
                 }
                 
                 else if (mtfSum == 0 && PlayerManager.localPlayer.GetComponent<MTFRespawn>().MtfRespawnTickets == 0)
                 {
-                    roundSummary.roundEnded = true;
+                    roundSummary._roundEnded = true;
                 }
 
                 else
@@ -129,11 +129,11 @@ namespace Synapse.Events.Patches
                     if (chaosSum > 0) checkVar++;
                     if (scpSum > 0) checkVar++;
 
-                    if (checkVar <= 1) roundSummary.roundEnded = true;
+                    if (checkVar <= 1) roundSummary._roundEnded = true;
                 }
                 
                 
-                if (!roundSummary.roundEnded) continue;
+                if (!roundSummary._roundEnded) continue;
                 var leadingTeam = RoundSummary.LeadingTeam.Draw;
 
                 if (mtfSum > 0)

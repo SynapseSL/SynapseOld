@@ -18,6 +18,7 @@ namespace Synapse.Api
 
         public static bool LobbyLock { get => GameCore.RoundStart.LobbyLock; set => GameCore.RoundStart.LobbyLock = value; }
 
+        /* TODO: Fix this FriendlyFire
         public static bool FriendlyFire
         {
             get => ServerConsole.FriendlyFire;
@@ -28,6 +29,7 @@ namespace Synapse.Api
                     player.FriendlyFire = value;
             }
         }
+        */
 
         public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
 
@@ -209,6 +211,6 @@ namespace Synapse.Api
 
         public static void ClearBroadcasts() => BroadcastComponent.RpcClearElements();
 
-        public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.generators[0].RpcCustomOverchargeForOurBeautifulModCreators(duration, onlyHeavy);
+        public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.Generators[0].RpcCustomOverchargeForOurBeautifulModCreators(duration, onlyHeavy);
     }
 }

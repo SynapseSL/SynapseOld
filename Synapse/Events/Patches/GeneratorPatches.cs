@@ -24,7 +24,7 @@ namespace Synapse.Events.Patches
 
 				if (command.StartsWith("EPS_TABLET"))
 				{
-					if (__instance.isTabletConnected || !__instance.isDoorOpen || __instance.localTime <= 0f || Generator079.mainGenerator.forcedOvercharge) return false;
+					if (__instance.isTabletConnected || !__instance.isDoorOpen || __instance._localTime <= 0f || Generator079.mainGenerator.forcedOvercharge) return false;
 
 					var component = person.GetComponent<Inventory>();
 					var enumerator = component.items.GetEnumerator();
@@ -66,7 +66,7 @@ namespace Synapse.Events.Patches
 			var player = person.GetPlayer();
 
 			var component = person.GetComponent<Inventory>();
-			if (component == null || __instance.doorAnimationCooldown > 0f || __instance.deniedCooldown > 0f) return false;
+			if (component == null || __instance._doorAnimationCooldown > 0f || __instance._deniedCooldown > 0f) return false;
 
 			//Check if the Generator can be open or must be unlocked
 			if (__instance.isDoorUnlocked)
@@ -87,7 +87,7 @@ namespace Synapse.Events.Patches
 					return false;
                 }
 
-				__instance.doorAnimationCooldown = 1.5f;
+				__instance._doorAnimationCooldown = 1.5f;
 				__instance.NetworkisDoorOpen = !__instance.isDoorOpen;
 				__instance.RpcDoSound(__instance.isDoorOpen);
 				return false;
@@ -111,7 +111,7 @@ namespace Synapse.Events.Patches
 			if (flag)
 			{
 				__instance.NetworkisDoorUnlocked = true;
-				__instance.doorAnimationCooldown = 0.5f;
+				__instance._doorAnimationCooldown = 0.5f;
 				return false;
 			}
 			__instance.RpcDenied();

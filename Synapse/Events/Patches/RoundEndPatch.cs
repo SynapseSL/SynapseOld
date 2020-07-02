@@ -10,7 +10,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                if (__instance.roundEnded)
+                if (__instance._roundEnded)
                     Events.InvokeRoundEndEvent();
             }
             catch (Exception e)

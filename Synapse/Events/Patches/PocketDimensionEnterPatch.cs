@@ -27,7 +27,7 @@ namespace Synapse.Events.Patches
                     Vector3.Distance(__instance.hub.playerMovementSync.RealModelPosition, ply.transform.position) >=
                     3f || !charClassManager.IsHuman()) return false;
 
-                if (Scp106PlayerScript.blastDoor.isClosed)
+                if (Scp106PlayerScript._blastDoor.isClosed)
                 {
                     __instance.hub.characterClassManager.RpcPlaceBlood(ply.transform.position, 1, 2f);
                     __instance.hub.playerStats.HurtPlayer(
