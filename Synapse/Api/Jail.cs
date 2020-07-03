@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MEC;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -57,7 +58,7 @@ namespace Synapse.Api
 
             var player = this.GetPlayer();
             player.Role = Role;
-            player.Position = Position;
+            Timing.CallDelayed(2f, () => player.Position = Position);
             player.Health = Health;
 
             foreach (var item in Items)
