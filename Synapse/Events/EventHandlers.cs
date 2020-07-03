@@ -27,9 +27,16 @@ namespace Synapse.Events
             Events.RoundEndEvent += OnRoundEnd;
             Events.RoundRestartEvent += OnRoundRestart;
             Events.DoorInteractEvent += OnDoorInteract;
+            Events.PlayerJoinEvent += OnPlayerJoin;
         }
 
         // Methods
+        private void OnPlayerJoin(ref PlayerJoinEvent ev)
+        {
+            ev.Player.Broadcast(5,Configs.JoinBroadcast);
+            ev.Player.GiveTextHint(Configs.JoinTextHint);
+        }
+
         private static void OnDoorInteract(ref DoorInteractEvent ev)
         {
             if (!Configs.RemoteKeyCard) return;

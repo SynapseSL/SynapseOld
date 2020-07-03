@@ -23,7 +23,6 @@ namespace Synapse.Api
         
         public float Health { get; set; }
 
-
         public void Awake()
         {
             IsJailed = false;

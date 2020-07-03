@@ -10,6 +10,8 @@ namespace Synapse
         // Configs
         internal static int RequiredForFemur;
         internal static bool RemoteKeyCard;
+        internal static string JoinBroadcast;
+        internal static string JoinTextHint;
 
         // Methods
         internal static void ReloadConfig()
@@ -18,6 +20,8 @@ namespace Synapse
 
             RequiredForFemur = _config.GetInt("synapse_femur",1);
             RemoteKeyCard = _config.GetBool("synapse_remote_keycard", false);
+            JoinBroadcast = _config.GetString("synapse_join_broadcast", "");
+            JoinTextHint = _config.GetString("synapse_join_texthint", "");
         }
     }
 }
