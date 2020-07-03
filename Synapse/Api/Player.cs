@@ -107,7 +107,7 @@ namespace Synapse.Api
         public RoleType Role
         {
             get => Hub.characterClassManager.CurClass;
-            set => Hub.characterClassManager.SetClassIDAdv(value, false);
+            set => Hub.characterClassManager.SetPlayersClass(value,gameObject);
         }
 
         public Team Team { get => ClassManager.CurRole.team; set => Hub.characterClassManager.CurRole.team = value; }
