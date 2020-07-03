@@ -58,7 +58,7 @@ namespace Synapse.Api
 
             var player = this.GetPlayer();
             player.Role = Role;
-            Timing.CallDelayed(2f, () => player.Position = Position);
+            Timing.CallDelayed(0.2f, () => player.Position = Position);
             player.Health = Health;
 
             foreach (var item in Items)
