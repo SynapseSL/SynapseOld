@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Synapse.Events
 {
     // ReSharper disable once UnusedType.Global
-    internal class EventHandler
+    internal class EventHandlers
     {
         // Variables
         private bool _roundInProgress;
@@ -19,7 +19,7 @@ namespace Synapse.Events
         private int _roundTime;
 
         // Constructor
-        public EventHandler()
+        public EventHandlers()
         {
             Events.SyncDataEvent += OnSyncData;
             Events.RemoteCommandEvent += OnRemoteCommand;

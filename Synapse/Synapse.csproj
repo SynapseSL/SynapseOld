@@ -95,7 +95,7 @@
     <Compile Include="Events\Classes\Scp106ContainmentEvent.cs" />
     <Compile Include="Events\Classes\TeamRespawnEvent.cs" />
     <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
-    <Compile Include="Events\EventHandler.cs" />
+    <Compile Include="Events\EventHandlers.cs" />
     <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
     <Compile Include="Events\Patches\CheckRoundEndPatch.cs" />
     <Compile Include="Events\Patches\WaitingForPlayersPatch.cs" />

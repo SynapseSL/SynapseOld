@@ -18,18 +18,7 @@ namespace Synapse.Api
 
         public static bool LobbyLock { get => GameCore.RoundStart.LobbyLock; set => GameCore.RoundStart.LobbyLock = value; }
 
-        /* TODO: Fix this FriendlyFire
-        public static bool FriendlyFire
-        {
-            get => ServerConsole.FriendlyFire;
-            set
-            {
-                ServerConsole.FriendlyFire = value;
-                foreach (var player in PlayerExtensions.GetAllPlayers())
-                    player.FriendlyFire = value;
-            }
-        }
-        */
+        public static bool FriendlyFire { get => ServerConsole.FriendlyFire; set => ServerConsole.FriendlyFire = value; }
 
         public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
 

@@ -26,7 +26,7 @@ namespace Synapse
         private static string ServerConfigFile { get; set; }
 
         // ReSharper disable once NotAccessedField.Local
-        private static Events.EventHandler _eventHandler;
+        private static Events.EventHandlers _eventHandler;
 
         // Methods
         internal static IEnumerator<float> StartSynapse()
@@ -81,7 +81,7 @@ namespace Synapse
         {
             Configs.ReloadConfig();
             HarmonyPatch();
-            _eventHandler = new Events.EventHandler();
+            _eventHandler = new Events.EventHandlers();
             
             ServerConsole.ReloadServerName();
 

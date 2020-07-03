@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -18,7 +19,7 @@ namespace Synapse.Api
         
         public Vector3 Position { get; set; }
         
-        public Inventory.SyncListItemInfo Items { get; set; }
+        public List<Inventory.SyncItemInfo> Items { get; set; }
         
         public float Health { get; set; }
 
@@ -39,7 +40,12 @@ namespace Synapse.Api
             Admin = admin;
             Role = player.Role;
             Position = player.Position;
-            if (Items != null) Items = player.Items;
+
+            Items.Clear();
+            foreach (var item in player.Items)
+                Items.Add(item);
+            player.ClearInventory();
+
             Health = player.Health;
 
             player.Role = RoleType.Tutorial;
@@ -55,7 +61,9 @@ namespace Synapse.Api
             player.Role = Role;
             player.Position = Position;
             player.Health = Health;
-            player.Items = Items;
+
+            foreach (var item in Items)
+                player.Inventory.items.Add(item);
 
             IsJailed = false;
         }
