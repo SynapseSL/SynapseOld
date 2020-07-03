@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -41,10 +40,9 @@ namespace Synapse.Api
             Role = player.Role;
             Position = player.Position;
 
-            Items.Clear();
+            Items = new List<Inventory.SyncItemInfo>();
             foreach (var item in player.Items)
                 Items.Add(item);
-            player.ClearInventory();
 
             Health = player.Health;
 
