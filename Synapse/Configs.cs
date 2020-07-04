@@ -4,9 +4,6 @@ namespace Synapse
 {
     internal static class Configs
     {
-        // Variables
-        private static YamlConfig _config;
-
         // Configs
         internal static int RequiredForFemur;
         internal static bool RemoteKeyCard;
@@ -17,13 +14,11 @@ namespace Synapse
         // Methods
         internal static void ReloadConfig()
         {
-            if (_config == null) _config = new YamlConfig(Path.Combine(PluginManager.ServerConfigDirectory, "server-config.yml"));
-
-            RequiredForFemur = _config.GetInt("synapse_femur",1);
-            RemoteKeyCard = _config.GetBool("synapse_remote_keycard", false);
-            JoinBroadcast = _config.GetString("synapse_join_broadcast", "");
-            JoinTextHint = _config.GetString("synapse_join_texthint", "");
-            JoinMessageDuration = _config.GetUShort("synapse_join_duration",5);
+            RequiredForFemur = Plugin.Config.GetInt("synapse_femur",1);
+            RemoteKeyCard = Plugin.Config.GetBool("synapse_remote_keycard", false);
+            JoinBroadcast = Plugin.Config.GetString("synapse_join_broadcast", "");
+            JoinTextHint = Plugin.Config.GetString("synapse_join_texthint", "");
+            JoinMessageDuration = Plugin.Config.GetUShort("synapse_join_duration",5);
         }
     }
 }
