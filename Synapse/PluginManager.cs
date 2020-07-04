@@ -166,6 +166,7 @@ namespace Synapse
 
         internal static void OnConfigReload()
         {
+            Plugin.Config = new YamlConfig(ServerConfigFile);
             Configs.ReloadConfig();
 
             foreach (var plugin in Plugins)

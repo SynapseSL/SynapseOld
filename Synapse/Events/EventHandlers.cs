@@ -33,8 +33,8 @@ namespace Synapse.Events
         // Methods
         private void OnPlayerJoin(ref PlayerJoinEvent ev)
         {
-            ev.Player.Broadcast(5,Configs.JoinBroadcast);
-            ev.Player.GiveTextHint(Configs.JoinTextHint);
+            ev.Player.Broadcast(Configs.JoinMessageDuration,Configs.JoinBroadcast);
+            ev.Player.GiveTextHint(Configs.JoinTextHint, Configs.JoinMessageDuration);
         }
 
         private static void OnDoorInteract(ref DoorInteractEvent ev)

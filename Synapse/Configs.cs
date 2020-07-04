@@ -12,6 +12,7 @@ namespace Synapse
         internal static bool RemoteKeyCard;
         internal static string JoinBroadcast;
         internal static string JoinTextHint;
+        internal static ushort JoinMessageDuration;
 
         // Methods
         internal static void ReloadConfig()
@@ -22,6 +23,7 @@ namespace Synapse
             RemoteKeyCard = _config.GetBool("synapse_remote_keycard", false);
             JoinBroadcast = _config.GetString("synapse_join_broadcast", "");
             JoinTextHint = _config.GetString("synapse_join_texthint", "");
+            JoinMessageDuration = _config.GetUShort("synapse_join_duration",5);
         }
     }
 }
