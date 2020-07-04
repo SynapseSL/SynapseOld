@@ -54,6 +54,18 @@ namespace Synapse.Api
         public HintDisplay HintDisplay => Hub.hints;
 
         /// <summary>
+        /// The CommandSender objects og the Player
+        /// </summary>
+        public CommandSender CommandSender
+        {
+            get
+            {
+                if (this == Server) return ServerConsole._scs;
+                else return QueryProcessor._sender;
+            }
+        }
+
+        /// <summary>
         /// The name of the player
         /// </summary>
         public string NickName { get => NicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
@@ -429,6 +441,14 @@ namespace Synapse.Api
         /// <param name="message"></param>
         /// <param name="color"></param>
         public void SendConsoleMessage(string message, string color = "red") => ClassManager.TargetConsolePrint(Connection, message, color);
+
+        /// <summary>
+        /// Send a message in the Text based Remote Admin of the Player
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="success"></param>
+        /// <param name="type"></param>
+        public void SendRAConsoleMessage(string message, bool success = true, RaCategory type = RaCategory.None) => CommandSender.RaMessage(message, success, type);
 
         /// <summary>
         /// Hides for normal player the RankName the player has
