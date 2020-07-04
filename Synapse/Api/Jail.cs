@@ -7,11 +7,8 @@ namespace Synapse.Api
     {
         public bool IsJailed { get; private set; }
         
-        public Player Player
-        {
-            get => this.GetPlayer();
-        }
-        
+        public Player Player => this.GetPlayer();
+
         public Player Admin { get; set; }
         
         public RoleType Role { get; set; }
@@ -38,7 +35,8 @@ namespace Synapse.Api
 
             Admin = admin;
             Role = player.Role;
-            Position = player.Position;
+            
+            //TODO: Fix Player Position
 
             Items = new List<Inventory.SyncItemInfo>();
             foreach (var item in player.Items)
@@ -57,8 +55,9 @@ namespace Synapse.Api
 
             var player = this.GetPlayer();
             player.Role = Role;
-            player.Position = Position;
             player.Health = Health;
+            
+            //TODO: Fix Player Position
 
             foreach (var item in Items)
                 player.Inventory.items.Add(item);

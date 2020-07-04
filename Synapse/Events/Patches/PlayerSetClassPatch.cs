@@ -37,51 +37,49 @@ namespace Synapse.Events.Patches
                 inv.AddNewItem(id);
             }
 
-            if (escape && __instance.KeepItemsAfterEscaping)
+            if (!escape || !__instance.KeepItemsAfterEscaping) return false;
+            foreach (var syncItemInfo in list)
             {
-                foreach (var syncItemInfo in list)
+                if (__instance.PutItemsInInvAfterEscaping)
                 {
-                    if (__instance.PutItemsInInvAfterEscaping)
+                    var itemById = inv.GetItemByID(syncItemInfo.id);
+                    var flag = false;
+                    var categories = __instance._search.categories;
+                    var i = 0;
+
+                    while (i < categories.Length)
                     {
-                        var itemById = inv.GetItemByID(syncItemInfo.id);
-                        var flag = false;
-                        var categories = __instance._search.categories;
-                        var i = 0;
-
-                        while (i < categories.Length)
+                        var invCat = categories[i];
+                        if (invCat.itemType == itemById.itemCategory && itemById.itemCategory != ItemCategory.None)
                         {
-                            var invCat = categories[i];
-                            if (invCat.itemType == itemById.itemCategory && itemById.itemCategory != ItemCategory.None)
+                            var num = inv.items.Count(syncItemInfo2 => inv.GetItemByID(syncItemInfo2.id).itemCategory == itemById.itemCategory);
+
+                            if (num >= invCat.maxItems)
                             {
-                                var num = inv.items.Count(syncItemInfo2 => inv.GetItemByID(syncItemInfo2.id).itemCategory == itemById.itemCategory);
-
-                                if (num >= invCat.maxItems)
-                                {
-                                    flag = true;
-                                }
-
-                                break;
+                                flag = true;
                             }
-                            i++;
-                        }
 
-                        if (inv.items.Count >= 8 || flag)
-                        {
-                            inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
-                                Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
-                                syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
+                            break;
                         }
-                        else
-                        {
-                            inv.AddNewItem(syncItemInfo.id, syncItemInfo.durability, syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
-                        }
+                        i++;
                     }
-                    else
+
+                    if (inv.items.Count >= 8 || flag)
                     {
                         inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
                             Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
                             syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
                     }
+                    else
+                    {
+                        inv.AddNewItem(syncItemInfo.id, syncItemInfo.durability, syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
+                    }
+                }
+                else
+                {
+                    inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
+                        Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
+                        syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
                 }
             }
 
