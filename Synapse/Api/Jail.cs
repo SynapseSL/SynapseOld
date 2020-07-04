@@ -6,6 +6,9 @@ namespace Synapse.Api
 {
     public class Jail : MonoBehaviour
     {
+        /// <summary>
+        /// Is the Player currently in Jail?
+        /// </summary>
         public bool IsJailed { get; private set; }
         
         /// <summary>
