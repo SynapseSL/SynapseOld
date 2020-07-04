@@ -12,22 +12,38 @@ namespace Synapse.Api
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class Map
     {
+        /// <summary>
+        /// Gives you the WarheadController.
+        /// </summary>
         public static AlphaWarheadController WarheadController => Player.Server.GetComponent<AlphaWarheadController>();
 
+        /// <summary>
+        /// Activates/Deactivates the RoundLock (if the Round can end)
+        /// </summary>
         public static bool RoundLock { get => RoundSummary.RoundLock; set => RoundSummary.RoundLock = value; }
 
+        /// <summary>
+        /// Activates/Deactivates the LobbyLock (if the Lobby can continue counting down)
+        /// </summary>
         public static bool LobbyLock { get => GameCore.RoundStart.LobbyLock; set => GameCore.RoundStart.LobbyLock = value; }
 
+        /// <summary>
+        /// Activates/Deactivates the FriendlyFire on the server
+        /// </summary>
         public static bool FriendlyFire { get => ServerConsole.FriendlyFire; set => ServerConsole.FriendlyFire = value; }
 
+        /// <summary>
+        /// Gives you a list of all lifts
+        /// </summary>
         public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
 
         private static Broadcast BroadcastComponent => Player.Server.GetComponent<Broadcast>();
 
-        // Variables
         private static List<Room> _rooms = new List<Room>();
 
-        /// <summary>Gives You a List with all Rooms on the Server</summary>
+        /// <summary>
+        /// Gives you a list of all rooms
+        /// </summary>
         public static List<Room> Rooms
         {
             get
@@ -41,18 +57,25 @@ namespace Synapse.Api
             }
         }
 
-        /// <summary>Gets The Status of is the NukeDetonated</summary>
+        /// <summary>
+        /// Is the nuke detonated?
+        /// </summary>
         public static bool IsNukeDetonated =>
             WarheadController.detonated;
 
-        /// <summary>Gets The Status of is the NukeInProgress</summary>
+        /// <summary>
+        /// Is the nuke in progress?
+        /// </summary>
         public static bool IsNukeInProgress =>
             WarheadController.inProgress;
 
+        /// <summary>
+        /// How many generators are activated?
+        /// </summary>
         public static int ActivatedGenerators => Generator079.mainGenerator.totalVoltage;
 
         // Methods
-        /// <summary>Gives you the Position of the Door</summary>
+        /// <summary>Gives the position of the door with that name</summary>
         /// <param name="doorName">Name of the Door you want</param>
         /// <returns></returns>
         public static Vector3 GetDoorPos(string doorName)
@@ -117,7 +140,9 @@ namespace Synapse.Api
             return vector;
         }
 
-        /// <summary>Gives you the Position of the cubes you can see when you write "showrids" in the console!</summary>
+        /// <summary>
+        /// Gives you the position of the cubes you can see when you write "showrids" in the console
+        /// </summary>
         /// <param name="ridname"></param>
         /// <returns></returns>
         public static Vector3 GetRidPos(string ridname)
@@ -130,8 +155,10 @@ namespace Synapse.Api
             return position;
         }
 
+        /// <summary>
+        /// Gives the position of the room with that name
+        /// </summary>
         /// <param name="name">The name of the Room you want</param>
-        /// <returns>Gives you the Position of the Room</returns>
         public static Vector3 GetRoomPos(string name)
         {
             return Rooms?.FirstOrDefault(room =>
@@ -139,7 +166,9 @@ namespace Synapse.Api
                    new Vector3(0f, 0f, 0f);
         }
 
-        /// <summary>Gives you the Spawn Position of a Role</summary>
+        /// <summary>
+        /// Gives you a random spawnpoint of the Role
+        /// </summary>
         /// <param name="type">The Role you want to get s spawn position</param>
         /// <returns></returns>
         public static Vector3 GetRandomSpawnPoint(this RoleType type)
@@ -156,12 +185,14 @@ namespace Synapse.Api
         public static void CassieMessage(string msg, bool makeHold, bool makeNoise) => Player.Server.GetComponent<MTFRespawn>().RpcPlayCustomAnnouncement(msg, makeHold, makeNoise);
 
         /// <summary>
-        /// Starts the Decontamination
+        ///  Starts the Decontamination
         /// </summary>
         public static void StartDecontamination() => DecontaminationController.Singleton.FinishDecontamination();
 
 
-        /// <summary>Starts the AlphaWarhead</summary>
+        /// <summary>
+        /// Starts the nuke
+        /// </summary>
         public static void StartNuke()
         {
             var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
@@ -175,15 +206,21 @@ namespace Synapse.Api
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Server.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
 
-        /// <summary>Stops the AlphaWarhead</summary>
+        /// <summary>
+        /// Stops the nuke
+        /// </summary>
         public static void StopNuke() => WarheadController.CancelDetonation();
 
-        /// <summary>Detonate the AlphaWarhead instantly</summary>
+        /// <summary>
+        /// Detonates the nuke
+        /// </summary>
         public static void DetonateNuke() => WarheadController.Detonate();
 
+        /// <summary>
+        /// Has the group the permission?
+        /// </summary>
         /// <param name="group">Name of the group you want to check</param>
         /// <param name="permission">Permission you want to check</param>
-        /// <returns>Have the Group the permissions?</returns>
         public static bool IsGroupAllowed(string group, string permission)
         {
             try
@@ -196,10 +233,23 @@ namespace Synapse.Api
             }
         }
 
+        /// <summary>
+        /// Gives all players a broadcast
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="duration"></param>
         public static void Broadcast(string message, ushort duration) => BroadcastComponent.RpcAddElement(message, duration, new Broadcast.BroadcastFlags());
 
+        /// <summary>
+        /// Clear all broadcasts from all players
+        /// </summary>
         public static void ClearBroadcasts() => BroadcastComponent.RpcClearElements();
 
+        /// <summary>
+        /// Deactivates the lights
+        /// </summary>
+        /// <param name="duration"></param>
+        /// <param name="onlyHeavy"></param>
         public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.Generators[0].RpcCustomOverchargeForOurBeautifulModCreators(duration, onlyHeavy);
     }
 }

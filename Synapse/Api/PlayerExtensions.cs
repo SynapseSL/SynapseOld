@@ -25,7 +25,7 @@ namespace Synapse.Api
             }
         }
 
-        /// <summary>Gives a User a Message im Remote Admin</summary>
+        /// <summary>Gives a player a message in the RemoteAdmin</summary>
         /// <param name="sender">The User who you send the Message</param>
         /// <param name="message">The Message you want to send</param>
         /// <param name="success">True = green the command is right you have permission and execute it successfully</param>
@@ -64,6 +64,9 @@ namespace Synapse.Api
             sender.RaReply($"{Assembly.GetCallingAssembly().GetName().Name}#" + message, success, true, category);
         }
 
+        /// <summary>
+        /// Gives all players on the server
+        /// </summary>
         public static IEnumerable<Player> GetAllPlayers()
         {
             return (from gameObject in PlayerManager.players
@@ -71,16 +74,35 @@ namespace Synapse.Api
                     select gameObject.GetPlayer()).ToList();
         }
 
+        /// <summary>
+        /// Gives all players on the server with this Role
+        /// </summary>
+        /// <param name="role"></param>
         public static IEnumerable<Player> GetAllPlayers(this RoleType role) => GetAllPlayers().Where(x => x.Role == role);
 
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
         public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
 
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
         public static Player GetPlayer(this PlayableScps.PlayableScp scp) => scp.Hub.GetPlayer();
 
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
         public static Player GetPlayer(this GameObject gameObject) => gameObject.GetComponent<Player>();
 
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
         public static Player GetPlayer(int id) => GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
 
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
         public static Player GetPlayer(string arg)
         {
             if (short.TryParse(arg, out var playerId))
