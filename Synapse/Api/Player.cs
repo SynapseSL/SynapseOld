@@ -54,7 +54,7 @@ namespace Synapse.Api
         public HintDisplay HintDisplay => Hub.hints;
 
         /// <summary>
-        /// The CommandSender objects og the Player
+        /// The CommandSender objects of the Player
         /// </summary>
         public CommandSender CommandSender
         {
@@ -443,7 +443,7 @@ namespace Synapse.Api
         public void SendConsoleMessage(string message, string color = "red") => ClassManager.TargetConsolePrint(Connection, message, color);
 
         /// <summary>
-        /// Send a message in the Text based Remote Admin of the Player
+        /// Sends a message in the Text based Remote Admin of the Player
         /// </summary>
         /// <param name="message"></param>
         /// <param name="success"></param>
