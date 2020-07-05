@@ -1,54 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props"
-            Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')"/>
-    <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <ProjectGuid>{93AB5927-1313-45A0-A27E-6AA8CA7C7BE1}</ProjectGuid>
-        <OutputType>Library</OutputType>
-        <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Synapse</RootNamespace>
-        <AssemblyName>Synapse</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-        <FileAlignment>512</FileAlignment>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <OutputPath>bin\Debug\</OutputPath>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <OutputPath>bin\Release\</OutputPath>
-        <DefineConstants>TRACE</DefineConstants>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-    </PropertyGroup>
-    <ItemGroup>
-        <Reference Include="System"/>
-        <Reference Include="System.Core"/>
-        <Reference Include="System.Data"/>
-        <Reference Include="System.Xml"/>
-    </ItemGroup>
-    <ItemGroup>
-        <Compile Include="Class1.cs"/>
-        <Compile Include="Properties\AssemblyInfo.cs"/>
-    </ItemGroup>
-    <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
-    <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{93AB5927-1313-45A0-A27E-6AA8CA7C7BE1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Synapse</RootNamespace>
+    <AssemblyName>Synapse</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="0Harmony, Version=1.2.0.1, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-Synapse_publicised">
+      <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-Synapse_publicised.dll</HintPath>
+    </Reference>
+    <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Synapse_Dependencies\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+    <Reference Include="YamlDotNet, Version=8.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e">
+      <HintPath>..\..\Synapse_Dependencies\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api\Enums\Effects.cs" />
+    <Compile Include="Api\Jail.cs" />
+    <Compile Include="Api\Player.cs" />
+    <Compile Include="Api\Enums\ZoneType.cs" />
+    <Compile Include="Api\Room.cs" />
+    <Compile Include="Api\PlayerExtensions.cs" />
+    <Compile Include="Api\Enums\RaCategory.cs" />
+    <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\PickupItemEvent.cs" />
+    <Compile Include="Events\Classes\Scp079GainLvlEvent.cs" />
+    <Compile Include="Events\Classes\PlayerSetClassEvent.cs" />
+    <Compile Include="Events\Classes\UseItemEvent.cs" />
+    <Compile Include="Events\Classes\GeneratorEvent.cs" />
+    <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
+    <Compile Include="Events\Patches\PickUpItemPatch.cs" />
+    <Compile Include="Events\Patches\PlayerSetClassPatch.cs" />
+    <Compile Include="Events\Patches\Scp079GainLvlPatch.cs" />
+    <Compile Include="Events\Patches\UseItemPatch.cs" />
+    <Compile Include="Events\Patches\ComponentsPatch.cs" />
+    <Compile Include="Events\Patches\GeneratorPatches.cs" />
+    <Compile Include="Translation.cs" />
+    <Compile Include="Configs.cs" />
+    <Compile Include="Events\Classes\CheckRoundEndEvent.cs" />
+    <Compile Include="Events\Classes\FemurEnterEvent.cs" />
+    <Compile Include="Events\Classes\DropItemEvent.cs" />
+    <Compile Include="Events\Classes\PlayerReloadEvent.cs" />
+    <Compile Include="Events\Classes\PocketDimensionEvent.cs" />
+    <Compile Include="Events\Classes\PreAuthenticationEvent.cs" />
+    <Compile Include="Events\Classes\Scp106ContainmentEvent.cs" />
+    <Compile Include="Events\Classes\TeamRespawnEvent.cs" />
+    <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
+    <Compile Include="Events\EventHandlers.cs" />
+    <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
+    <Compile Include="Events\Patches\CheckRoundEndPatch.cs" />
+    <Compile Include="Events\Patches\WaitingForPlayersPatch.cs" />
+    <Compile Include="Events\Patches\DropItemPatch.cs" />
+    <Compile Include="Events\Patches\FemurEnterPatch.cs" />
+    <Compile Include="Events\Patches\PlayerReloadPatch.cs" />
+    <Compile Include="Events\Patches\PocketDimensionEnterPatch.cs" />
+    <Compile Include="Events\Patches\PreAuthenticationPatch.cs" />
+    <Compile Include="Events\Patches\Scp106ContainmentPatch.cs" />
+    <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
+    <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
+    <Compile Include="Events\Classes\PlayerCuffedEvent.cs" />
+    <Compile Include="Events\Classes\ConsoleCommandEvent.cs" />
+    <Compile Include="Events\Classes\DoorInteractEvent.cs" />
+    <Compile Include="Events\Classes\PlayerBanEvent.cs" />
+    <Compile Include="Events\Classes\PlayerDeathEvent.cs" />
+    <Compile Include="Events\Classes\PlayerHurtEvent.cs" />
+    <Compile Include="Events\Classes\PlayerJoinEvent.cs" />
+    <Compile Include="Events\Classes\PlayerLeaveEvent.cs" />
+    <Compile Include="Events\Classes\RemoteCommandEvent.cs" />
+    <Compile Include="Events\Classes\Scp049RecallEvent.cs" />
+    <Compile Include="Events\Classes\PlayerSpeakEvent.cs" />
+    <Compile Include="Events\Classes\SyncDataEvent.cs" />
+    <Compile Include="Events\MapEvents.cs" />
+    <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
+    <Compile Include="Events\Patches\DoorInteractPatch.cs" />
+    <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
+    <Compile Include="Events\Patches\RoundEndPatch.cs" />
+    <Compile Include="Events\Patches\PlayerBanPatch.cs" />
+    <Compile Include="Events\Patches\PlayerLeavePatch.cs" />
+    <Compile Include="Events\Patches\ConsoleCommandPatch.cs" />
+    <Compile Include="Events\Patches\RoundRestartPatch.cs" />
+    <Compile Include="Events\Patches\RoundStartPatch.cs" />
+    <Compile Include="Events\Patches\Scp049RecallPatch.cs" />
+    <Compile Include="Events\Patches\SpeakPatch.cs" />
+    <Compile Include="Events\Patches\ServerNamePatch.cs" />
+    <Compile Include="Events\Patches\RemoteAdminPatch.cs" />
+    <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
+    <Compile Include="Events\Patches\PatchHandler.cs" />
+    <Compile Include="Events\Patches\SyncDataPatch.cs" />
+    <Compile Include="Events\Patches\WarheadDetonationPatch.cs" />
+    <Compile Include="Events\PlayerEvents.cs" />
+    <Compile Include="Events\ScpEvents.cs" />
+    <Compile Include="Events\ServerEvents.cs" />
+    <Compile Include="Permissions\PermissionReader.cs" />
+    <Compile Include="Plugin.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="MainLoader.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
     </Target>
     <Target Name="AfterBuild">
     </Target>
     -->
-
 </Project>
