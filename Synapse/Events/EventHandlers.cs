@@ -43,11 +43,14 @@ namespace Synapse.Events
             if (ev.Allow) return;
 
             if (!ev.Player.Items.Any()) return;
-            var itemPerms = ev.Player.Inventory.GetItemByID(ev.Player.Inventory.curItem).permissions;
-            var door = ev.Door;
-            ev.Allow = itemPerms.Any(p =>
-                door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
-                door.PermissionLevels.HasPermission(flag));
+            foreach (var item in ev.Player.Items)
+            {
+                var itemPerms = ev.Player.Inventory.GetItemByID(item.id).permissions;
+                var door = ev.Door;
+                ev.Allow = itemPerms.Any(p =>
+                    door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                    door.PermissionLevels.HasPermission(flag));
+            }
         }
 
         private static void OnSyncData(ref SyncDataEvent ev)
