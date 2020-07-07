@@ -505,5 +505,14 @@ namespace Synapse.Api
             Hub.serverRoles.RemoteAdminMode = ServerRoles.AccessMode.LocalAccess;
             Hub.serverRoles.TargetCloseRemoteAdmin(Connection);
         }
+
+        /// <summary>
+        /// Gives the Player Damage
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <param name="damagetype"></param>
+        /// <param name="attacker"></param>
+        public void Hurt(int amount, DamageTypes.DamageType damagetype = default,Player attacker = null) =>
+            PlayerStats.HurtPlayer(new PlayerStats.HitInfo(amount, attacker == null ? "WORLD" : attacker.NickName, damagetype, attacker == null ? PlayerId : attacker.PlayerId), attacker == null ? gameObject : attacker.gameObject);
     }
 }
