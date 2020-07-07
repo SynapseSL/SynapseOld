@@ -11,7 +11,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokeUseItemEvent(__instance.GetPlayer(),out bool allow);
+                Events.InvokeUseItemEvent(__instance.GetPlayer(), __instance._hub.inventory.curItem,out bool allow);
                 return allow;
             }
             catch (Exception e)

@@ -359,7 +359,7 @@ namespace Synapse.Events
 
         public delegate void OnUseItem(ref UseItemEvent ev);
         public static event OnUseItem UseItemEvent;
-        internal static void InvokeUseItemEvent(Player player, out bool allow)
+        internal static void InvokeUseItemEvent(Player player,ItemType item, out bool allow)
         {
             allow = true;
             if (UseItemEvent == null) return;
@@ -367,6 +367,7 @@ namespace Synapse.Events
             var ev = new UseItemEvent
             {
                 Player = player,
+                Item = item,
                 Allow = true
             };
 
