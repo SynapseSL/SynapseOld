@@ -507,7 +507,7 @@ namespace Synapse.Api
         }
 
         /// <summary>
-        /// Gives the Player Damage
+        /// Hurts the Player
         /// </summary>
         /// <param name="amount"></param>
         /// <param name="damagetype"></param>

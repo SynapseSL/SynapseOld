@@ -6,6 +6,6 @@ namespace Synapse.Events.Classes
     {
         public Player Player { get; internal set; }
 
-        public bool Allow { get; internal set; }
+        public bool Allow { get; set; }
     }
 }
