@@ -7,7 +7,8 @@ namespace Synapse.Events.Patches
     {
         public static void Postfix()
         {
-            ServerConsole._serverName = ServerConsole._serverName.Replace("<size=1>SM119.0.0</size>", "");
+            if (!Configs.Nametracking) return;
+
             ServerConsole._serverName += " <color=#00000000><size=1>SMSynapse-ModLoader v.1.1-beta</size></color>";
         }
     }
