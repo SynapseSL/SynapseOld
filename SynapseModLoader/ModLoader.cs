@@ -38,7 +38,7 @@ namespace SynapseModLoader
 
             try
             {
-                var startupfile = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase).Replace("file:\\", "").Replace("\\SCPSL_Data\\Managed", "\\SynapseStart-config.yml");
+                var startupfile = Assembly.GetExecutingAssembly().Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
                 if (!File.Exists(startupfile))
                 {
                     ServerConsole.AddLog($"Synapse Mod-Loader Start file is missing ... creating: {startupfile}", ConsoleColor.Blue);

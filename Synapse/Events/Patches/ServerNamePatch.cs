@@ -9,7 +9,7 @@ namespace Synapse.Events.Patches
         {
             if (!Configs.Nametracking) return;
 
-            ServerConsole._serverName += " <color=#00000000><size=1>SMSynapse-ModLoader v.1.1-beta</size></color>";
+            ServerConsole._serverName += " <color=#00000000><size=1>SMSynapse-ModLoader v.1.2-beta</size></color>";
         }
     }
 }

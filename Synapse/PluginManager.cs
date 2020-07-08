@@ -16,7 +16,7 @@ namespace Synapse
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         private static readonly List<Plugin> Plugins = new List<Plugin>();
 
-        private static string StartupFile { get; } = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ReferenceHub)).CodeBase).Replace("file:\\", "").Replace("\\SCPSL_Data\\Managed", "\\SynapseStart-config.yml");
+        private static string StartupFile { get; } = Assembly.GetAssembly(typeof(ReferenceHub)).Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
         private static string SynapseDirectory 
         { 
             get 
