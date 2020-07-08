@@ -16,8 +16,15 @@ namespace Synapse
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         private static readonly List<Plugin> Plugins = new List<Plugin>();
 
-        private static string SynapseDirectory { get; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
+        private static string StartupFile { get; } = Path.GetDirectoryName(Assembly.GetAssembly(typeof(ReferenceHub)).CodeBase).Replace("file:\\", "").Replace("\\SCPSL_Data\\Managed", "\\SynapseStart-config.yml");
+        private static string SynapseDirectory 
+        { 
+            get 
+            {
+                var Config = new YamlConfig(StartupFile);
+                return Config.GetString("synapse_installation", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse"));
+            }
+        }
 
         internal static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory, "dependencies");
