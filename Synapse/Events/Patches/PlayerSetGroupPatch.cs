@@ -13,6 +13,8 @@ namespace Synapse.Events.Patches
             {
                 Events.InvokePlayerSetGroupEvent(__instance.GetPlayer(), byAdmin, ref group, ref ovr, ref disp, out bool allow);
 
+                if (__instance._globalPerms > 0UL) return true;
+
                 return allow;
             }
             catch(Exception e)
