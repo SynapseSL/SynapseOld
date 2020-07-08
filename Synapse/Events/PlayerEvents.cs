@@ -412,5 +412,31 @@ namespace Synapse.Events
             items = ev.Items;
             type = ev.Role;
         }
+
+
+        public delegate void OnPlayerSetGroup(ref PlayerSetGroupEvent ev);
+        public static event OnPlayerSetGroup PlayerSetGroupEvent;
+        internal static void InvokePlayerSetGroupEvent(Player player, bool byAdmin, ref UserGroup group, ref bool ovr, ref bool disp, out bool allow)
+        {
+            allow = true;
+            if (PlayerSetGroupEvent == null) return;
+
+            var ev = new PlayerSetGroupEvent
+            {
+                Player = player,
+                ByAdmin = byAdmin,
+                Group = group,
+                RaAcces = ovr,
+                Showtag = disp,
+                Allow = true
+            };
+
+            PlayerSetGroupEvent.Invoke(ref ev);
+
+            group = ev.Group;
+            ovr = ev.RaAcces;
+            disp = ev.Showtag;
+            allow = ev.Allow;
+        }
     }
 }

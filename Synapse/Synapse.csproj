@@ -72,12 +72,14 @@
     <Compile Include="Api\PlayerExtensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Events\Classes\PlayerSetGroupEvent.cs" />
     <Compile Include="Events\Classes\PickupItemEvent.cs" />
     <Compile Include="Events\Classes\Scp079GainLvlEvent.cs" />
     <Compile Include="Events\Classes\PlayerSetClassEvent.cs" />
     <Compile Include="Events\Classes\UseItemEvent.cs" />
     <Compile Include="Events\Classes\GeneratorEvent.cs" />
     <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
+    <Compile Include="Events\Patches\PlayerSetGroupPatch.cs" />
     <Compile Include="Events\Patches\PickUpItemPatch.cs" />
     <Compile Include="Events\Patches\PlayerSetClassPatch.cs" />
     <Compile Include="Events\Patches\Scp079GainLvlPatch.cs" />
