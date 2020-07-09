@@ -57,11 +57,12 @@ namespace Synapse
             try
             {
                 var trans = _translation.FirstOrDefault(x => x.Key == translationName).Value;
-                return trans.Replace("\\n","\n");
+                if (trans == null) return "Plugin requested a not created Translation!";
+                return trans.Replace("\\n", "\n");
             }
             catch
             {
-                return "Invalid Translations Name";
+                return "Plugin requested a not created Translation!";
             }
         }
     }
