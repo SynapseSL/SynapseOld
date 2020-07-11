@@ -12,7 +12,7 @@ namespace Synapse.Events
     {
         /// <summary>A Event which is activated when a User Joins the Server</summary>
         /// <remarks>It need to hook ref PlayerJoinEvent ev</remarks>
-        public delegate void OnPlayerJoin(ref PlayerJoinEvent ev);
+        public delegate void OnPlayerJoin(PlayerJoinEvent ev);
         public static event OnPlayerJoin PlayerJoinEvent;
 
         internal static void InvokePlayerJoinEvent(Player player, ref string nick)
@@ -24,13 +24,13 @@ namespace Synapse.Events
                 Nick = nick
             };
 
-            PlayerJoinEvent.Invoke(ref ev);
+            PlayerJoinEvent.Invoke(ev);
 
             nick = ev.Nick;
         }
 
         /// <summary>A Event which is activated when a user press any voice HotKey</summary>
-        public delegate void OnSpeak(ref PlayerSpeakEvent ev);
+        public delegate void OnSpeak(PlayerSpeakEvent ev);
         public static event OnSpeak SpeakEvent;
 
         internal static void InvokeSpeakEvent(DissonanceUserSetup dissonance, ref bool intercom, ref bool radio,
@@ -49,7 +49,7 @@ namespace Synapse.Events
                 Player = dissonance.gameObject.GetPlayer()
             };
 
-            SpeakEvent.Invoke(ref ev);
+            SpeakEvent.Invoke(ev);
 
             intercom = ev.IntercomTalk;
             radio = ev.RadioTalk;
@@ -76,7 +76,7 @@ namespace Synapse.Events
         }
         
         // PlayerBanEvent
-        public delegate void OnPlayerBanEvent(ref PlayerBanEvent ev);
+        public delegate void OnPlayerBanEvent(PlayerBanEvent ev);
         public static event OnPlayerBanEvent PlayerBanEvent;
 
         internal static void InvokePlayerBanEvent(Player player, int duration, ref bool allow,
@@ -92,7 +92,7 @@ namespace Synapse.Events
                 BannedPlayer = player
             };
 
-            PlayerBanEvent.Invoke(ref ev);
+            PlayerBanEvent.Invoke(ev);
 
             allow = ev.Allowed;
         }
@@ -116,7 +116,7 @@ namespace Synapse.Events
         }
 
         //PlayerHurtEvent
-        public delegate void OnPlayerHurt(ref PlayerHurtEvent ev);
+        public delegate void OnPlayerHurt(PlayerHurtEvent ev);
         public static event OnPlayerHurt PlayerHurtEvent;
 
         internal static void InvokePlayerHurtEvent(Player player, Player attacker,
@@ -131,13 +131,13 @@ namespace Synapse.Events
                 Info = info
             };
 
-            PlayerHurtEvent.Invoke(ref ev);
+            PlayerHurtEvent.Invoke(ev);
 
             info = ev.Info;
         }
         
         //PlayerCuffedEvent
-        public delegate void OnPlayerCuffed(ref PlayerCuffedEvent ev);
+        public delegate void OnPlayerCuffed(PlayerCuffedEvent ev);
         public static event OnPlayerCuffed PlayerCuffedEvent;
 
         internal static void InvokePlayerCuffedEvent(Player cuffed, Player target, ref bool allow)
@@ -151,13 +151,13 @@ namespace Synapse.Events
                 Allow = allow
             };
 
-            PlayerCuffedEvent.Invoke(ref ev);
+            PlayerCuffedEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
         //PlayerEscapeEvent
-        public delegate void OnPlayerEscape(ref PlayerEscapeEvent ev);
+        public delegate void OnPlayerEscape(PlayerEscapeEvent ev);
         public static event OnPlayerEscape PlayerEscapeEvent;
 
         internal static void InvokePlayerEscapeEvent(Player player, ref bool allow, ref RoleType spawnRole,
@@ -174,14 +174,14 @@ namespace Synapse.Events
                 IsCuffed = isCuffed
             };
 
-            PlayerEscapeEvent.Invoke(ref ev);
+            PlayerEscapeEvent.Invoke(ev);
 
             allow = ev.Allow;
             spawnRole = ev.SpawnRole;
         }
 
         //SyncDataEvent
-        public delegate void OnSyncDataEvent(ref SyncDataEvent ev);
+        public delegate void OnSyncDataEvent(SyncDataEvent ev);
         public static event OnSyncDataEvent SyncDataEvent;
 
         internal static void InvokeSyncDataEvent(Player player, ref bool allow, ref Vector2 speed, int state)
@@ -196,14 +196,14 @@ namespace Synapse.Events
                 State = state
             };
 
-            SyncDataEvent.Invoke(ref ev);
+            SyncDataEvent.Invoke(ev);
 
             allow = ev.Allow;
             speed = ev.Speed;
         }
 
         //PlayerReloadEvent
-        public delegate void OnPlayerReload(ref PlayerReloadEvent ev);
+        public delegate void OnPlayerReload(PlayerReloadEvent ev);
         public static event OnPlayerReload PlayerReloadEvent;
 
         internal static void InvokePlayerReloadEvent(Player player, ref bool allow, Inventory.SyncItemInfo syncItem)
@@ -217,13 +217,13 @@ namespace Synapse.Events
                 InventorySlot = syncItem
             };
 
-            PlayerReloadEvent.Invoke(ref ev);
+            PlayerReloadEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
         
         //FemurEnterEvent
-        public delegate void OnFemurEnter(ref FemurEnterEvent ev);
+        public delegate void OnFemurEnter(FemurEnterEvent ev);
         public static event OnFemurEnter FemurEnterEvent;
 
         internal static void InvokeFemurEnterEvent(Player player,ref bool allow,ref bool closeFemur)
@@ -237,13 +237,13 @@ namespace Synapse.Events
                 CloseFemur = closeFemur
             };
 
-            FemurEnterEvent.Invoke(ref ev);
+            FemurEnterEvent.Invoke(ev);
 
             allow = ev.Allow;
             closeFemur = ev.CloseFemur;
         }
         //DroppedItemEvent
-        public delegate void OnDropItem(ref DropItemEvent ev);
+        public delegate void OnDropItem(DropItemEvent ev);
         public static event OnDropItem DropItemEvent;
 
         internal static void InvokeDropItem(Player player, ref Inventory.SyncItemInfo item, ref bool allow)
@@ -257,7 +257,7 @@ namespace Synapse.Events
                 Allow = allow
             };
             
-            DropItemEvent.Invoke(ref ev);
+            DropItemEvent.Invoke(ev);
 
             allow = ev.Allow;
             item = ev.Item;
@@ -267,8 +267,8 @@ namespace Synapse.Events
         public static event OnLoadComponents LoadComponentsEvent;
         internal static void InvokeLoadComponents(GameObject player) => LoadComponentsEvent?.Invoke(new LoadComponentsEvent { Player = player });
 
-        public delegate void OnGeneratorInserted(ref GeneratorEvent ev);
-        public static event OnGeneratorInserted GeneratorInsertedEvent;
+        public delegate void OnGenerator(GeneratorEvent ev);
+        public static event OnGenerator GeneratorInsertedEvent;
         internal static void InvokeGeneratorInserted(Player player, Generator079 generator, ref bool allow)
         {
             if (GeneratorInsertedEvent == null) return;
@@ -280,13 +280,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            GeneratorInsertedEvent.Invoke(ref ev);
+            GeneratorInsertedEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnGeneratorEjected(ref GeneratorEvent ev);
-        public static event OnGeneratorEjected GeneratorEjectedEvent;
+        public static event OnGenerator GeneratorEjectedEvent;
         internal static void InvokeGeneratorEjected(Player player, Generator079 generator, ref bool allow)
         {
             if (GeneratorEjectedEvent == null) return;
@@ -298,13 +297,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            GeneratorEjectedEvent.Invoke(ref ev);
+            GeneratorEjectedEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnGeneratorUnlock(ref GeneratorEvent ev);
-        public static event OnGeneratorUnlock GeneratorUnlockEvent;
+        public static event OnGenerator GeneratorUnlockEvent;
         internal static void InvokeGeneratorUnlock(Player player,Generator079 generator, ref bool allow)
         {
             if (GeneratorUnlockEvent == null) return;
@@ -316,13 +314,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            GeneratorUnlockEvent.Invoke(ref ev);
+            GeneratorUnlockEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnGeneratorOpen(ref GeneratorEvent ev);
-        public static event OnGeneratorOpen GeneratorOpenEvent;
+        public static event OnGenerator GeneratorOpenEvent;
         internal static void InvokeGeneratorOpen(Player player, Generator079 generator, ref bool allow)
         {
             if (GeneratorOpenEvent == null) return;
@@ -334,13 +331,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            GeneratorOpenEvent.Invoke(ref ev);
+            GeneratorOpenEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnGeneratorClose(ref GeneratorEvent ev);
-        public static event OnGeneratorClose GeneratorCloseEvent;
+        public static event OnGenerator GeneratorCloseEvent;
         internal static void InvokeGeneratorClose(Player player, Generator079 generator, ref bool allow)
         {
             if (GeneratorCloseEvent == null) return;
@@ -352,12 +348,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            GeneratorCloseEvent.Invoke(ref ev);
+            GeneratorCloseEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnUseItem(ref UseItemEvent ev);
+        public delegate void OnUseItem(UseItemEvent ev);
         public static event OnUseItem UseItemEvent;
         internal static void InvokeUseItemEvent(Player player,ItemType item, out bool allow)
         {
@@ -371,12 +367,12 @@ namespace Synapse.Events
                 Allow = true
             };
 
-            UseItemEvent.Invoke(ref ev);
+            UseItemEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnPickupItem(ref PickupItemEvent ev);
+        public delegate void OnPickupItem(PickupItemEvent ev);
         public static event OnPickupItem PickupItemEvent;
         internal static void InvokePickupItemEvent(Player player, Pickup pickup, ref bool allow)
         {
@@ -389,12 +385,12 @@ namespace Synapse.Events
                 Player = player
             };
 
-            PickupItemEvent.Invoke(ref ev);
+            PickupItemEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnSetPlayerClass(ref PlayerSetClassEvent ev);
+        public delegate void OnSetPlayerClass(PlayerSetClassEvent ev);
 
         public static event OnSetPlayerClass PlayerSetClassEvent;
 
@@ -407,14 +403,14 @@ namespace Synapse.Events
                 Role = type
             };
             
-            PlayerSetClassEvent?.Invoke(ref ev);
+            PlayerSetClassEvent?.Invoke(ev);
 
             items = ev.Items;
             type = ev.Role;
         }
 
 
-        public delegate void OnPlayerSetGroup(ref PlayerSetGroupEvent ev);
+        public delegate void OnPlayerSetGroup(PlayerSetGroupEvent ev);
         public static event OnPlayerSetGroup PlayerSetGroupEvent;
         internal static void InvokePlayerSetGroupEvent(Player player, bool byAdmin, ref UserGroup group, ref bool ovr, ref bool disp, out bool allow)
         {
@@ -431,7 +427,7 @@ namespace Synapse.Events
                 Allow = true
             };
 
-            PlayerSetGroupEvent.Invoke(ref ev);
+            PlayerSetGroupEvent.Invoke(ev);
 
             group = ev.Group;
             ovr = ev.RaAcces;

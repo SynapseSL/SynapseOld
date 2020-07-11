@@ -31,13 +31,13 @@ namespace Synapse.Events
         }
 
         // Methods
-        private void OnPlayerJoin(ref PlayerJoinEvent ev)
+        private void OnPlayerJoin(PlayerJoinEvent ev)
         {
             ev.Player.Broadcast(Configs.JoinMessageDuration,Configs.JoinBroadcast);
             ev.Player.GiveTextHint(Configs.JoinTextHint, Configs.JoinMessageDuration);
         }
 
-        private static void OnDoorInteract(ref DoorInteractEvent ev)
+        private static void OnDoorInteract(DoorInteractEvent ev)
         {
             if (!Configs.RemoteKeyCard) return;
             if (ev.Allow) return;
@@ -53,7 +53,7 @@ namespace Synapse.Events
             }
         }
 
-        private static void OnSyncData(ref SyncDataEvent ev)
+        private static void OnSyncData(SyncDataEvent ev)
         {
             if (ev.Player.Role != RoleType.ClassD &&
                 ev.Player.Role != RoleType.Scientist &&
@@ -61,7 +61,7 @@ namespace Synapse.Events
                 ev.Player.Hub.characterClassManager.CmdRegisterEscape();
         }
 
-        private static void OnRemoteCommand(ref RemoteCommandEvent ev)
+        private static void OnRemoteCommand(RemoteCommandEvent ev)
         {
             var args = ev.Command.Split(' ');
             switch (args[0].ToUpper())
