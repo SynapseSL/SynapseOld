@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
@@ -24,6 +25,8 @@ namespace Synapse.Api
                 return _sendSpawnMessage;
             }
         }
+
+        internal static int GetMethodHash(Type invokeClass, string methodName) => invokeClass.FullName.GetStableHashCode() * 503 + methodName.GetStableHashCode();
 
         /// <summary>Gives a player a message in the RemoteAdmin</summary>
         /// <param name="sender">The User who you send the Message</param>

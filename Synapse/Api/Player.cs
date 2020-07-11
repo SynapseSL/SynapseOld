@@ -514,5 +514,27 @@ namespace Synapse.Api
         /// <param name="attacker"></param>
         public void Hurt(int amount, DamageTypes.DamageType damagetype = default,Player attacker = null) =>
             PlayerStats.HurtPlayer(new PlayerStats.HitInfo(amount, attacker == null ? "WORLD" : attacker.NickName, damagetype, attacker == null ? PlayerId : attacker.PlayerId), attacker == null ? gameObject : attacker.gameObject);
+
+        /// <summary>
+        /// Sends the Player to a Server in the same network with this Port (such a server must exist or he will be disconnected)
+        /// </summary>
+        /// <param name="player">The Player you wants to send</param>
+        /// <param name="port">The Port of the Server the Player should be send to</param>
+        public void SendToServer(Player player, ushort port)
+        {
+            PlayerStats component = Server.PlayerStats;
+            NetworkWriter writer = NetworkWriterPool.GetWriter();
+            writer.WriteSingle(1f);
+            writer.WriteUInt16(port);
+            RpcMessage msg = new RpcMessage
+            {
+                netId = component.netId,
+                componentIndex = component.ComponentIndex,
+                functionHash = PlayerExtensions.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
+                payload = writer.ToArraySegment()
+            };
+            player.Connection.Send<RpcMessage>(msg, 0);
+            NetworkWriterPool.Recycle(writer);
+        }
     }
 }
