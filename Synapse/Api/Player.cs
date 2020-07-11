@@ -520,7 +520,7 @@ namespace Synapse.Api
         /// </summary>
         /// <param name="player">The Player you wants to send</param>
         /// <param name="port">The Port of the Server the Player should be send to</param>
-        public void SendToServer(Player player, ushort port)
+        public void SendToServer(ushort port)
         {
             PlayerStats component = Server.PlayerStats;
             NetworkWriter writer = NetworkWriterPool.GetWriter();
@@ -533,7 +533,7 @@ namespace Synapse.Api
                 functionHash = PlayerExtensions.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
                 payload = writer.ToArraySegment()
             };
-            player.Connection.Send<RpcMessage>(msg, 0);
+            Connection.Send<RpcMessage>(msg, 0);
             NetworkWriterPool.Recycle(writer);
         }
     }
