@@ -83,6 +83,8 @@ namespace Synapse.Api
         /// <param name="role"></param>
         public static IEnumerable<Player> GetAllPlayers(this RoleType role) => GetAllPlayers().Where(x => x.Role == role);
 
+        public static IEnumerable<Player> GetAllPlayers(this Team team) => GetAllPlayers().Where(x => x.Team == team);
+
         /// <summary>
         /// Gives you the player object
         /// </summary>

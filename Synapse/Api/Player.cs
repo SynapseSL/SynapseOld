@@ -518,7 +518,6 @@ namespace Synapse.Api
         /// <summary>
         /// Sends the Player to a Server in the same network with this Port (such a server must exist or he will be disconnected)
         /// </summary>
-        /// <param name="player">The Player you wants to send</param>
         /// <param name="port">The Port of the Server the Player should be send to</param>
         public void SendToServer(ushort port)
         {
