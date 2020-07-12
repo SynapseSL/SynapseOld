@@ -494,10 +494,9 @@ namespace Synapse.Api
         /// </summary>
         public void RaLogin()
         {
-            Hub.serverRoles.RemoteAdmin = true;
-            Hub.serverRoles.Permissions = Hub.serverRoles.Group.Permissions;
-            Hub.serverRoles.RemoteAdminMode = ServerRoles.AccessMode.PasswordOverride;
-            Hub.serverRoles.TargetOpenRemoteAdmin(Connection, false);
+            ServerRoles.RemoteAdmin = true;
+            ServerRoles.RemoteAdminMode = ServerRoles.AccessMode.PasswordOverride;
+            ServerRoles.TargetOpenRemoteAdmin(Connection, false);
         }
 
         /// <summary>
@@ -506,7 +505,6 @@ namespace Synapse.Api
         public void RaLogout()
         {
             Hub.serverRoles.RemoteAdmin = false;
-            Hub.serverRoles.Permissions = 0UL;
             Hub.serverRoles.RemoteAdminMode = ServerRoles.AccessMode.LocalAccess;
             Hub.serverRoles.TargetCloseRemoteAdmin(Connection);
         }

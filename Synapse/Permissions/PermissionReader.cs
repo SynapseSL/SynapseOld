@@ -83,7 +83,7 @@ namespace Synapse.Permissions
             if (userGroup != null)
             {
                 var groupName = ServerStatic.GetPermissionsHandler()._groups
-                    .FirstOrDefault(g => g.Value == player.Hub.serverRoles.Group).Key;
+                    .FirstOrDefault(g => g.Value == player.Rank).Key;
                 if (_permissionsConfig == null)
                 {
                     Log.Error("Permission config is null.");
