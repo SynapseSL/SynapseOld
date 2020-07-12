@@ -309,6 +309,11 @@ namespace Synapse.Api
         public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
 
         /// <summary>
+        /// The Permission of the Player
+        /// </summary>
+        public ulong Permission { get => ServerRoles.Permissions; set => ServerRoles.Permissions = value; }
+
+        /// <summary>
         /// Is the player muted
         /// </summary>
         public bool IsMuted { get => ClassManager.NetworkMuted; set => ClassManager.NetworkMuted = value; }
