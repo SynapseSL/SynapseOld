@@ -289,7 +289,7 @@ namespace Synapse.Api
         /// <summary>
         /// The UserGroup the player is in
         /// </summary>
-        public UserGroup Rank { get => ServerRoles.Group; set => ServerRoles.SetGroup(value, value.Permissions > 0UL,true); }
+        public UserGroup Rank { get => ServerRoles.Group; set => ServerRoles.SetGroup(value, value != null ? value.Permissions > 0UL : false,true); }
 
         /// <summary>
         /// The name of the group the user has
