@@ -408,5 +408,25 @@ namespace Synapse.Events
             items = ev.Items;
             type = ev.Role;
         }
+
+
+        public delegate void OnPlayerTag(PlayerTagEvent ev);
+        public static event OnPlayerTag PlayerTagEvent;
+        internal static void InvokePlayerTagEvent(Player player, bool show,out bool allow)
+        {
+            allow = true;
+            if (PlayerTagEvent == null) return;
+
+            var ev = new PlayerTagEvent
+            {
+                Player = player,
+                ShowTag = show,
+                Allow = true
+            };
+
+            PlayerTagEvent.Invoke(ev);
+
+            allow = ev.Allow;
+        }
     }
 }

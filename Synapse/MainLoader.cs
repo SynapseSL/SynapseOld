@@ -7,7 +7,7 @@ namespace Synapse
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class MainLoader
     {
-        public const string version = "v.1.2-Beta";
+        public const string version = "v.1.3-Beta";
         /// <summary>This method is called by the Scp Server in the assembly-csharp</summary>
         // ReSharper disable once UnusedMember.Global
         public static void LoaderExecutionCode()
