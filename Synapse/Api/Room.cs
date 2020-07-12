@@ -6,13 +6,25 @@ namespace Synapse.Api
     public class Room
     {
         private ZoneType _zone = ZoneType.Unspecified;
+        /// <summary>
+        /// The name of the room
+        /// </summary>
         public string Name { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
+        /// <summary>
+        /// The transform of the room
+        /// </summary>
         public Transform Transform { get; set; }
+        /// <summary>
+        /// The position of the room
+        /// </summary>
         public Vector3 Position { get; set; }
 
         // ReSharper disable once UnusedMember.Global
+        /// <summary>
+        /// The ZoneType in which the room is
+        /// </summary>
         public ZoneType Zone
         {
             get

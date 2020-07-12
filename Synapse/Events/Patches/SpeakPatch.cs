@@ -1,6 +1,7 @@
 ﻿using System;
 using Assets._Scripts.Dissonance;
 using Harmony;
+using Synapse.Api;
 
 namespace Synapse.Events.Patches
 {
@@ -17,6 +18,8 @@ namespace Synapse.Events.Patches
                 var scp939 = __instance.MimicAs939;
                 var scpchat = __instance.SCPChat;
                 var spectator = __instance.SpectatorChat;
+
+                scp939 = Configs.Speaking_Scps.Contains((int)__instance.GetPlayer().Role);
 
                 Events.InvokeSpeakEvent(__instance, ref intercom, ref radio, ref scp939, ref scpchat, ref spectator);
 

@@ -27,23 +27,33 @@ namespace Synapse.Events
             Events.RoundEndEvent += OnRoundEnd;
             Events.RoundRestartEvent += OnRoundRestart;
             Events.DoorInteractEvent += OnDoorInteract;
+            Events.PlayerJoinEvent += OnPlayerJoin;
         }
 
         // Methods
-        private static void OnDoorInteract(ref DoorInteractEvent ev)
+        private void OnPlayerJoin(PlayerJoinEvent ev)
+        {
+            ev.Player.Broadcast(Configs.JoinMessageDuration,Configs.JoinBroadcast);
+            ev.Player.GiveTextHint(Configs.JoinTextHint, Configs.JoinMessageDuration);
+        }
+
+        private static void OnDoorInteract(DoorInteractEvent ev)
         {
             if (!Configs.RemoteKeyCard) return;
             if (ev.Allow) return;
 
             if (!ev.Player.Items.Any()) return;
-            var itemPerms = ev.Player.Inventory.GetItemByID(ev.Player.Inventory.curItem).permissions;
-            var door = ev.Door;
-            ev.Allow = itemPerms.Any(p =>
-                door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
-                door.PermissionLevels.HasPermission(flag));
+            foreach (var item in ev.Player.Items)
+            {
+                var itemPerms = ev.Player.Inventory.GetItemByID(item.id).permissions;
+                var door = ev.Door;
+                ev.Allow = itemPerms.Any(p =>
+                    door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                    door.PermissionLevels.HasPermission(flag));
+            }
         }
 
-        private static void OnSyncData(ref SyncDataEvent ev)
+        private static void OnSyncData(SyncDataEvent ev)
         {
             if (ev.Player.Role != RoleType.ClassD &&
                 ev.Player.Role != RoleType.Scientist &&
@@ -51,7 +61,7 @@ namespace Synapse.Events
                 ev.Player.Hub.characterClassManager.CmdRegisterEscape();
         }
 
-        private static void OnRemoteCommand(ref RemoteCommandEvent ev)
+        private static void OnRemoteCommand(RemoteCommandEvent ev)
         {
             var args = ev.Command.Split(' ');
             switch (args[0].ToUpper())

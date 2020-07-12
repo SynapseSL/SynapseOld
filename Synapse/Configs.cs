@@ -1,23 +1,29 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
 
 namespace Synapse
 {
     internal static class Configs
     {
-        // Variables
-        private static YamlConfig _config;
-
         // Configs
         internal static int RequiredForFemur;
         internal static bool RemoteKeyCard;
+        internal static string JoinBroadcast;
+        internal static string JoinTextHint;
+        internal static ushort JoinMessageDuration;
+        internal static List<int> Speaking_Scps;
+        internal static bool Nametracking;
 
         // Methods
         internal static void ReloadConfig()
         {
-            if (_config == null) _config = new YamlConfig(Path.Combine(PluginManager.ServerConfigDirectory, "server-config.yml"));
-
-            RequiredForFemur = _config.GetInt("synapse_femur",1);
-            RemoteKeyCard = _config.GetBool("synapse_remote_keycard", false);
+            RequiredForFemur = Plugin.Config.GetInt("synapse_femur",1);
+            RemoteKeyCard = Plugin.Config.GetBool("synapse_remote_keycard", false);
+            JoinBroadcast = Plugin.Config.GetString("synapse_join_broadcast", "");
+            JoinTextHint = Plugin.Config.GetString("synapse_join_texthint", "");
+            JoinMessageDuration = Plugin.Config.GetUShort("synapse_join_duration",5);
+            Speaking_Scps = Plugin.Config.GetIntList("synapse_speakingscps");
+            if (Speaking_Scps == null) Speaking_Scps = new List<int> { 16, 17 };
+            Nametracking = Plugin.Config.GetBool("synapse_nametracking",true);
         }
     }
 }

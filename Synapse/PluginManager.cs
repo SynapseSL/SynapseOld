@@ -6,6 +6,7 @@ using System.Reflection;
 using MEC;
 using Synapse.Events.Patches;
 using Synapse.Permissions;
+using SynapseModLoader;
 
 namespace Synapse
 {
@@ -15,8 +16,15 @@ namespace Synapse
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         private static readonly List<Plugin> Plugins = new List<Plugin>();
 
-        private static string SynapseDirectory { get; } =
-            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
+        private static string StartupFile { get; } = Assembly.GetAssembly(typeof(ReferenceHub)).Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
+        private static string SynapseDirectory 
+        { 
+            get 
+            {
+                var Config = new YamlConfig(StartupFile);
+                return Config.GetString("synapse_installation", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse"));
+            }
+        }
 
         internal static string MainPluginDirectory { get; } = Path.Combine(SynapseDirectory, "Plugins");
         internal static string DependenciesDirectory { get; } = Path.Combine(SynapseDirectory, "dependencies");
@@ -124,7 +132,7 @@ namespace Synapse
             Log.Info($"Loading {pluginPath}");
             try
             {
-                var file = ReadFile(pluginPath);
+                var file = ModLoader.ReadFile(pluginPath);
                 var assembly = Assembly.Load(file);
 
                 foreach (var type in assembly.GetTypes())
@@ -166,6 +174,7 @@ namespace Synapse
 
         internal static void OnConfigReload()
         {
+            Plugin.Config = new YamlConfig(ServerConfigFile);
             Configs.ReloadConfig();
 
             foreach (var plugin in Plugins)
@@ -190,20 +199,6 @@ namespace Synapse
             {
                 Log.Error($"PatchError: {e}");
             }
-        }
-
-        private static byte[] ReadFile(string path)
-        {
-            var fileStream = File.Open(path, FileMode.Open);
-            byte[] result;
-            using (var memoryStream = new MemoryStream())
-            {
-                fileStream.CopyTo(memoryStream);
-                result = memoryStream.ToArray();
-            }
-
-            fileStream.Close();
-            return result;
         }
     }
 }

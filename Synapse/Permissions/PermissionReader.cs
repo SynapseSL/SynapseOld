@@ -83,7 +83,7 @@ namespace Synapse.Permissions
             if (userGroup != null)
             {
                 var groupName = ServerStatic.GetPermissionsHandler()._groups
-                    .FirstOrDefault(g => g.Value == player.Hub.serverRoles.Group).Key;
+                    .FirstOrDefault(g => g.Value == player.Rank).Key;
                 if (_permissionsConfig == null)
                 {
                     Log.Error("Permission config is null.");
@@ -98,8 +98,9 @@ namespace Synapse.Permissions
 
                 if (!_permissionsConfig.Groups.TryGetValue(groupName, out group))
                 {
-                    Log.Error("Could not get permission value.");
-                    return false;
+                    Log.Info($"TheServerGroup: {groupName} has no Permission Group!");
+                    if (player.Hub.serverRoles.Staff || player.UserId.EndsWith("@northwood")) group = GetNwGroup();
+                    else group = GetDefaultGroup();
                 }
             }
             else
