@@ -8,8 +8,8 @@ namespace Synapse.Events.Classes
         public CommandSender Sender { get; internal set; }
 
         public Player Player => Sender.SenderId == "SERVER CONSOLE" || Sender.SenderId == "GAME CONSOLE"
-            ? Player.Server
-            : PlayerExtensions.GetPlayer(Sender.SenderId);
+            ? Player.Host
+            : Player.GetPlayer(Sender.SenderId);
 
         public bool Allow { get; set; }
 

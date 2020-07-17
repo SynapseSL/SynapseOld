@@ -13,21 +13,6 @@ namespace Synapse.Api
     public static class Map
     {
         /// <summary>
-        /// Gives you the WarheadController.
-        /// </summary>
-        public static AlphaWarheadController WarheadController => Player.Server.GetComponent<AlphaWarheadController>();
-
-        /// <summary>
-        /// Activates/Deactivates the RoundLock (if the Round can end)
-        /// </summary>
-        public static bool RoundLock { get => RoundSummary.RoundLock; set => RoundSummary.RoundLock = value; }
-
-        /// <summary>
-        /// Activates/Deactivates the LobbyLock (if the Lobby can continue counting down)
-        /// </summary>
-        public static bool LobbyLock { get => GameCore.RoundStart.LobbyLock; set => GameCore.RoundStart.LobbyLock = value; }
-
-        /// <summary>
         /// Activates/Deactivates the FriendlyFire on the server
         /// </summary>
         public static bool FriendlyFire { get => ServerConsole.FriendlyFire; set => ServerConsole.FriendlyFire = value; }
@@ -37,7 +22,7 @@ namespace Synapse.Api
         /// </summary>
         public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
 
-        private static Broadcast BroadcastComponent => Player.Server.GetComponent<Broadcast>();
+        private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
         private static List<Room> _rooms = new List<Room>();
 
@@ -56,18 +41,6 @@ namespace Synapse.Api
                 return _rooms;
             }
         }
-
-        /// <summary>
-        /// Is the nuke detonated?
-        /// </summary>
-        public static bool IsNukeDetonated =>
-            WarheadController.detonated;
-
-        /// <summary>
-        /// Is the nuke in progress?
-        /// </summary>
-        public static bool IsNukeInProgress =>
-            WarheadController.inProgress;
 
         /// <summary>
         /// How many generators are activated?
@@ -184,37 +157,12 @@ namespace Synapse.Api
         /// <param name="makeNoise"></param>
         public static void CassieMessage(string msg, bool makeHold, bool makeNoise) => Respawning.RespawnEffectsController.PlayCassieAnnouncement(msg, makeHold, makeNoise);
 
-        /// <summary>
-        ///  Starts the Decontamination
-        /// </summary>
-        public static void StartDecontamination() => DecontaminationController.Singleton.FinishDecontamination();
-
-
-        /// <summary>
-        /// Starts the nuke
-        /// </summary>
-        public static void StartNuke()
-        {
-            var alpha = PlayerManager.localPlayer.GetComponent<AlphaWarheadController>();
-            alpha.InstantPrepare();
-            alpha.StartDetonation();
-        }
 
         /// <summary>
         /// Spawns a Item on the Map
         /// </summary>
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
-            => Player.Server.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
-
-        /// <summary>
-        /// Stops the nuke
-        /// </summary>
-        public static void StopNuke() => WarheadController.CancelDetonation();
-
-        /// <summary>
-        /// Detonates the nuke
-        /// </summary>
-        public static void DetonateNuke() => WarheadController.Detonate();
+            => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
 
         /// <summary>
         /// Has the group the permission?
