@@ -387,6 +387,7 @@ namespace Synapse.Api
 
         public Jail Jail => GetComponent<Jail>();
 
+        public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
         //Methods
         /// <summary>
