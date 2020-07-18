@@ -119,7 +119,7 @@ namespace Synapse
 
                 var assembly = Assembly.LoadFrom(dll);
                 LoadedDependencies.Add(assembly);
-                Log.Info($"Successfully loaded {dll}");
+                Log.Info($"Successfully loaded {assembly.GetName().Name}");
             }
         }
 
