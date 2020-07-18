@@ -106,7 +106,7 @@ namespace Synapse
 
 
         private static void LoadDependencies()
-        {
+        { 
             Log.Info("Loading Dependencies...");
             var depends = Directory.GetFiles(DependenciesDirectory);
 
