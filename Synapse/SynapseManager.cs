@@ -148,7 +148,7 @@ namespace Synapse
 
                     if (!(plugin is Plugin p)) continue;
 
-                    p.Details = Attribute.GetCustomAttribute(assembly, type) as PluginDetails;
+                    p.Details = type.GetCustomAttribute<PluginDetails>();
                     if (p.Details == null)
                         p.Details = new PluginDetails()
                         {
