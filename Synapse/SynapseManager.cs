@@ -11,7 +11,7 @@ using Synapse.Api.Plugin;
 
 namespace Synapse
 {
-    public static class PluginManager
+    public static class SynapseManager
     {
         // Variables
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();

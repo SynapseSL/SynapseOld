@@ -15,7 +15,7 @@ namespace Synapse.Configs
         private static Yml _permissionsConfig;
 
         private static readonly string PermissionPath =
-            Path.Combine(PluginManager.ServerConfigDirectory, "permissions.yml");
+            Path.Combine(SynapseManager.ServerConfigDirectory, "permissions.yml");
 
         // Methods
         internal static void Init()

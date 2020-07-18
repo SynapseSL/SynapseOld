@@ -14,7 +14,7 @@ namespace Synapse.Api.Plugin
 
         public void CreateTranslations(Dictionary<string,string> translations)
         {
-            _translationPath = Path.Combine(PluginManager.ServerConfigDirectory, Plugin.Details.Name + "-translation.txt");
+            _translationPath = Path.Combine(SynapseManager.ServerConfigDirectory, Plugin.Details.Name + "-translation.txt");
             if (!File.Exists(_translationPath))
                 File.Create(_translationPath).Close();
             var dictionary = new Dictionary<string, string>();

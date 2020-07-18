@@ -150,7 +150,7 @@
     <Compile Include="Configs\PermissionReader.cs" />
     <Compile Include="Api\Plugin\Plugin.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="PluginManager.cs" />
+    <Compile Include="SynapseManager.cs" />
     <Compile Include="MainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
