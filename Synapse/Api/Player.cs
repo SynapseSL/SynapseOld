@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hints;
@@ -6,7 +7,7 @@ using Mirror;
 using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
-using Synapse.Permissions;
+using Synapse.Configs;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -16,7 +17,37 @@ namespace Synapse.Api
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Player : MonoBehaviour
     {
-        public static Player Server => PlayerManager.localPlayer.GetPlayer();
+        public static Player Host => PlayerManager.localPlayer.GetPlayer();
+
+        public static IEnumerable<Player> GetAllPlayers()
+        {
+            return (from gameObject in PlayerManager.players
+                    where gameObject != PlayerManager.localPlayer && gameObject != null
+                    select gameObject.GetPlayer()).ToList();
+        }
+
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
+        public static Player GetPlayer(int id) => Player.GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
+
+        /// <summary>
+        /// Gives you the player object
+        /// </summary>
+        public static Player GetPlayer(string arg)
+        {
+            if (short.TryParse(arg, out var playerId))
+                return GetPlayer(playerId);
+
+            if (!arg.EndsWith("@steam") && !arg.EndsWith("@discord") && !arg.EndsWith("@northwood") &&
+                !arg.EndsWith("@patreon"))
+                return Player.GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
+            foreach (var player in Player.GetAllPlayers())
+                if (player.UserId == arg)
+                    return player;
+
+            return Player.GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
+        }
 
 
         public ReferenceHub Hub => GetComponent<ReferenceHub>();
@@ -60,7 +91,7 @@ namespace Synapse.Api
         {
             get
             {
-                if (this == Server) return ServerConsole._scs;
+                if (this == Host) return ServerConsole._scs;
                 else return QueryProcessor._sender;
             }
         }
@@ -125,8 +156,8 @@ namespace Synapse.Api
                 {
                     Hub.transform.localScale = value;
 
-                    foreach (var player in PlayerExtensions.GetAllPlayers())
-                        PlayerExtensions.SendSpawnMessage?.Invoke(null, new object[] { Hub.GetComponent<NetworkIdentity>(), player.Connection });
+                    foreach (var player in GetAllPlayers())
+                        Server.SendSpawnMessage?.Invoke(null, new object[] { Hub.GetComponent<NetworkIdentity>(), player.Connection });
                 }
                 catch (Exception e)
                 {
@@ -254,7 +285,7 @@ namespace Synapse.Api
         /// <remarks>maybe be null, if set to null, uncuffed</remarks>
         public Player Cuffer 
         { 
-            get => PlayerExtensions.GetPlayer(Handcuffs.CufferId);
+            get => GetPlayer(Handcuffs.CufferId);
             set
             {
                 var handcuff = value.Handcuffs;
@@ -323,8 +354,6 @@ namespace Synapse.Api
         /// </summary>
         public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
 
-        //TODO: Find a way to make this possible again: public bool FriendlyFire { get => Hub.weaponManager.NetworkfriendlyFire; set => Hub.weaponManager.NetworkfriendlyFire = value; }
-
         /// <summary>
         /// The current camera the player uses (Scp079 only, if not null)
         /// </summary>
@@ -357,6 +386,7 @@ namespace Synapse.Api
 
         public Jail Jail => GetComponent<Jail>();
 
+        public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
         //Methods
         /// <summary>
@@ -371,7 +401,7 @@ namespace Synapse.Api
         /// <param name="duration"></param>
         /// <param name="reason"></param>
         /// <param name="issuer"></param>
-        public void Ban(int duration, string reason, string issuer = "Plugin") => Server.GetComponent<BanPlayer>().BanUser(gameObject, duration, reason, issuer);
+        public void Ban(int duration, string reason, string issuer = "Plugin") => Host.GetComponent<BanPlayer>().BanUser(gameObject, duration, reason, issuer);
 
         /// <summary>
         /// Kills a player
@@ -393,7 +423,7 @@ namespace Synapse.Api
         /// <returns></returns>
         public bool CheckPermission(string permission)
         {
-            if (this == Server) return true;
+            if (this == Host) return true;
             try
             {
                 return PermissionReader.CheckPermission(this, permission);
@@ -476,6 +506,12 @@ namespace Synapse.Api
         /// <param name="other"></param>
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
+        public void DropItem(Inventory.SyncItemInfo item)
+        {
+            Inventory.SetPickup(item.id, item.durability, Position, Inventory.camera.transform.rotation, item.modSight, item.modBarrel, item.modOther);
+            Items.Remove(item);
+        }
+
         /// <summary>
         /// Clears the players Inventory
         /// </summary>
@@ -524,7 +560,7 @@ namespace Synapse.Api
         /// <param name="port">The Port of the Server the Player should be send to</param>
         public void SendToServer(ushort port)
         {
-            PlayerStats component = Server.PlayerStats;
+            PlayerStats component = Host.PlayerStats;
             NetworkWriter writer = NetworkWriterPool.GetWriter();
             writer.WriteSingle(1f);
             writer.WriteUInt16(port);
@@ -532,7 +568,7 @@ namespace Synapse.Api
             {
                 netId = component.netId,
                 componentIndex = component.ComponentIndex,
-                functionHash = PlayerExtensions.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
+                functionHash = Server.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
                 payload = writer.ToArraySegment()
             };
             Connection.Send<RpcMessage>(msg, 0);

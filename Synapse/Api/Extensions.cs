@@ -11,23 +11,8 @@ namespace Synapse.Api
 {
     [SuppressMessage("ReSharper", "MemberCanBePrivate.Global")]
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
-    public static class PlayerExtensions
+    public static class Extensions
     {
-        private static MethodInfo _sendSpawnMessage;
-        public static MethodInfo SendSpawnMessage
-        {
-            get
-            {
-                if (_sendSpawnMessage == null)
-                    _sendSpawnMessage = typeof(NetworkServer).GetMethod("SendSpawnMessage",BindingFlags.Instance | BindingFlags.InvokeMethod
-                        | BindingFlags.NonPublic | BindingFlags.Static | BindingFlags.Public);
-
-                return _sendSpawnMessage;
-            }
-        }
-
-        internal static int GetMethodHash(Type invokeClass, string methodName) => invokeClass.FullName.GetStableHashCode() * 503 + methodName.GetStableHashCode();
-
         /// <summary>Gives a player a message in the RemoteAdmin</summary>
         /// <param name="sender">The User who you send the Message</param>
         /// <param name="message">The Message you want to send</param>
@@ -68,27 +53,22 @@ namespace Synapse.Api
         }
 
         /// <summary>
-        /// Gives all players on the server
-        /// </summary>
-        public static IEnumerable<Player> GetAllPlayers()
-        {
-            return (from gameObject in PlayerManager.players
-                    where gameObject != PlayerManager.localPlayer && gameObject != null
-                    select gameObject.GetPlayer()).ToList();
-        }
-
-        /// <summary>
         /// Gives all players on the server with this Role
         /// </summary>
         /// <param name="role"></param>
-        public static IEnumerable<Player> GetAllPlayers(this RoleType role) => GetAllPlayers().Where(x => x.Role == role);
+        public static IEnumerable<Player> GetAllPlayers(this RoleType role) => Player.GetAllPlayers().Where(x => x.Role == role);
+
+
+        public static IEnumerable<Player> GetAllPlayers(this RoleType[] roles) => Player.GetAllPlayers().Where(x => roles.Any(r => x.Role == r));
+
+        public static IEnumerable<Player> GetAllPlayers(this Team[] teams) => Player.GetAllPlayers().Where(x => teams.Any(t => x.Team == t));
 
         /// <summary>
         /// Gives all players on the server in this Team
         /// </summary>
         /// <param name="team"></param>
         /// <returns></returns>
-        public static IEnumerable<Player> GetAllPlayers(this Team team) => GetAllPlayers().Where(x => x.Team == team);
+        public static IEnumerable<Player> GetAllPlayers(this Team team) => Player.GetAllPlayers().Where(x => x.Team == team);
 
         /// <summary>
         /// Gives you the player object
@@ -104,28 +84,5 @@ namespace Synapse.Api
         /// Gives you the player object
         /// </summary>
         public static Player GetPlayer(this GameObject gameObject) => gameObject.GetComponent<Player>();
-
-        /// <summary>
-        /// Gives you the player object
-        /// </summary>
-        public static Player GetPlayer(int id) => GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
-
-        /// <summary>
-        /// Gives you the player object
-        /// </summary>
-        public static Player GetPlayer(string arg)
-        {
-            if (short.TryParse(arg, out var playerId))
-                return GetPlayer(playerId);
-
-            if (!arg.EndsWith("@steam") && !arg.EndsWith("@discord") && !arg.EndsWith("@northwood") &&
-                !arg.EndsWith("@patreon"))
-                return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
-            foreach (var player in GetAllPlayers())
-                if (player.UserId == arg)
-                    return player;
-
-            return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
-        }
     }
 }

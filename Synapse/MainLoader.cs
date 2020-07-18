@@ -7,7 +7,7 @@ namespace Synapse
     [SuppressMessage("ReSharper", "UnusedType.Global")]
     public class MainLoader
     {
-        public const string version = "v.1.3-Beta";
+        public const string version = "v.1.4-Beta";
         /// <summary>This method is called by the Scp Server in the assembly-csharp</summary>
         // ReSharper disable once UnusedMember.Global
         public static void LoaderExecutionCode()
@@ -17,19 +17,19 @@ namespace Synapse
 
             Log.Info("Checking Files");
 
-            if (!Directory.Exists(PluginManager.MainConfigDirectory))
-                Directory.CreateDirectory(PluginManager.MainConfigDirectory);
+            if (!Directory.Exists(SynapseManager.MainConfigDirectory))
+                Directory.CreateDirectory(SynapseManager.MainConfigDirectory);
 
-            if (!Directory.Exists(PluginManager.MainPluginDirectory))
-                Directory.CreateDirectory(PluginManager.MainPluginDirectory);
+            if (!Directory.Exists(SynapseManager.MainPluginDirectory))
+                Directory.CreateDirectory(SynapseManager.MainPluginDirectory);
 
-            if (!Directory.Exists(PluginManager.DependenciesDirectory))
-                Directory.CreateDirectory(PluginManager.DependenciesDirectory);
+            if (!Directory.Exists(SynapseManager.DependenciesDirectory))
+                Directory.CreateDirectory(SynapseManager.DependenciesDirectory);
 
             CustomNetworkManager.Modded = true;
             try
             {
-                Timing.RunCoroutine(PluginManager.StartSynapse());
+                Timing.RunCoroutine(SynapseManager.StartSynapse());
             }
             catch
             {

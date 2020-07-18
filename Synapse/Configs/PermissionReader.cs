@@ -7,7 +7,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 // ReSharper disable All
 
-namespace Synapse.Permissions
+namespace Synapse.Configs
 {
     public static class PermissionReader
     {
@@ -15,7 +15,7 @@ namespace Synapse.Permissions
         private static Yml _permissionsConfig;
 
         private static readonly string PermissionPath =
-            Path.Combine(PluginManager.ServerConfigDirectory, "permissions.yml");
+            Path.Combine(SynapseManager.ServerConfigDirectory, "permissions.yml");
 
         // Methods
         internal static void Init()

@@ -5,12 +5,13 @@ using System.Linq;
 using System.Reflection;
 using MEC;
 using Synapse.Events.Patches;
-using Synapse.Permissions;
+using Synapse.Configs;
 using SynapseModLoader;
+using Synapse.Api.Plugin;
 
 namespace Synapse
 {
-    public static class PluginManager
+    public static class SynapseManager
     {
         // Variables
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
@@ -87,7 +88,7 @@ namespace Synapse
 
         private static void LoadSynapse()
         {
-            Configs.ReloadConfig();
+            SynapseConfigs.ReloadConfig();
             HarmonyPatch();
             _eventHandler = new Events.EventHandlers();
             
@@ -105,7 +106,7 @@ namespace Synapse
 
 
         private static void LoadDependencies()
-        {
+        { 
             Log.Info("Loading Dependencies...");
             var depends = Directory.GetFiles(DependenciesDirectory);
 
@@ -118,7 +119,7 @@ namespace Synapse
 
                 var assembly = Assembly.LoadFrom(dll);
                 LoadedDependencies.Add(assembly);
-                Log.Info($"Successfully loaded {dll}");
+                Log.Info($"Successfully loaded {assembly.GetName().Name}");
             }
         }
 
@@ -147,8 +148,18 @@ namespace Synapse
 
                     if (!(plugin is Plugin p)) continue;
 
+                    p.Details = type.GetCustomAttribute<PluginDetails>();
+                    if (p.Details == null)
+                        p.Details = new PluginDetails()
+                        {
+                            Author = "?",
+                            Description = "?",
+                            Name = "?",
+                            Version = "?",
+                        };
+
                     Plugins.Add(p);
-                    Log.Info($"Successfully loaded {p.GetName}");
+                    Log.Info($"Successfully loaded {p.Details.Name}");
                 }
             }
             catch (Exception e)
@@ -163,19 +174,19 @@ namespace Synapse
                 try
                 {
                     plugin.Translation = new Translation {Plugin = plugin};
-                    plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.GetName);
+                    plugin.OwnPluginFolder = Path.Combine(ServerPluginDirectory, plugin.Details.Name);
                     plugin.OnEnable();
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"Plugin {plugin.GetName} threw an exception while enabling {e}");
+                    Log.Error($"Plugin {plugin.Details.Name} threw an exception while enabling {e}");
                 }
         }
 
         internal static void OnConfigReload()
         {
             Plugin.Config = new YamlConfig(ServerConfigFile);
-            Configs.ReloadConfig();
+            SynapseConfigs.ReloadConfig();
 
             foreach (var plugin in Plugins)
                 try
@@ -184,7 +195,7 @@ namespace Synapse
                 }
                 catch (Exception e)
                 {
-                    Log.Error($"Plugin {plugin.GetName} threw an exception while reloading {e}");
+                    Log.Error($"Plugin {plugin.Details.Name} threw an exception while reloading {e}");
                 }
         }
 

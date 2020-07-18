@@ -64,12 +64,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Plugin\PluginDetails.cs" />
+    <Compile Include="Api\Server.cs" />
+    <Compile Include="Api\Decontamination.cs" />
+    <Compile Include="Api\Warhead.cs" />
+    <Compile Include="Api\Round.cs" />
     <Compile Include="Api\Enums\Effects.cs" />
     <Compile Include="Api\Jail.cs" />
     <Compile Include="Api\Player.cs" />
     <Compile Include="Api\Enums\ZoneType.cs" />
     <Compile Include="Api\Room.cs" />
-    <Compile Include="Api\PlayerExtensions.cs" />
+    <Compile Include="Api\Extensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
@@ -86,8 +91,8 @@
     <Compile Include="Events\Patches\UseItemPatch.cs" />
     <Compile Include="Events\Patches\ComponentsPatch.cs" />
     <Compile Include="Events\Patches\GeneratorPatches.cs" />
-    <Compile Include="Translation.cs" />
-    <Compile Include="Configs.cs" />
+    <Compile Include="Api\Plugin\Translation.cs" />
+    <Compile Include="Configs\SynapseConfigs.cs" />
     <Compile Include="Events\Classes\CheckRoundEndEvent.cs" />
     <Compile Include="Events\Classes\FemurEnterEvent.cs" />
     <Compile Include="Events\Classes\DropItemEvent.cs" />
@@ -142,10 +147,10 @@
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ScpEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
-    <Compile Include="Permissions\PermissionReader.cs" />
-    <Compile Include="Plugin.cs" />
+    <Compile Include="Configs\PermissionReader.cs" />
+    <Compile Include="Api\Plugin\Plugin.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="PluginManager.cs" />
+    <Compile Include="SynapseManager.cs" />
     <Compile Include="MainLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

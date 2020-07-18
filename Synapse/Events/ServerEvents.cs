@@ -83,24 +83,20 @@ namespace Synapse.Events
         public delegate void TeamRespawn(TeamRespawnEvent ev);
         public static event TeamRespawn TeamRespawnEvent;
         
-        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnList, ref bool isChaos, ref bool allow ,ref bool useTickets)
+        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnList, ref Respawning.SpawnableTeamType team)
         {
             if (TeamRespawnEvent == null) return;
 
             var ev = new TeamRespawnEvent
             {
-                Allow = allow,
-                IsChaos = isChaos,
                 RespawnList = respawnList,
-                UseTickets = useTickets
+                Team = team
             };
 
             TeamRespawnEvent.Invoke(ev);
 
+            team = ev.Team;
             respawnList = ev.RespawnList;
-            isChaos = ev.IsChaos;
-            allow = ev.Allow;
-            useTickets = ev.UseTickets;
         }
         
         public delegate void OnPreAuthenticationEvent(PreAuthenticationEvent ev);
