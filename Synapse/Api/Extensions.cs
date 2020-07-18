@@ -61,6 +61,8 @@ namespace Synapse.Api
 
         public static IEnumerable<Player> GetAllPlayers(this RoleType[] roles) => Player.GetAllPlayers().Where(x => roles.Any(r => x.Role == r));
 
+        public static IEnumerable<Player> GetAllPlayers(this Team[] roles) => Player.GetAllPlayers().Where(x => roles.Any(t => x.Team == t));
+
         /// <summary>
         /// Gives all players on the server in this Team
         /// </summary>
