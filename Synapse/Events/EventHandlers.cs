@@ -4,7 +4,7 @@ using MEC;
 using Synapse.Api;
 using Synapse.Api.Enums;
 using Synapse.Events.Classes;
-using Synapse.Permissions;
+using Synapse.Configs;
 using UnityEngine;
 
 namespace Synapse.Events
@@ -33,13 +33,13 @@ namespace Synapse.Events
         // Methods
         private void OnPlayerJoin(PlayerJoinEvent ev)
         {
-            ev.Player.Broadcast(Configs.JoinMessageDuration,Configs.JoinBroadcast);
-            ev.Player.GiveTextHint(Configs.JoinTextHint, Configs.JoinMessageDuration);
+            ev.Player.Broadcast(SynapseConfigs.JoinMessageDuration, SynapseConfigs.JoinBroadcast);
+            ev.Player.GiveTextHint(SynapseConfigs.JoinTextHint, SynapseConfigs.JoinMessageDuration);
         }
 
         private static void OnDoorInteract(DoorInteractEvent ev)
         {
-            if (!Configs.RemoteKeyCard) return;
+            if (!SynapseConfigs.RemoteKeyCard) return;
             if (ev.Allow) return;
 
             if (!ev.Player.Items.Any()) return;

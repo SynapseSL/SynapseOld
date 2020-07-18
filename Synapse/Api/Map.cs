@@ -1,5 +1,4 @@
-﻿using LightContainmentZoneDecontamination;
-using Synapse.Permissions;
+﻿using Synapse.Configs;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

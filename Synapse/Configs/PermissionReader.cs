@@ -7,7 +7,7 @@ using YamlDotNet.Serialization.NamingConventions;
 
 // ReSharper disable All
 
-namespace Synapse.Permissions
+namespace Synapse.Configs
 {
     public static class PermissionReader
     {

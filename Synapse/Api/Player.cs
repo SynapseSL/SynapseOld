@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Dissonance;
 using Hints;
 using Mirror;
 using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
-using Synapse.Permissions;
+using Synapse.Configs;
 using UnityEngine;
 
 namespace Synapse.Api

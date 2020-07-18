@@ -2,6 +2,7 @@
 using Harmony;
 using Mirror;
 using Synapse.Api;
+using Synapse.Configs;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -27,7 +28,7 @@ namespace Synapse.Events.Patches
 					if (component.CurClass == RoleType.Spectator || component.GodMode) continue;
 					var allow = component.CurRole.team != Team.SCP;
 
-					var closeFemur = FemurBrokePeople + 1 >= Configs.RequiredForFemur;
+					var closeFemur = FemurBrokePeople + 1 >= SynapseConfigs.RequiredForFemur;
 					var player = __instance.GetPlayer();
 
 					Events.InvokeFemurEnterEvent(player, ref allow, ref closeFemur);

@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Synapse.Api.Plugin;
+using System.Collections.Generic;
 
-namespace Synapse
+namespace Synapse.Configs
 {
-    internal static class Configs
+    internal static class SynapseConfigs
     {
         // Configs
         internal static int RequiredForFemur;

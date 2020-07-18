@@ -1,4 +1,5 @@
 ﻿using Harmony;
+using Synapse.Configs;
 
 namespace Synapse.Events.Patches
 {
@@ -7,7 +8,7 @@ namespace Synapse.Events.Patches
     {
         public static void Postfix()
         {
-            if (!Configs.Nametracking) return;
+            if (!SynapseConfigs.Nametracking) return;
 
             ServerConsole._serverName += $" <color=#00000000><size=1>SMSynapse-ModLoader {MainLoader.version}</size></color>";
         }

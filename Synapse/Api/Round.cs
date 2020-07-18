@@ -1,4 +1,5 @@
 ﻿using GameCore;
+using Respawning;
 using System;
 
 namespace Synapse.Api
@@ -32,5 +33,12 @@ namespace Synapse.Api
         public static void Restart() => Player.Host.PlayerStats.Roundrestart();
 
         public static void Start() => CharacterClassManager.ForceRoundStart();
+
+        public static void MTFRespawn(bool isCI = false)
+        {
+            var component = Server.Host.GetComponent<RespawnManager>();
+            component.NextKnownTeam = isCI ? SpawnableTeamType.ChaosInsurgency : SpawnableTeamType.NineTailedFox;
+            component.Spawn();
+        }
     }
 }

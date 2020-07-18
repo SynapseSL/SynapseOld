@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
-namespace Synapse
+namespace Synapse.Api.Plugin
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class Translation
@@ -14,7 +14,7 @@ namespace Synapse
 
         public void CreateTranslations(Dictionary<string,string> translations)
         {
-            _translationPath = Path.Combine(PluginManager.ServerConfigDirectory, Plugin.GetName + "-translation.txt");
+            _translationPath = Path.Combine(PluginManager.ServerConfigDirectory, Plugin.Details.Name + "-translation.txt");
             if (!File.Exists(_translationPath))
                 File.Create(_translationPath).Close();
             var dictionary = new Dictionary<string, string>();

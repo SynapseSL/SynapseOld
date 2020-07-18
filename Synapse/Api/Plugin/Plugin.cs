@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Synapse
+namespace Synapse.Api.Plugin
 {
     public abstract class Plugin
     {
@@ -16,6 +16,8 @@ namespace Synapse
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }
+
+        public PluginDetails Details { get; internal set; }
 
         private string _ownPluginFolder;
 
@@ -35,8 +37,6 @@ namespace Synapse
             }
             internal set => _ownPluginFolder = value;
         }
-
-        public abstract string GetName { get; }
 
         /// <summary>The Method ist always activated when the Server starts</summary>
         /// <remarks>You can use it to hook Events</remarks>
