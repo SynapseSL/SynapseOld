@@ -23,8 +23,6 @@ namespace Synapse.Api
 
         private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
-        private static List<Room> _rooms = new List<Room>();
-
         /// <summary>
         /// Gives you a list of all rooms
         /// </summary>
@@ -32,12 +30,9 @@ namespace Synapse.Api
         {
             get
             {
-                if (_rooms == null || _rooms.Count == 0)
-                    _rooms = Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room"))
+                return Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room"))
                         .Select(obj => new Room {Name = obj.name, Position = obj.position, Transform = obj.transform})
                         .ToList();
-
-                return _rooms;
             }
         }
 
