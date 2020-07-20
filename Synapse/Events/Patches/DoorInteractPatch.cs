@@ -18,9 +18,9 @@ namespace Synapse.Events.Patches
                 if (!__instance._playerInteractRateLimit.CanExecute() ||
                     (__instance._hc.CufferId > 0 && !PlayerInteract.CanDisarmedInteract) || doorId == null ||
                     __instance._ccm.CurClass == RoleType.None || __instance._ccm.CurClass == RoleType.Spectator ||
-                    !doorId.TryGetComponent(out door) || !((door.buttons.Count == 0)
+                    !doorId.TryGetComponent(out door) || !((door.Buttons.Count == 0)
                         ? __instance.ChckDis(doorId.transform.position)
-                        : door.buttons.Any(item => __instance.ChckDis(item.transform.position)))) return false;
+                        : door.Buttons.Any(item => __instance.ChckDis(item.button.transform.position)))) return false;
                 
                 __instance.OnInteract();
                 
