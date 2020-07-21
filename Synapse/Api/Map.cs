@@ -30,7 +30,7 @@ namespace Synapse.Api
         {
             get
             {
-                return Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room"))
+                return Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room") || transform.name == "Root_*&*Outside Cams")
                         .Select(obj => new Room {Name = obj.name, Position = obj.position, Transform = obj.transform})
                         .ToList();
             }

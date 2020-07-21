@@ -5,20 +5,11 @@ namespace Synapse.Api
 {
     public class Room
     {
-        private string name;
         private ZoneType _zone = ZoneType.Unspecified;
         /// <summary>
         /// The name of the room
         /// </summary>
-        public string Name
-        {
-            get => name;
-            set
-            {
-                if (value == "Root_*&*Outside Cams") name = "Outside";
-                else name = value;
-            }
-        }
+        public string Name { get; set; }
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         /// <summary>
