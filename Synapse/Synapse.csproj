@@ -77,6 +77,8 @@
     <Compile Include="Api\Extensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Synapse.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
     <Compile Include="Events\Classes\PickupItemEvent.cs" />
     <Compile Include="Events\Classes\Scp079GainLvlEvent.cs" />
@@ -92,7 +94,7 @@
     <Compile Include="Events\Patches\ComponentsPatch.cs" />
     <Compile Include="Events\Patches\GeneratorPatches.cs" />
     <Compile Include="Api\Plugin\Translation.cs" />
-    <Compile Include="Configs\SynapseConfigs.cs" />
+    <Compile Include="Config\SynapseConfigs.cs" />
     <Compile Include="Events\Classes\CheckRoundEndEvent.cs" />
     <Compile Include="Events\Classes\FemurEnterEvent.cs" />
     <Compile Include="Events\Classes\DropItemEvent.cs" />
@@ -147,11 +149,9 @@
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ScpEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
-    <Compile Include="Configs\PermissionReader.cs" />
+    <Compile Include="Config\PermissionReader.cs" />
     <Compile Include="Api\Plugin\Plugin.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="SynapseManager.cs" />
-    <Compile Include="MainLoader.cs" />
+    <Compile Include="Api\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

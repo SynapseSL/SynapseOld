@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MEC;
+﻿using System.Linq;
 using Synapse.Api;
 using Synapse.Api.Enums;
 using Synapse.Events.Classes;
-using Synapse.Configs;
+using Synapse.Config;
 using UnityEngine;
 
 namespace Synapse.Events
@@ -78,7 +76,7 @@ namespace Synapse.Events
                         return;
                     }
 
-                    SynapseManager.OnConfigReload();
+                    ConfigManager.ReloadAllConfigs();
                     ev.Sender.RaMessage("Configs Reloaded!", true, RaCategory.ServerConfigs);
                     return;
             }

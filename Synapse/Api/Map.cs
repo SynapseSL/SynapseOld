@@ -1,4 +1,4 @@
-﻿using Synapse.Configs;
+﻿using Synapse.Config;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;

@@ -7,7 +7,7 @@ using Mirror;
 using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
-using Synapse.Configs;
+using Synapse.Config;
 using UnityEngine;
 
 namespace Synapse.Api

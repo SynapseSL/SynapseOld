@@ -1,7 +1,7 @@
 ﻿using Synapse.Api.Plugin;
 using System.Collections.Generic;
 
-namespace Synapse.Configs
+namespace Synapse.Config
 {
     internal static class SynapseConfigs
     {

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Mirror;
 using Synapse.Api.Enums;
+using Synapse.Api.Plugin;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -84,5 +85,9 @@ namespace Synapse.Api
         /// Gives you the player object
         /// </summary>
         public static Player GetPlayer(this GameObject gameObject) => gameObject.GetComponent<Player>();
+
+        public static string GetVersionString(this PluginDetails details) => $"{details.SynapseMajor}.{details.SynapseMinor}.{details.SynapsePatch}";
+
+        public static int GetVersionNumber(this PluginDetails details) => details.SynapseMajor * 100 + details.SynapseMinor * 10 + details.SynapsePatch;
     }
 }
