@@ -240,7 +240,7 @@ namespace Synapse.Api
         /// <summary>
         /// The Room where the player currently is
         /// </summary>
-        public Room CurRoom
+        public Room Room
         {
             get
             {
