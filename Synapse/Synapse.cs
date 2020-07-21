@@ -260,7 +260,7 @@ namespace Synapse
                 var path = Path.Combine(Files.ServerConfigDirectory, "permissions.yml");
 
                 if (!File.Exists(path))
-                    File.Create(path).Close();
+                    File.WriteAllText(path, "groups:\n    user:\n        default: true\n        permissions:\n        - plugin.permission\n    northwood:\n        northwood: true\n        permissions:\n        - plugin.permission\n    owner:\n        permissions:\n        - .*");
 
                 return path;
             }

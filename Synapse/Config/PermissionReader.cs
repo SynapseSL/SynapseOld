@@ -17,9 +17,6 @@ namespace Synapse.Config
         // Methods
         internal static void Init()
         {
-            if (!File.Exists(Files.PermissionFile))
-                File.WriteAllText(Files.PermissionFile, "groups:\n    user:\n        default: true\n        permissions:\n        - plugin.permission\n    northwood:\n        northwood: true\n        permissions:\n        - plugin.permission\n    owner:\n        permissions:\n        - .*");
-
             ReloadPermission();
         }
 
