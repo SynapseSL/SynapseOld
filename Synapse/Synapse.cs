@@ -56,7 +56,7 @@ namespace Synapse
 
             foreach (var plugin in Directory.GetFiles(Files.ServerPluginDirectory))
             {
-                if (plugin.EndsWith("Synapse.dll")) continue;
+                if (plugin == "Synapse.dll") continue;
 
                 if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
             }
