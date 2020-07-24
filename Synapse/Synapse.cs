@@ -16,8 +16,8 @@ namespace Synapse
     public static class Synapse
     {
         #region Version
-        private const int MajorVersion = 0;
-        private const int MinorVerion = 5;
+        private const int MajorVersion = 1;
+        private const int MinorVerion = 0;
         private const int Patch = 0;
 
         public static int VersionNumber => MajorVersion * 100 + MinorVerion * 10 + Patch;
