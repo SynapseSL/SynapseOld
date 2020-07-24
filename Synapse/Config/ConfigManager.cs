@@ -13,8 +13,8 @@ namespace Synapse.Config
 
         internal static void ReloadAllConfigs()
         {
-            SynapseConfigs.ReloadConfig();
             Plugin.Config = new YamlConfig(Files.ServerConfigFile);
+            SynapseConfigs.ReloadConfig();
 
             foreach (var plugin in Synapse.plugins)
                 try
