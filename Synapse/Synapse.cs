@@ -18,7 +18,7 @@ namespace Synapse
         #region Version
         private const int MajorVersion = 1;
         private const int MinorVerion = 0;
-        private const int Patch = 0;
+        private const int Patch = 1;
 
         public static int VersionNumber => MajorVersion * 100 + MinorVerion * 10 + Patch;
         public static string Version => $"{MajorVersion}.{MinorVerion}.{Patch}";
@@ -131,10 +131,10 @@ namespace Synapse
                         };
 
                     plugins.Add(p);
-                    if (p.Details.GetVersionNumber() == VersionNumber) Log.Info($"Successfully loaded {p.Details.Name}");
+                    if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor == MajorVersion * 10 + MinorVerion) Log.Info($"Successfully loaded {p.Details.Name}");
 
-                    else if (p.Details.GetVersionNumber() > VersionNumber) Log.Warn($"The Plugin {p.Details.Name} is for the newer Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
-                    
+                    else if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor > MajorVersion * 10 + MinorVerion) Log.Warn($"The Plugin {p.Details.Name} is for the newer Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
+
                     else Log.Warn($"The Plugin {p.Details.Name} is for the older Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
                 }
             }
