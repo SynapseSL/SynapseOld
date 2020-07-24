@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using MEC;
+﻿using System.Linq;
 using Synapse.Api;
 using Synapse.Api.Enums;
 using Synapse.Events.Classes;
-using Synapse.Permissions;
+using Synapse.Config;
 using UnityEngine;
 
 namespace Synapse.Events
@@ -12,45 +10,38 @@ namespace Synapse.Events
     // ReSharper disable once UnusedType.Global
     internal class EventHandlers
     {
-        // Variables
-        private bool _roundInProgress;
-
-        // ReSharper disable once NotAccessedField.Local
-        private int _roundTime;
-
         // Constructor
         public EventHandlers()
         {
             Events.SyncDataEvent += OnSyncData;
             Events.RemoteCommandEvent += OnRemoteCommand;
-            Events.RoundStartEvent += OnRoundStart;
-            Events.RoundEndEvent += OnRoundEnd;
-            Events.RoundRestartEvent += OnRoundRestart;
             Events.DoorInteractEvent += OnDoorInteract;
             Events.PlayerJoinEvent += OnPlayerJoin;
         }
 
         // Methods
-        private void OnPlayerJoin(ref PlayerJoinEvent ev)
+        private void OnPlayerJoin(PlayerJoinEvent ev)
         {
-            ev.Player.Broadcast(Configs.JoinMessageDuration,Configs.JoinBroadcast);
-            ev.Player.GiveTextHint(Configs.JoinTextHint, Configs.JoinMessageDuration);
+            ev.Player.Broadcast(SynapseConfigs.JoinMessageDuration, SynapseConfigs.JoinBroadcast);
+            ev.Player.GiveTextHint(SynapseConfigs.JoinTextHint, SynapseConfigs.JoinMessageDuration);
         }
 
-        private static void OnDoorInteract(ref DoorInteractEvent ev)
+        private static void OnDoorInteract(DoorInteractEvent ev)
         {
-            if (!Configs.RemoteKeyCard) return;
+            if (!SynapseConfigs.RemoteKeyCard) return;
             if (ev.Allow) return;
 
             if (!ev.Player.Items.Any()) return;
-            var itemPerms = ev.Player.Inventory.GetItemByID(ev.Player.Inventory.curItem).permissions;
-            var door = ev.Door;
-            ev.Allow = itemPerms.Any(p =>
-                door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
-                door.PermissionLevels.HasPermission(flag));
+            foreach (var item in ev.Player.Items)
+            {
+                var itemPerms = ev.Player.Inventory.GetItemByID(item.id).permissions;
+                ev.Allow = itemPerms.Any(p =>
+                    ev.Door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                    ev.Door.PermissionLevels.HasPermission(flag));
+            }
         }
 
-        private static void OnSyncData(ref SyncDataEvent ev)
+        private static void OnSyncData(SyncDataEvent ev)
         {
             if (ev.Player.Role != RoleType.ClassD &&
                 ev.Player.Role != RoleType.Scientist &&
@@ -58,7 +49,7 @@ namespace Synapse.Events
                 ev.Player.Hub.characterClassManager.CmdRegisterEscape();
         }
 
-        private static void OnRemoteCommand(ref RemoteCommandEvent ev)
+        private static void OnRemoteCommand(RemoteCommandEvent ev)
         {
             var args = ev.Command.Split(' ');
             switch (args[0].ToUpper())
@@ -85,36 +76,9 @@ namespace Synapse.Events
                         return;
                     }
 
-                    PluginManager.OnConfigReload();
+                    ConfigManager.ReloadAllConfigs();
                     ev.Sender.RaMessage("Configs Reloaded!", true, RaCategory.ServerConfigs);
                     return;
-            }
-        }
-
-        private void OnRoundStart()
-        {
-            Timing.RunCoroutine(RoundTime());
-            _roundInProgress = true;
-        }
-
-        private void OnRoundEnd()
-        {
-            _roundInProgress = false;
-        }
-
-        private void OnRoundRestart()
-        {
-            _roundInProgress = false;
-            Map.Rooms.Clear();
-        }
-
-        private IEnumerator<float> RoundTime()
-        {
-            for (;;)
-            {
-                yield return Timing.WaitForSeconds(1f);
-                _roundTime++;
-                if (!_roundInProgress) break;
             }
         }
     }

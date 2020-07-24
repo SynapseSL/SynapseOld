@@ -1,7 +1,7 @@
 ﻿using System;
+using Synapse.Api;
 using GameCore;
 using Harmony;
-using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
@@ -15,7 +15,7 @@ namespace Synapse.Events.Patches
             try
             {
                 var player = user.GetPlayer();
-                var banIssuer = PlayerExtensions.GetPlayer(issuer);
+                var banIssuer = Player.GetPlayer(issuer);
                 var allow = true;
                 Events.InvokePlayerBanEvent(player, duration, ref allow, reason, banIssuer);
 

@@ -52,7 +52,7 @@ namespace Synapse.Events.Patches
                 }
 
                 //TeamCheck
-                var component3 = PlayerManager.localPlayer.GetComponent<MTFRespawn>();
+                Respawning.RespawnTickets singleton = Respawning.RespawnTickets.Singleton;
                 var team = __instance.CurRole.team;
                 switch (team)
                 {
@@ -79,13 +79,11 @@ namespace Synapse.Events.Patches
                 {
                     case Team.MTF:
                         RoundSummary.escaped_scientists++;
-                        component3.MtfRespawnTickets +=
-                            ConfigFile.ServerConfig.GetInt("respawn_tickets_mtf_scientist_count", 1);
+                        singleton.GrantTickets(Respawning.SpawnableTeamType.NineTailedFox, GameCore.ConfigFile.ServerConfig.GetInt("respawn_tickets_mtf_classd_cuffed_count", 1), false);
                         break;
                     case Team.CHI:
                         RoundSummary.escaped_ds++;
-                        component3.ChaosRespawnTickets +=
-                            ConfigFile.ServerConfig.GetInt("respawn_tickets_ci_scientist_cuffed_count", 2);
+                        singleton.GrantTickets(Respawning.SpawnableTeamType.ChaosInsurgency, GameCore.ConfigFile.ServerConfig.GetInt("respawn_tickets_ci_classd_count", 1), false);
                         break;
                 }
 

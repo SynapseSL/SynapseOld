@@ -8,7 +8,7 @@ namespace Synapse.Events
     public static partial class Events
     {
         // DoorInteractEvent
-        public delegate void OnDoorInteract(ref DoorInteractEvent ev);
+        public delegate void OnDoorInteract(DoorInteractEvent ev);
 
         public static event OnDoorInteract DoorInteractEvent;
 
@@ -23,12 +23,12 @@ namespace Synapse.Events
                 Door = door
             };
 
-            DoorInteractEvent.Invoke(ref ev);
+            DoorInteractEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
         //TeslaTriggerEvent
-        public delegate void OnTriggerTesla(ref TeslaTriggerEvent ev);
+        public delegate void OnTriggerTesla(TeslaTriggerEvent ev);
         public static event OnTriggerTesla TeslaTriggerEvent;
 
         internal static void InvokeTeslaTrigger(Player player, bool inRange, ref bool activated)
@@ -42,7 +42,7 @@ namespace Synapse.Events
                 Triggerable = activated
             };
 
-            TeslaTriggerEvent?.Invoke(ref ev);
+            TeslaTriggerEvent?.Invoke(ev);
 
             activated = ev.Triggerable;
         }

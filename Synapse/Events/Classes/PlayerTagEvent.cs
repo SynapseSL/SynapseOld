@@ -2,11 +2,11 @@
 
 namespace Synapse.Events.Classes
 {
-    public class UseItemEvent
+    public class PlayerTagEvent
     {
         public Player Player { get; internal set; }
 
-        public ItemType Item { get; internal set; }
+        public bool ShowTag { get; internal set; }
 
         public bool Allow { get; set; }
     }

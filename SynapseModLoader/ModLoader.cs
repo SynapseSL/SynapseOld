@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GameCore;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -34,24 +35,41 @@ namespace SynapseModLoader
                 return;
             }
             ServerConsole.AddLog("Synapse Mod-Loader is now initialising.. :)", ConsoleColor.Blue);
-            var text = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse");
-            if (!Directory.Exists(text))
+
+            try
             {
-                Directory.CreateDirectory(text);
+                var startupfile = Assembly.GetExecutingAssembly().Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
+                if (!File.Exists(startupfile))
+                {
+                    ServerConsole.AddLog($"Synapse Mod-Loader Start file is missing ... creating: {startupfile}", ConsoleColor.Blue);
+                    File.Create(startupfile).Close();
+                    File.WriteAllLines(startupfile, new string[] { "synapse_installation: default" });
+                }
+                var Config = new YamlConfig(startupfile);
+
+                var text = Config.GetString("synapse_installation", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse"));
+                if (!Directory.Exists(text))
+                {
+                    Directory.CreateDirectory(text);
+                }
+                if (!File.Exists(Path.Combine(text, "Synapse.dll")))
+                {
+                    ServerConsole.AddLog("Error while loading Synapse! The Synapse.dll is missing!", ConsoleColor.Red);
+                    return;
+                }
+                var methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes()
+                    .SelectMany(p => p.GetMethods()).FirstOrDefault(f => f.Name == "LoaderExecutionCode");
+                if (!(methodInfo != null))
+                {
+                    return;
+                }
+                methodInfo.Invoke(null, null);
+                _loaded = true;
             }
-            if (!File.Exists(Path.Combine(text, "Synapse.dll")))
+            catch (Exception e)
             {
-                ServerConsole.AddLog("Error while loading Synapse! The Synapse.dll is missing!", ConsoleColor.Red);
-                return;
+                ServerConsole.AddLog($"Synapse Mod-Loader startup Error: {e}", ConsoleColor.Red);
             }
-            var methodInfo = Assembly.Load(ReadFile(Path.Combine(text, "Synapse.dll"))).GetTypes()
-                .SelectMany(p => p.GetMethods()).FirstOrDefault(f => f.Name == "LoaderExecutionCode");
-            if (!(methodInfo != null))
-            {
-                return;
-            }
-            methodInfo.Invoke(null, null);
-            _loaded = true;
         }
 
         private static bool _loaded;

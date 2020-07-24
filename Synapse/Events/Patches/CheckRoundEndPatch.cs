@@ -115,7 +115,7 @@ namespace Synapse.Events.Patches
                     roundSummary._roundEnded = true;
                 }
                 
-                else if (mtfSum == 0 && PlayerManager.localPlayer.GetComponent<MTFRespawn>().MtfRespawnTickets == 0)
+                else if (mtfSum == 0 && Respawning.RespawnTickets.Singleton.GetAvailableTickets(Respawning.SpawnableTeamType.NineTailedFox) == 0)
                 {
                     roundSummary._roundEnded = true;
                 }

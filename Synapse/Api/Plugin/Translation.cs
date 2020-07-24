@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
-namespace Synapse
+namespace Synapse.Api.Plugin
 {
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class Translation
@@ -14,7 +14,7 @@ namespace Synapse
 
         public void CreateTranslations(Dictionary<string,string> translations)
         {
-            _translationPath = Path.Combine(PluginManager.ServerConfigDirectory, Plugin.GetName + "-translation.txt");
+            _translationPath = Path.Combine(Files.ServerConfigDirectory, Plugin.Details.Name + "-translation.txt");
             if (!File.Exists(_translationPath))
                 File.Create(_translationPath).Close();
             var dictionary = new Dictionary<string, string>();
@@ -22,8 +22,10 @@ namespace Synapse
             var newlines = new List<string>();
             var position = 0;
 
-            foreach (var pair in translations.ToList())
+            foreach (var rawpair in translations.ToList())
             {
+                var pair = new KeyValuePair<string,string>(rawpair.Key,rawpair.Value.Replace("\n", "\\n"));
+
                 if (lines.Length > position)
                 {
                     if (string.IsNullOrEmpty(lines[position]))
@@ -55,11 +57,12 @@ namespace Synapse
             try
             {
                 var trans = _translation.FirstOrDefault(x => x.Key == translationName).Value;
-                return trans;
+                if (trans == null) return "Plugin requested a not created Translation!";
+                return trans.Replace("\\n", "\n");
             }
             catch
             {
-                return "Invalid Translations Name";
+                return "Plugin requested a not created Translation!";
             }
         }
     }

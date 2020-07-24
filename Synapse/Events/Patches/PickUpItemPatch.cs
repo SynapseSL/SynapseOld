@@ -28,8 +28,10 @@ namespace Synapse.Events.Patches
                         }
                     }
                 }
-
-                __instance.SessionPipe.Invalidate();
+                else
+                {
+                    __instance.SessionPipe.Invalidate();
+                }
 
                 return false;
             }

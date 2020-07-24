@@ -6,7 +6,7 @@ namespace Synapse.Events
     public static partial class Events
     {
         /// <summary>A Event which is activated when Scp049 respawns a Player</summary>
-        public delegate void OnScp049Recall(ref Scp049RecallEvent ev);
+        public delegate void OnScp049Recall(Scp049RecallEvent ev);
         public static event OnScp049Recall Scp049RecallEvent;
 
         internal static void InvokeScp049RecallEvent(Player player, ref Ragdoll ragdoll, ref Player target,
@@ -24,7 +24,7 @@ namespace Synapse.Events
                 Player = player
             };
 
-            Scp049RecallEvent.Invoke(ref ev);
+            Scp049RecallEvent.Invoke(ev);
 
             ragdoll = ev.Ragdoll;
             target = ev.Target;
@@ -33,7 +33,7 @@ namespace Synapse.Events
             allow = ev.Allow;
         }
         
-        public delegate void OnPocketDimensionEnter(ref PocketDimensionEvent ev);
+        public delegate void OnPocketDimensionEnter(PocketDimensionEvent ev);
         public static event OnPocketDimensionEnter PocketDimensionEnterEvent;
 
         internal static void InvokePocketDimensionEnterEvent(Player player, ref bool allow)
@@ -46,12 +46,12 @@ namespace Synapse.Events
                 Allow = allow
             };
             
-            PocketDimensionEnterEvent.Invoke(ref ev);
+            PocketDimensionEnterEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
-        public delegate void OnScp106Containment(ref Scp106ContainmentEvent ev);
+        public delegate void OnScp106Containment(Scp106ContainmentEvent ev);
         public static event OnScp106Containment Scp106ContainmentEvent;
 
         internal static void InvokeScp106ContainmentEvent(Player player, ref bool allow)
@@ -64,13 +64,13 @@ namespace Synapse.Events
                 Allow = allow
             };
             
-            Scp106ContainmentEvent.Invoke(ref ev);
+            Scp106ContainmentEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
 
-        public delegate void OnScp079GainLvl(ref Scp079GainLvlEvent ev);
+        public delegate void OnScp079GainLvl(Scp079GainLvlEvent ev);
         public static event OnScp079GainLvl Scp079GainLvlEvent;
         internal static void InvokeScp079LvlEvent(Player player,ref int newlvl,ref bool allow)
         {
@@ -83,7 +83,7 @@ namespace Synapse.Events
                 Player = player
             };
 
-            Scp079GainLvlEvent.Invoke(ref ev);
+            Scp079GainLvlEvent.Invoke(ev);
 
             newlvl = ev.NewLvl;
             allow = ev.Allow;

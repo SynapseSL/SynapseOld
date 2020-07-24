@@ -38,7 +38,7 @@ namespace Synapse.Events
 
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
         /// <remarks>It need to hook ref RemoteCommandEvent ev</remarks>
-        public delegate void OnRemoteCommand(ref RemoteCommandEvent ev);
+        public delegate void OnRemoteCommand(RemoteCommandEvent ev);
         public static event OnRemoteCommand RemoteCommandEvent;
 
         internal static void InvokeRemoteCommandEvent(CommandSender sender, string command, ref bool allow)
@@ -52,13 +52,13 @@ namespace Synapse.Events
                 Command = command
             };
 
-            RemoteCommandEvent.Invoke(ref ev);
+            RemoteCommandEvent.Invoke(ev);
 
             allow = ev.Allow;
         }
 
         /// <summary>A Event which is activated when a user send a Command in the Remote Admin</summary>
-        public delegate void OnConsoleCommand(ref ConsoleCommandEvent ev);
+        public delegate void OnConsoleCommand(ConsoleCommandEvent ev);
         public static event OnConsoleCommand ConsoleCommandEvent;
 
         internal static void InvokeConsoleCommandEvent(Player player, string command, out string color,
@@ -74,36 +74,32 @@ namespace Synapse.Events
                 Player = player
             };
 
-            ConsoleCommandEvent.Invoke(ref ev);
+            ConsoleCommandEvent.Invoke(ev);
 
             color = ev.Color;
             returning = ev.ReturnMessage;
         }
 
-        public delegate void TeamRespawn(ref TeamRespawnEvent ev);
+        public delegate void TeamRespawn(TeamRespawnEvent ev);
         public static event TeamRespawn TeamRespawnEvent;
         
-        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnList, ref bool isChaos, ref bool allow ,ref bool useTickets)
+        internal static void InvokeTeamRespawnEvent(ref List<Player> respawnList, ref Respawning.SpawnableTeamType team)
         {
             if (TeamRespawnEvent == null) return;
 
             var ev = new TeamRespawnEvent
             {
-                Allow = allow,
-                IsChaos = isChaos,
                 RespawnList = respawnList,
-                UseTickets = useTickets
+                Team = team
             };
 
-            TeamRespawnEvent.Invoke(ref ev);
+            TeamRespawnEvent.Invoke(ev);
 
+            team = ev.Team;
             respawnList = ev.RespawnList;
-            isChaos = ev.IsChaos;
-            allow = ev.Allow;
-            useTickets = ev.UseTickets;
         }
         
-        public delegate void OnPreAuthenticationEvent(ref PreAuthenticationEvent ev);
+        public delegate void OnPreAuthenticationEvent(PreAuthenticationEvent ev);
         public static event OnPreAuthenticationEvent PreAuthenticationEvent;
 
         internal static void InvokePreAuthentication(string userId, ConnectionRequest request, ref bool allow)
@@ -115,7 +111,7 @@ namespace Synapse.Events
                UserId = userId
             };
             
-            PreAuthenticationEvent?.Invoke(ref ev);
+            PreAuthenticationEvent?.Invoke(ev);
 
             allow = ev.Allow;
         }
@@ -124,7 +120,7 @@ namespace Synapse.Events
         public static event OnWaitingForPlayers WaitingForPlayersEvent;
         internal static void InvokeWaitingForPlayers() => WaitingForPlayersEvent?.Invoke();
 
-        public delegate void OnCheckRoundEnd(ref CheckRoundEndEvent ev);
+        public delegate void OnCheckRoundEnd(CheckRoundEndEvent ev);
         public static event OnCheckRoundEnd CheckRoundEndEvent;
 
         public static void InvokeCheckRoundEnd(ref bool forceEnd, ref bool allow, ref RoundSummary.LeadingTeam team,
@@ -137,7 +133,7 @@ namespace Synapse.Events
                 LeadingTeam = team
             };
             
-            CheckRoundEndEvent?.Invoke(ref ev);
+            CheckRoundEndEvent?.Invoke(ev);
 
             teamChanged = team != ev.LeadingTeam;
             team = ev.LeadingTeam;
