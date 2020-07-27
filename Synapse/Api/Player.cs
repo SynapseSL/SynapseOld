@@ -99,7 +99,9 @@ namespace Synapse.Api
         /// <summary>
         /// The name of the player
         /// </summary>
-        public string NickName { get => NicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
+        public string NickName { get => NicknameSync.Network_myNickSync; }
+
+        public string DisplayName { get => NicknameSync.DisplayName; set => NicknameSync.DisplayName = value; }
 
         /// <summary>
         /// The PlayerId of the player (The Id you can see in RemoteAdmin)
