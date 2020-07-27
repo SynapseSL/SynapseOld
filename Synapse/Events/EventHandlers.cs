@@ -4,6 +4,7 @@ using Synapse.Api.Enums;
 using Synapse.Events.Classes;
 using Synapse.Config;
 using UnityEngine;
+using System;
 
 namespace Synapse.Events
 {
@@ -34,8 +35,11 @@ namespace Synapse.Events
             if (!ev.Player.Items.Any()) return;
             foreach (var item in ev.Player.Items)
             {
-                var itemPerms = ev.Player.Inventory.GetItemByID(item.id).permissions;
-                ev.Allow = itemPerms.Any(p =>
+                var gameitem = ev.Player.Inventory.GetItemByID(item.id);
+
+                if (gameitem.permissions == null || gameitem.permissions.Length == 0) continue;
+
+                ev.Allow = gameitem.permissions.Any(p =>
                     ev.Door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
                     ev.Door.PermissionLevels.HasPermission(flag));
             }
