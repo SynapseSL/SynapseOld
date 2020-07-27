@@ -37,6 +37,22 @@ namespace Synapse.Api
             }
         }
 
+        public static string IntercomText
+        {
+            get => Server.Host.GetComponent<Intercom>().CustomContent;
+            set
+            {
+                var component = Server.Host.GetComponent<Intercom>();
+                if (string.IsNullOrEmpty(value))
+                {
+                    component.CustomContent = null;
+                    return;
+                }
+
+                component.CustomContent = value;
+            }
+        }
+
         /// <summary>
         /// How many generators are activated?
         /// </summary>
