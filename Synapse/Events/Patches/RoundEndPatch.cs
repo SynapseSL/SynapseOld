@@ -1,22 +1,26 @@
 ﻿using System;
 using Harmony;
+using UnityEngine;
+using Console = GameCore.Console;
 
 namespace Synapse.Events.Patches
 {
-    [HarmonyPatch(typeof(RoundSummary), nameof(RoundSummary._ProcessServerSideCode))]
+    [HarmonyPatch(typeof(Console), nameof(Console.AddLog), typeof(string), typeof(Color), typeof(bool))]
     public class RoundEndPatch
     {
-        public static void Postfix(RoundSummary __instance)
-        {
-            try
-            {
-                if (__instance._roundEnded)
-                    Events.InvokeRoundEndEvent();
-            }
-            catch (Exception e)
-            {
-                Log.Error($"RoundEnd Event Error: {e}");
-            }
-        }
-    }
+        public static void Prefix(string text)
+		{
+			if (!text.StartsWith("Round finished! Anomalies: "))
+				return;
+
+			try
+			{
+				Events.InvokeRoundEndEvent();
+			}
+			catch (Exception exception)
+			{
+				Log.Error($"RoundEndEvent error: {exception}");
+			}
+		}
+	}
 }
