@@ -78,6 +78,7 @@
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\Patches\TeslaTriggerEvent.cs" />
     <Compile Include="Synapse.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
     <Compile Include="Events\Classes\PickupItemEvent.cs" />
