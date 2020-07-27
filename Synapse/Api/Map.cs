@@ -1,4 +1,5 @@
-﻿using Synapse.Config;
+﻿using Mirror;
+using Synapse.Config;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -157,6 +158,19 @@ namespace Synapse.Api
         /// </summary>
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
+
+        public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
+        {
+            var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position,Quaternion.identity, 0, 0, 0);
+
+            GameObject gameObject = p.gameObject;
+            gameObject.transform.localScale = scale;
+
+            NetworkServer.UnSpawn(gameObject);
+            NetworkServer.Spawn(p.gameObject);
+
+            return p;
+        }
 
         /// <summary>
         /// Has the group the permission?
