@@ -115,10 +115,13 @@ namespace SynapseModLoaderPatcher
             Console.WriteLine("Synapse-Public: Creating Publicized DLL");
 
             var allTypes = GetAllTypes(publicModule.Assembly.ManifestModule);
-            var allMethods = allTypes.SelectMany(t => t.Methods);
-            var allFields = allTypes.SelectMany(t => t.Fields);
+            var typeDefs = allTypes.ToList();
+            var allMethods = typeDefs.SelectMany(t => t.Methods);
+            var allFields = typeDefs.SelectMany(t => t.Fields);
 
-            foreach (var type in allTypes)
+            #region Publiczing
+
+            foreach (var type in typeDefs)
             {
                 if (!type?.IsPublic ?? false)
                 {
@@ -142,7 +145,9 @@ namespace SynapseModLoaderPatcher
                     field.Access = FieldAttributes.Public;
                 }
             }
-            
+
+            #endregion
+
             publicModule.Write("Assembly-CSharp-Synapse_publicised.dll");
 
             Console.WriteLine("Synapse-Public: Created Publicised DLL");
