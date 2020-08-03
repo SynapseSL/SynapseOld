@@ -59,11 +59,9 @@ namespace Synapse.Api
 
         public static Player GetPlayer(this ICommandSender sender)
         {
-            foreach (var player in Player.GetAllPlayers().Add(Player.Host))
-                if (player.CommandSender.SenderId == sender.CommandSender().SenderId)
-                    return player;
-
-            return null;
+            return sender.CommandSender().SenderId == "SERVER CONSOLE" || sender.CommandSender().SenderId == "GAME CONSOLE"
+            ? Player.Host
+            : Player.GetPlayer(sender.CommandSender().SenderId);
         }
 
         /// <summary>
