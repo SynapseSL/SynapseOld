@@ -1,5 +1,5 @@
 ﻿using Harmony;
-using Synapse.Configs;
+using Synapse.Config;
 
 namespace Synapse.Events.Patches
 {
@@ -10,7 +10,7 @@ namespace Synapse.Events.Patches
         {
             if (!SynapseConfigs.Nametracking) return;
 
-            ServerConsole._serverName += $" <color=#00000000><size=1>SMSynapse-ModLoader {MainLoader.version}</size></color>";
+            ServerConsole._serverName += $" <color=#00000000><size=1>Synapse-ModLoader {Synapse.Version}</size></color>";
         }
     }
 }

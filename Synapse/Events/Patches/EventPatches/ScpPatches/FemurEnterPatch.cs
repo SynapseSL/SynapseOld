@@ -2,7 +2,7 @@
 using Harmony;
 using Mirror;
 using Synapse.Api;
-using Synapse.Configs;
+using Synapse.Config;
 using UnityEngine;
 
 namespace Synapse.Events.Patches

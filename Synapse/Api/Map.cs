@@ -1,4 +1,5 @@
-﻿using Synapse.Configs;
+﻿using Mirror;
+using Synapse.Config;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -23,8 +24,6 @@ namespace Synapse.Api
 
         private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
-        private static List<Room> _rooms = new List<Room>();
-
         /// <summary>
         /// Gives you a list of all rooms
         /// </summary>
@@ -32,12 +31,25 @@ namespace Synapse.Api
         {
             get
             {
-                if (_rooms == null || _rooms.Count == 0)
-                    _rooms = Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room"))
+                return Object.FindObjectsOfType<Transform>().Where(transform => transform.CompareTag("Room") || transform.name == "Root_*&*Outside Cams")
                         .Select(obj => new Room {Name = obj.name, Position = obj.position, Transform = obj.transform})
                         .ToList();
+            }
+        }
 
-                return _rooms;
+        public static string IntercomText
+        {
+            get => Server.Host.GetComponent<Intercom>().CustomContent;
+            set
+            {
+                var component = Server.Host.GetComponent<Intercom>();
+                if (string.IsNullOrEmpty(value))
+                {
+                    component.CustomContent = null;
+                    return;
+                }
+
+                component.CustomContent = value;
             }
         }
 
@@ -162,6 +174,19 @@ namespace Synapse.Api
         /// </summary>
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
+
+        public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
+        {
+            var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position,Quaternion.identity, 0, 0, 0);
+
+            GameObject gameObject = p.gameObject;
+            gameObject.transform.localScale = scale;
+
+            NetworkServer.UnSpawn(gameObject);
+            NetworkServer.Spawn(p.gameObject);
+
+            return p;
+        }
 
         /// <summary>
         /// Has the group the permission?

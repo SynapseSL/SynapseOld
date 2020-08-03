@@ -22,26 +22,15 @@ namespace Synapse.Events.Patches
                 var player = go.GetPlayer();
 
                 Events.InvokePlayerHurtEvent(player, killer, ref info);
-            }
-            catch (Exception e)
-            {
-                Log.Error($"PlayerDamageEvent Error: {e}");
-            }
-        }
 
-        public static void Postfix(PlayerStats __instance, PlayerStats.HitInfo info, GameObject go)
-        {
-            try
-            {
-                var killer = __instance.GetPlayer();
-                var player = go.GetPlayer();
+                if (player.GodMode) return;
 
-                if (player.Role == RoleType.Spectator)
+                if (player.Health + player.ArtificialHealth - info.Amount <= 0)
                     Events.InvokePlayerDieEvent(player, killer, info);
             }
             catch (Exception e)
             {
-                Log.Error($"PlayerDie Event Error: {e}");
+                Log.Error($"PlayerDamageEvent Error: {e}");
             }
         }
     }

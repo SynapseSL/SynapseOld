@@ -4,10 +4,11 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Hints;
 using Mirror;
+using Mirror.LiteNetLib4Mirror;
 using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
-using Synapse.Configs;
+using Synapse.Config;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -99,7 +100,9 @@ namespace Synapse.Api
         /// <summary>
         /// The name of the player
         /// </summary>
-        public string NickName { get => NicknameSync.Network_myNickSync; set => Hub.nicknameSync.Network_myNickSync = value; }
+        public string NickName { get => NicknameSync.Network_myNickSync; }
+
+        public string DisplayName { get => NicknameSync.DisplayName; set => NicknameSync.DisplayName = value; }
 
         /// <summary>
         /// The PlayerId of the player (The Id you can see in RemoteAdmin)
@@ -240,14 +243,14 @@ namespace Synapse.Api
         /// <summary>
         /// The Room where the player currently is
         /// </summary>
-        public Room CurRoom
+        public Room Room
         {
             get
             {
                 var playerPos = Position;
                 var end = playerPos - new Vector3(0f, 10f, 0f);
                 var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
-
+                
                 if (!flag || rayCastHit.transform == null)
                     return null;
 
@@ -358,6 +361,8 @@ namespace Synapse.Api
         /// The current camera the player uses (Scp079 only, if not null)
         /// </summary>
         public Camera079 Camera { get => Hub.scp079PlayerScript.currentCamera; set => Hub.scp079PlayerScript?.RpcSwitchCamera(value.cameraId, false); }
+
+        public int Ping => LiteNetLib4MirrorServer.Peers[Connection.connectionId].Ping;
 
         /// <summary>
         /// The rotation float of the player

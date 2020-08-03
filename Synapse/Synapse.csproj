@@ -43,6 +43,9 @@
     <Reference Include="Assembly-CSharp-Synapse_publicised">
       <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-Synapse_publicised.dll</HintPath>
     </Reference>
+    <Reference Include="CommandSystem.Core">
+      <HintPath>..\..\Synapse_Dependencies\CommandSystem.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
     </Reference>
@@ -77,6 +80,10 @@
     <Compile Include="Api\Extensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\Patches\EventPatches\MapPatches\TeslaTriggerEvent.cs" />
+    <Compile Include="Events\Patches\SynapsePatches\CommandsPatch.cs" />
+    <Compile Include="Synapse.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
     <Compile Include="Events\Classes\PickupItemEvent.cs" />
     <Compile Include="Events\Classes\Scp079GainLvlEvent.cs" />
@@ -84,15 +91,15 @@
     <Compile Include="Events\Classes\UseItemEvent.cs" />
     <Compile Include="Events\Classes\GeneratorEvent.cs" />
     <Compile Include="Events\Classes\LoadComponentsEvent.cs" />
-    <Compile Include="Events\Patches\TagPatch.cs" />
-    <Compile Include="Events\Patches\PickUpItemPatch.cs" />
-    <Compile Include="Events\Patches\PlayerSetClassPatch.cs" />
-    <Compile Include="Events\Patches\Scp079GainLvlPatch.cs" />
-    <Compile Include="Events\Patches\UseItemPatch.cs" />
-    <Compile Include="Events\Patches\ComponentsPatch.cs" />
-    <Compile Include="Events\Patches\GeneratorPatches.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\TagPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PickUpItemPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerSetClassPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp079GainLvlPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\UseItemPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\ComponentsPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\MapPatches\GeneratorPatches.cs" />
     <Compile Include="Api\Plugin\Translation.cs" />
-    <Compile Include="Configs\SynapseConfigs.cs" />
+    <Compile Include="Config\SynapseConfigs.cs" />
     <Compile Include="Events\Classes\CheckRoundEndEvent.cs" />
     <Compile Include="Events\Classes\FemurEnterEvent.cs" />
     <Compile Include="Events\Classes\DropItemEvent.cs" />
@@ -104,16 +111,16 @@
     <Compile Include="Events\Classes\TeslaTriggerEvent.cs" />
     <Compile Include="Events\EventHandlers.cs" />
     <Compile Include="Events\Classes\PlayerEscapeEvent.cs" />
-    <Compile Include="Events\Patches\CheckRoundEndPatch.cs" />
-    <Compile Include="Events\Patches\WaitingForPlayersPatch.cs" />
-    <Compile Include="Events\Patches\DropItemPatch.cs" />
-    <Compile Include="Events\Patches\FemurEnterPatch.cs" />
-    <Compile Include="Events\Patches\PlayerReloadPatch.cs" />
-    <Compile Include="Events\Patches\PocketDimensionEnterPatch.cs" />
-    <Compile Include="Events\Patches\PreAuthenticationPatch.cs" />
-    <Compile Include="Events\Patches\Scp106ContainmentPatch.cs" />
-    <Compile Include="Events\Patches\TeamRespawnPatch.cs" />
-    <Compile Include="Events\Patches\PlayerEscapePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\CheckRoundEndPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\WaitingForPlayersPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\DropItemPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\FemurEnterPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerReloadPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\PocketDimensionEnterPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ServerPatches\PreAuthenticationPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp106ContainmentPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\TeamRespawnPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerEscapePatch.cs" />
     <Compile Include="Events\Classes\PlayerCuffedEvent.cs" />
     <Compile Include="Events\Classes\ConsoleCommandEvent.cs" />
     <Compile Include="Events\Classes\DoorInteractEvent.cs" />
@@ -127,31 +134,29 @@
     <Compile Include="Events\Classes\PlayerSpeakEvent.cs" />
     <Compile Include="Events\Classes\SyncDataEvent.cs" />
     <Compile Include="Events\MapEvents.cs" />
-    <Compile Include="Events\Patches\PlayerCuffPatch.cs" />
-    <Compile Include="Events\Patches\DoorInteractPatch.cs" />
-    <Compile Include="Events\Patches\PlayerDamagePatch.cs" />
-    <Compile Include="Events\Patches\RoundEndPatch.cs" />
-    <Compile Include="Events\Patches\PlayerBanPatch.cs" />
-    <Compile Include="Events\Patches\PlayerLeavePatch.cs" />
-    <Compile Include="Events\Patches\ConsoleCommandPatch.cs" />
-    <Compile Include="Events\Patches\RoundRestartPatch.cs" />
-    <Compile Include="Events\Patches\RoundStartPatch.cs" />
-    <Compile Include="Events\Patches\Scp049RecallPatch.cs" />
-    <Compile Include="Events\Patches\SpeakPatch.cs" />
-    <Compile Include="Events\Patches\ServerNamePatch.cs" />
-    <Compile Include="Events\Patches\RemoteAdminPatch.cs" />
-    <Compile Include="Events\Patches\PlayerJoinPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerCuffPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\MapPatches\DoorInteractPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerDamagePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\RoundEndPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerBanPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerLeavePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ServerPatches\ConsoleCommandPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\RoundRestartPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\RoundPatches\RoundStartPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp049RecallPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\SpeakPatch.cs" />
+    <Compile Include="Events\Patches\SynapsePatches\ServerNamePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ServerPatches\RemoteAdminPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerJoinPatch.cs" />
     <Compile Include="Events\Patches\PatchHandler.cs" />
-    <Compile Include="Events\Patches\SyncDataPatch.cs" />
-    <Compile Include="Events\Patches\WarheadDetonationPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\SyncDataPatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\MapPatches\WarheadDetonationPatch.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
     <Compile Include="Events\ScpEvents.cs" />
     <Compile Include="Events\ServerEvents.cs" />
-    <Compile Include="Configs\PermissionReader.cs" />
+    <Compile Include="Config\PermissionReader.cs" />
     <Compile Include="Api\Plugin\Plugin.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="SynapseManager.cs" />
-    <Compile Include="MainLoader.cs" />
+    <Compile Include="Api\Log.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

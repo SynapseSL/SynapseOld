@@ -2,7 +2,7 @@
 using Assets._Scripts.Dissonance;
 using Harmony;
 using Synapse.Api;
-using Synapse.Configs;
+using Synapse.Config;
 
 namespace Synapse.Events.Patches
 {

@@ -1,7 +1,7 @@
 ﻿using System;
+using Synapse.Api;
 using GameCore;
 using Harmony;
-using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
