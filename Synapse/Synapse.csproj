@@ -43,6 +43,9 @@
     <Reference Include="Assembly-CSharp-Synapse_publicised">
       <HintPath>..\..\Synapse_Dependencies\Assembly-CSharp-Synapse_publicised.dll</HintPath>
     </Reference>
+    <Reference Include="CommandSystem.Core">
+      <HintPath>..\..\Synapse_Dependencies\CommandSystem.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
     </Reference>

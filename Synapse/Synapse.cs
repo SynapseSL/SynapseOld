@@ -130,6 +130,9 @@ namespace Synapse
                             SynapsePatch = Patch
                         };
 
+                    p.assembly = assembly;
+                    p.RegisterCommands();
+
                     plugins.Add(p);
                     if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor == MajorVersion * 10 + MinorVerion) Log.Info($"Successfully loaded {p.Details.Name}");
 

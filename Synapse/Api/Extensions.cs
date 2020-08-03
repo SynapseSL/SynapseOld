@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
+using CommandSystem;
 using Mirror;
 using Synapse.Api.Enums;
 using Synapse.Api.Plugin;
@@ -51,6 +52,17 @@ namespace Synapse.Api
 
 
             sender.RaReply($"{Assembly.GetCallingAssembly().GetName().Name}#" + message, success, true, category);
+        }
+
+        public static CommandSender CommandSender(this ICommandSender sender) => sender as CommandSender;
+
+        public static Player GetPlayer(this ICommandSender sender)
+        {
+            foreach (var player in Player.GetAllPlayers())
+                if (player.CommandSender.SenderId == sender.CommandSender().SenderId)
+                    return player;
+
+            return null;
         }
 
         /// <summary>

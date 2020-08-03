@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using CommandSystem;
+using Mirror;
+using RemoteAdmin;
 using System;
 using System.Reflection;
 
@@ -60,6 +62,12 @@ namespace Synapse.Api
         }
 
         public static ServerConsole Console => ServerConsole.singleton;
+
+        public static RemoteAdminCommandHandler RaCommandHandler => CommandProcessor.RemoteAdminCommandHandler;
+
+        public static GameConsoleCommandHandler GameCoreCommandHandler => GameCore.Console.singleton.ConsoleCommandHandler;
+
+        public static ClientCommandHandler ClientCommandHandler => QueryProcessor.DotCommandHandler;
 
 
         public static int GetMethodHash(Type invokeClass, string methodName) => invokeClass.FullName.GetStableHashCode() * 503 + methodName.GetStableHashCode();
