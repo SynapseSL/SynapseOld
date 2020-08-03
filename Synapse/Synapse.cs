@@ -54,6 +54,17 @@ namespace Synapse
         {
             LoadDependencies();
 
+            //Clears all the Commands so that the base game refresh command will be removed
+            Server.ClientCommandHandler.ClearCommands();
+            Server.GameCoreCommandHandler.ClearCommands();
+            Server.RaCommandHandler.ClearCommands();
+
+            HarmonyPatch();
+            //Adding all Vanilla Commands back to the Handler but now with the Harmony Patch which removes the command
+            Server.ClientCommandHandler.LoadGeneratedCommands();
+            Server.GameCoreCommandHandler.LoadGeneratedCommands();
+            Server.RaCommandHandler.LoadGeneratedCommands();
+
             foreach (var plugin in Directory.GetFiles(Files.ServerPluginDirectory))
             {
                 if (plugin == "Synapse.dll") continue;
@@ -63,7 +74,6 @@ namespace Synapse
 
 
             ConfigManager.InitializeConfigs();
-            HarmonyPatch();
             ServerConsole.ReloadServerName();
             _eventHandler = new Events.EventHandlers();
             try
