@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Harmony;
+using NorthwoodLib.Pools;
 using Respawning;
 using Synapse.Api;
 using UnityEngine;
@@ -42,7 +43,7 @@ namespace Synapse.Events.Patches
 					list.RemoveAt(list.Count - 1);
 				}
 				list.ShuffleList<ReferenceHub>();
-				List<ReferenceHub> list2 = ListPool<ReferenceHub>.Rent();
+				List<ReferenceHub> list2 = ListPool<ReferenceHub>.Shared.Rent();
 
 				var Playerlist = new List<Player>();
 				foreach (ReferenceHub hub in list)

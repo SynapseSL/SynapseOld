@@ -1,9 +1,14 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Reflection;
+
+using CommandSystem;
 
 namespace Synapse.Api.Plugin
 {
     public abstract class Plugin
     {
+        internal Assembly assembly;
         /// <summary>
         ///     The Main Config from the current Server which all Plugins can use
         /// </summary>
@@ -41,5 +46,40 @@ namespace Synapse.Api.Plugin
         /// <summary>The Method ist always activated when the Server starts</summary>
         /// <remarks>You can use it to hook Events</remarks>
         public abstract void OnEnable();
+
+        public virtual void RegisterCommands()
+        {
+            foreach(var type in assembly.GetTypes())
+            {
+                if (type.GetInterface("ICommand") != typeof(ICommand)) continue;
+
+                if (!Attribute.IsDefined(type, typeof(CommandHandlerAttribute))) continue;
+
+                foreach(var attributeData in type.CustomAttributes)
+                {
+                    try
+                    {
+                        if (attributeData.AttributeType != typeof(CommandHandlerAttribute)) continue;
+
+                        var cmdtype = (Type)attributeData.ConstructorArguments?[0].Value;
+
+                        var cmd = (ICommand)Activator.CreateInstance(type);
+
+                        if (cmdtype == typeof(RemoteAdminCommandHandler))
+                            Server.RaCommandHandler.RegisterCommand(cmd);
+
+                        if (cmdtype == typeof(GameConsoleCommandHandler))
+                            Server.GameCoreCommandHandler.RegisterCommand(cmd);
+
+                        if (cmdtype == typeof(ClientCommandHandler))
+                            Server.ClientCommandHandler.RegisterCommand(cmd);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"Error occured while registering a command: {e}");
+                    }
+                }
+            }
+        }
     }
 }
