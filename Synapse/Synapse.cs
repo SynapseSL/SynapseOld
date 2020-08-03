@@ -4,7 +4,6 @@ using Synapse.Api.Plugin;
 using Synapse.Config;
 using Synapse.Events;
 using Synapse.Events.Patches;
-using SynapseModLoader;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,8 +70,7 @@ namespace Synapse
 
                 if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
             }
-
-
+            
             ConfigManager.InitializeConfigs();
             ServerConsole.ReloadServerName();
             _eventHandler = new EventHandlers();
@@ -112,7 +110,7 @@ namespace Synapse
             Log.Info($"Loading {pluginPath}");
             try
             {
-                var file = ModLoader.ReadFile(pluginPath);
+                var file = ReadFile(pluginPath);
                 var assembly = Assembly.Load(file);
 
                 foreach (var type in assembly.GetTypes())
@@ -181,6 +179,19 @@ namespace Synapse
                 }
         }
         #endregion
+
+        private static byte[] ReadFile(string path)
+        {
+            var fileStream = File.Open(path, FileMode.Open);
+            byte[] result;
+            using (var memoryStream = new MemoryStream())
+            {
+                fileStream.CopyTo(memoryStream);
+                result = memoryStream.ToArray();
+            }
+            fileStream.Close();
+            return result;
+        }
     }
 
     internal static class Files
