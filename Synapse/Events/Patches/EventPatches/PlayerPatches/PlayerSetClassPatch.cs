@@ -2,6 +2,7 @@
 using System.Linq;
 using Harmony;
 using Mirror;
+using NorthwoodLib.Pools;
 using Synapse.Api;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Synapse.Events.Patches
 
             if (lite) return false;
             var inv = ply.GetPlayer().Inventory;
-            var list = ListPool<Inventory.SyncItemInfo>.Rent();
+            var list = ListPool<Inventory.SyncItemInfo>.Shared.Rent();
 
             if (escape && __instance.KeepItemsAfterEscaping)
             {

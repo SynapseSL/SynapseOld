@@ -39,7 +39,7 @@ namespace Synapse.Events.Patches
                         {
                             var itemPerms = __instance._inv.GetItemByID(__instance._inv.curItem).permissions;
                             allowTheAccess = itemPerms.Any(p =>
-                                door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                                Door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
                                 door.PermissionLevels.HasPermission(flag));
                         }
                         else allowTheAccess = false;

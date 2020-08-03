@@ -40,7 +40,7 @@ namespace Synapse.Events
                 if (gameitem.permissions == null || gameitem.permissions.Length == 0) continue;
 
                 ev.Allow = gameitem.permissions.Any(p =>
-                    ev.Door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
+                    Door.backwardsCompatPermissions.TryGetValue(p, out var flag) &&
                     ev.Door.PermissionLevels.HasPermission(flag));
             }
         }

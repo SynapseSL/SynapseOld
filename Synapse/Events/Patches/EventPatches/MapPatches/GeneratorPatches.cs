@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Synapse.Events.Patches
 {
+	/**
     [HarmonyPatch(typeof(Generator079), nameof(Generator079.Interact))]
     public static class GeneratorTabletPatches
     {
@@ -56,7 +57,7 @@ namespace Synapse.Events.Patches
 				return true;
             }
         }
-    }
+    }*/
 
     [HarmonyPatch(typeof(Generator079), nameof(Generator079.OpenClose))]
     public static class GeneratorDoorPatches

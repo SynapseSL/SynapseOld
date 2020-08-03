@@ -117,7 +117,7 @@ namespace Synapse.Api
                     vector.x -= 1f;
                 }
 
-                if (FallDamage.CheckUnsafePosition(vector)) break;
+                if (FallDamage.CheckUnsafePosition(vector, false)) break;
                 if (b == 20) vector = Vector3.zero;
             }
 
@@ -222,6 +222,6 @@ namespace Synapse.Api
         /// </summary>
         /// <param name="duration"></param>
         /// <param name="onlyHeavy"></param>
-        public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.Generators[0].RpcCustomOverchargeForOurBeautifulModCreators(duration, onlyHeavy);
+        public static void TurnOffAllLights(float duration, bool onlyHeavy = false) => Generator079.Generators[0].ServerOvercharge(duration, onlyHeavy);
     }
 }
