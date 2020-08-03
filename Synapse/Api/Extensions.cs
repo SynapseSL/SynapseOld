@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using CommandSystem;
+using Harmony;
 using Mirror;
 using Synapse.Api.Enums;
 using Synapse.Api.Plugin;
@@ -58,7 +59,7 @@ namespace Synapse.Api
 
         public static Player GetPlayer(this ICommandSender sender)
         {
-            foreach (var player in Player.GetAllPlayers())
+            foreach (var player in Player.GetAllPlayers().Add(Player.Host))
                 if (player.CommandSender.SenderId == sender.CommandSender().SenderId)
                     return player;
 
