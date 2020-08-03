@@ -121,12 +121,9 @@ namespace SynapseModLoaderPatcher
 
             #region Publiczing
 
-            foreach (var type in typeDefs)
+            foreach (var type in typeDefs.Where(type => !type?.IsPublic ?? false))
             {
-                if (!type?.IsPublic ?? false)
-                {
-                    type.Attributes = type.IsNested ? TypeAttributes.NestedPublic : TypeAttributes.Public;
-                }
+                type.Attributes = type.IsNested ? TypeAttributes.NestedPublic : TypeAttributes.Public;
             }
 
             foreach (var method in allMethods)
@@ -165,7 +162,7 @@ namespace SynapseModLoaderPatcher
             return asm.Modules.SelectMany(module => module.Types).FirstOrDefault(type => type.FullName == classPath);
         }
 
-        public static IEnumerable<TypeDef> GetAllTypes(ModuleDef moduleDef)
+        private static IEnumerable<TypeDef> GetAllTypes(ModuleDef moduleDef)
         {
             return _GetNestedTypes(moduleDef.Types);
         }
@@ -173,7 +170,7 @@ namespace SynapseModLoaderPatcher
         private static IEnumerable<TypeDef> _GetNestedTypes(IEnumerable<TypeDef> typeDefs)
         {
             var enumerable = typeDefs as TypeDef[] ?? typeDefs.ToArray();
-            if (enumerable?.Count() == 0)
+            if (!enumerable.Any())
             {
                 return new List<TypeDef>();
             }

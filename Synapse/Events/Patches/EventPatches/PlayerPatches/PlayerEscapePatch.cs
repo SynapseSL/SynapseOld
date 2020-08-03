@@ -41,18 +41,18 @@ namespace Synapse.Events.Patches
 
                     if (ConfigFile.ServerConfig.GetBool("cuffed_escapee_change_team", true))
                     {
-                        if (__instance.CurClass == RoleType.Scientist &&
-                            (component2.CurClass == RoleType.ChaosInsurgency || component2.CurClass == RoleType.ClassD))
-                            flag = true;
-
-                        if (__instance.CurClass == RoleType.ClassD &&
-                            (component2.CurRole.team == Team.MTF || component2.CurClass == RoleType.Scientist))
-                            flag = true;
+                        switch (__instance.CurClass)
+                        {
+                            case RoleType.Scientist when (component2.CurClass == RoleType.ChaosInsurgency || component2.CurClass == RoleType.ClassD):
+                            case RoleType.ClassD when (component2.CurRole.team == Team.MTF || component2.CurClass == RoleType.Scientist):
+                                flag = true;
+                                break;
+                        }
                     }
                 }
 
                 //TeamCheck
-                Respawning.RespawnTickets singleton = Respawning.RespawnTickets.Singleton;
+                var singleton = Respawning.RespawnTickets.Singleton;
                 var team = __instance.CurRole.team;
                 switch (team)
                 {
@@ -79,11 +79,11 @@ namespace Synapse.Events.Patches
                 {
                     case Team.MTF:
                         RoundSummary.escaped_scientists++;
-                        singleton.GrantTickets(Respawning.SpawnableTeamType.NineTailedFox, GameCore.ConfigFile.ServerConfig.GetInt("respawn_tickets_mtf_classd_cuffed_count", 1), false);
+                        singleton.GrantTickets(Respawning.SpawnableTeamType.NineTailedFox, ConfigFile.ServerConfig.GetInt("respawn_tickets_mtf_classd_cuffed_count", 1));
                         break;
                     case Team.CHI:
                         RoundSummary.escaped_ds++;
-                        singleton.GrantTickets(Respawning.SpawnableTeamType.ChaosInsurgency, GameCore.ConfigFile.ServerConfig.GetInt("respawn_tickets_ci_classd_count", 1), false);
+                        singleton.GrantTickets(Respawning.SpawnableTeamType.ChaosInsurgency, ConfigFile.ServerConfig.GetInt("respawn_tickets_ci_classd_count", 1));
                         break;
                 }
 

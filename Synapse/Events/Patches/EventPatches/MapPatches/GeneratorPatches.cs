@@ -1,11 +1,10 @@
-﻿using System;
-using Harmony;
+﻿using Harmony;
 using Synapse.Api;
 using UnityEngine;
 
 namespace Synapse.Events.Patches
 {
-	/**
+	/*
     [HarmonyPatch(typeof(Generator079), nameof(Generator079.Interact))]
     public static class GeneratorTabletPatches
     {
@@ -72,7 +71,7 @@ namespace Synapse.Events.Patches
 			//Check if the Generator can be open or must be unlocked
 			if (__instance.isDoorUnlocked)
 			{
-				bool allow = true;
+				var allow = true;
 				if (!__instance.NetworkisDoorOpen)
                 {
 					Events.InvokeGeneratorOpen(player, __instance, ref allow);

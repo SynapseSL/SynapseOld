@@ -14,11 +14,8 @@ namespace Synapse.Api
         /// <summary>
         /// The Player which is Jailed
         /// </summary>
-        public Player Player
-        {
-            get => this.GetPlayer();
-        }
-        
+        public Player Player => this.GetPlayer();
+
         /// <summary>
         /// The Admins which Jailed the Player
         /// </summary>

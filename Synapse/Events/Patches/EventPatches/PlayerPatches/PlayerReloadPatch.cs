@@ -11,7 +11,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                if (!__instance._iawRateLimit.CanExecute(true)) return false;
+                if (!__instance._iawRateLimit.CanExecute()) return false;
 
                 var allow = true;
                 var itemIndex = __instance._hub.inventory.GetItemIndex();

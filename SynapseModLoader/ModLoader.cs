@@ -1,5 +1,4 @@
-﻿using GameCore;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -38,16 +37,16 @@ namespace SynapseModLoader
 
             try
             {
-                var startupfile = Assembly.GetExecutingAssembly().Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
-                if (!File.Exists(startupfile))
+                var startupFile = Assembly.GetExecutingAssembly().Location.Replace($"SCPSL_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll", "SynapseStart-config.yml");
+                if (!File.Exists(startupFile))
                 {
-                    ServerConsole.AddLog($"Synapse Mod-Loader Start file is missing ... creating: {startupfile}", ConsoleColor.Blue);
-                    File.Create(startupfile).Close();
-                    File.WriteAllLines(startupfile, new string[] { "synapse_installation: default" });
+                    ServerConsole.AddLog($"Synapse Mod-Loader Start file is missing ... creating: {startupFile}", ConsoleColor.Blue);
+                    File.Create(startupFile).Close();
+                    File.WriteAllLines(startupFile, new [] { "synapse_installation: default" });
                 }
-                var Config = new YamlConfig(startupfile);
+                var config = new YamlConfig(startupFile);
 
-                var text = Config.GetString("synapse_installation", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse"));
+                var text = config.GetString("synapse_installation", Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Synapse"));
                 if (!Directory.Exists(text))
                 {
                     Directory.CreateDirectory(text);

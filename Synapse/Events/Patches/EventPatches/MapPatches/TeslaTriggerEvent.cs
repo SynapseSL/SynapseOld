@@ -19,12 +19,11 @@ namespace Synapse.Events.Patches
                 {
                     var triggerable = true;
 
-                    if (Vector3.Distance(__instance.transform.position,player.Position) < __instance.sizeOfTrigger && player.Role != RoleType.Spectator)
-                    {
-                        Events.InvokeTeslaTrigger(player, hurtRange, ref triggerable);
+                    if (!(Vector3.Distance(__instance.transform.position, player.Position) <
+                          __instance.sizeOfTrigger) || player.Role == RoleType.Spectator) continue;
+                    Events.InvokeTeslaTrigger(player, hurtRange, ref triggerable);
 
-                        if (triggerable) __result.Add(player.GetComponent<PlayerStats>());
-                    }
+                    if (triggerable) __result.Add(player.GetComponent<PlayerStats>());
                 }
             }
             catch(Exception e)

@@ -18,13 +18,13 @@ namespace Synapse
         #region Version
         private const int MajorVersion = 1;
         private const int MinorVerion = 1;
-        private const int Patch = 1;
+        private const int Patch = 2;
 
         public static int VersionNumber => MajorVersion * 100 + MinorVerion * 10 + Patch;
         public static string Version => $"{MajorVersion}.{MinorVerion}.{Patch}";
         #endregion
 
-        private static bool isLoaded = false;
+        private static bool _isLoaded;
         private static readonly List<Assembly> LoadedDependencies = new List<Assembly>();
         internal static readonly List<Plugin> plugins = new List<Plugin>(); //TODO: Rework Config System and make this private
         private static EventHandlers _eventHandler;
@@ -33,17 +33,17 @@ namespace Synapse
 
         public static void LoaderExecutionCode()
         {
-            if (isLoaded) return;
+            if (_isLoaded) return;
 
-            Log.Info($"Now starting Synapse Version {Synapse.Version}");
+            Log.Info($"Now starting Synapse Version {Version}");
             Log.Info("Created by Dimenzio and SirRoob");
 
             CustomNetworkManager.Modded = true;
 
             try
             {
-                Timing.CallDelayed(0.5f, () => Synapse.Start());
-                isLoaded = true;
+                Timing.CallDelayed(0.5f, () => Start());
+                _isLoaded = true;
             }
             catch
             {
@@ -75,7 +75,7 @@ namespace Synapse
 
             ConfigManager.InitializeConfigs();
             ServerConsole.ReloadServerName();
-            _eventHandler = new Events.EventHandlers();
+            _eventHandler = new EventHandlers();
             try
             {
                 PermissionReader.Init();
@@ -127,20 +127,18 @@ namespace Synapse
 
                     if (!(plugin is Plugin p)) continue;
 
-                    p.Details = type.GetCustomAttribute<PluginDetails>();
-                    if (p.Details == null)
-                        p.Details = new PluginDetails()
-                        {
-                            Author = "Unknown",
-                            Description = "No Description",
-                            Name = assembly.GetName().Name,
-                            Version = assembly.ImageRuntimeVersion,
-                            SynapseMajor = MajorVersion,
-                            SynapseMinor = MinorVerion,
-                            SynapsePatch = Patch
-                        };
+                    p.Details = type.GetCustomAttribute<PluginDetails>() ?? new PluginDetails
+                    {
+                        Author = "Unknown",
+                        Description = "No Description",
+                        Name = assembly.GetName().Name,
+                        Version = assembly.ImageRuntimeVersion,
+                        SynapseMajor = MajorVersion,
+                        SynapseMinor = MinorVerion,
+                        SynapsePatch = Patch
+                    };
 
-                    p.assembly = assembly;
+                    p.Assembly = assembly;
                     p.RegisterCommands();
 
                     plugins.Add(p);

@@ -22,10 +22,8 @@ namespace Synapse.Api.Plugin
             var newlines = new List<string>();
             var position = 0;
 
-            foreach (var rawpair in translations.ToList())
+            foreach (var pair in translations.ToList().Select(rawPair => new KeyValuePair<string,string>(rawPair.Key,rawPair.Value.Replace("\n", "\\n"))))
             {
-                var pair = new KeyValuePair<string,string>(rawpair.Key,rawpair.Value.Replace("\n", "\\n"));
-
                 if (lines.Length > position)
                 {
                     if (string.IsNullOrEmpty(lines[position]))
@@ -57,8 +55,7 @@ namespace Synapse.Api.Plugin
             try
             {
                 var trans = _translation.FirstOrDefault(x => x.Key == translationName).Value;
-                if (trans == null) return "Plugin requested a not created Translation!";
-                return trans.Replace("\\n", "\n");
+                return trans == null ? "Plugin requested a not created Translation!" : trans.Replace("\\n", "\n");
             }
             catch
             {

@@ -2,32 +2,32 @@
 {
     public static class Warhead
     {
-        private static AlphaWarheadController controller;
-        private static AlphaWarheadNukesitePanel nukesitePanel;
+        private static AlphaWarheadController _controller;
+        private static AlphaWarheadNukesitePanel _nukeSitePanel;
 
         public static AlphaWarheadController Controller
         {
             get
             {
-                if (controller == null)
-                    controller = Player.Host.GetComponent<AlphaWarheadController>();
+                if (_controller == null)
+                    _controller = Player.Host.GetComponent<AlphaWarheadController>();
 
-                return controller;
+                return _controller;
             }
         }
 
-        public static AlphaWarheadNukesitePanel NukesitePanel
+        public static AlphaWarheadNukesitePanel NukeSitePanel
         {
             get
             {
-                if (nukesitePanel == null)
-                    nukesitePanel = Player.Host.GetComponent<AlphaWarheadNukesitePanel>();
+                if (_nukeSitePanel == null)
+                    _nukeSitePanel = Player.Host.GetComponent<AlphaWarheadNukesitePanel>();
 
-                return nukesitePanel;
+                return _nukeSitePanel;
             }
         }
 
-        public static bool LeverStatus { get => NukesitePanel.Networkenabled; set => NukesitePanel.Networkenabled = value; }
+        public static bool LeverStatus { get => NukeSitePanel.Networkenabled; set => NukeSitePanel.Networkenabled = value; }
 
         public static float DetonationTimer
         {

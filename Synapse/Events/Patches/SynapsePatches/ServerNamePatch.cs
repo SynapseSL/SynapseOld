@@ -8,7 +8,7 @@ namespace Synapse.Events.Patches
     {
         public static void Postfix()
         {
-            if (!SynapseConfigs.Nametracking) return;
+            if (!SynapseConfigs.NameTracking) return;
 
             ServerConsole._serverName += $" <color=#00000000><size=1>Synapse-ModLoader {Synapse.Version}</size></color>";
         }

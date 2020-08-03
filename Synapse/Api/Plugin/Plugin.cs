@@ -8,7 +8,7 @@ namespace Synapse.Api.Plugin
 {
     public abstract class Plugin
     {
-        internal Assembly assembly;
+        internal Assembly Assembly;
         /// <summary>
         ///     The Main Config from the current Server which all Plugins can use
         /// </summary>
@@ -49,7 +49,7 @@ namespace Synapse.Api.Plugin
 
         public virtual void RegisterCommands()
         {
-            foreach(var type in assembly.GetTypes())
+            foreach(var type in Assembly.GetTypes())
             {
                 if (type.GetInterface("ICommand") != typeof(ICommand)) continue;
 
@@ -61,17 +61,17 @@ namespace Synapse.Api.Plugin
                     {
                         if (attributeData.AttributeType != typeof(CommandHandlerAttribute)) continue;
 
-                        var cmdtype = (Type)attributeData.ConstructorArguments?[0].Value;
+                        var cmdType = (Type)attributeData.ConstructorArguments[0].Value;
 
                         var cmd = (ICommand)Activator.CreateInstance(type);
 
-                        if (cmdtype == typeof(RemoteAdminCommandHandler))
+                        if (cmdType == typeof(RemoteAdminCommandHandler))
                             Server.RaCommandHandler.RegisterCommand(cmd);
 
-                        if (cmdtype == typeof(GameConsoleCommandHandler))
+                        if (cmdType == typeof(GameConsoleCommandHandler))
                             Server.GameCoreCommandHandler.RegisterCommand(cmd);
 
-                        if (cmdtype == typeof(ClientCommandHandler))
+                        if (cmdType == typeof(ClientCommandHandler))
                             Server.ClientCommandHandler.RegisterCommand(cmd);
                     }
                     catch (Exception e)

@@ -11,7 +11,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokePlayerTagEvent(__instance.GetPlayer(), true, out bool allow);
+                Events.InvokePlayerTagEvent(__instance.GetPlayer(), true, out var allow);
                 return allow;
             }
             catch (Exception e)
@@ -29,7 +29,7 @@ namespace Synapse.Events.Patches
         {
             try
             {
-                Events.InvokePlayerTagEvent(__instance.GetPlayer(), false, out bool allow);
+                Events.InvokePlayerTagEvent(__instance.GetPlayer(), false, out var allow);
                 return allow;
             }
             catch(Exception e)

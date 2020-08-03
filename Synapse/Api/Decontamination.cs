@@ -5,7 +5,7 @@ namespace Synapse.Api
 {
     public static class Decontamination
     {
-        public static DecontaminationController Controller { get => DecontaminationController.Singleton; }
+        public static DecontaminationController Controller => DecontaminationController.Singleton;
 
         public static bool IsDecontaminationDisabled 
         { 

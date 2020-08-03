@@ -24,6 +24,7 @@ namespace Synapse.Events.Patches
 
                 if (!allow) return false;
 
+                // ReSharper disable once UnusedVariable
                 var dropped = __instance.SetPickup(syncItemInfo.id, syncItemInfo.durability,
                     __instance.transform.position, __instance.camera.transform.rotation, syncItemInfo.modSight,
                     syncItemInfo.modBarrel, syncItemInfo.modOther);

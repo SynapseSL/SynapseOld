@@ -30,7 +30,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you the player object
         /// </summary>
-        public static Player GetPlayer(int id) => Player.GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
+        public static Player GetPlayer(int id) => GetAllPlayers().FirstOrDefault(p => p.PlayerId == id);
 
         /// <summary>
         /// Gives you the player object
@@ -42,12 +42,12 @@ namespace Synapse.Api
 
             if (!arg.EndsWith("@steam") && !arg.EndsWith("@discord") && !arg.EndsWith("@northwood") &&
                 !arg.EndsWith("@patreon"))
-                return Player.GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
-            foreach (var player in Player.GetAllPlayers())
+                return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
+            foreach (var player in GetAllPlayers())
                 if (player.UserId == arg)
                     return player;
 
-            return Player.GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
+            return GetAllPlayers().FirstOrDefault(p => p.NickName.ToLower().Contains(arg.ToLower()));
         }
 
 
@@ -93,7 +93,7 @@ namespace Synapse.Api
             get
             {
                 if (this == Host) return ServerConsole._scs;
-                else return QueryProcessor._sender;
+                return QueryProcessor._sender;
             }
         }
 
@@ -323,7 +323,7 @@ namespace Synapse.Api
         /// <summary>
         /// The UserGroup the player is in
         /// </summary>
-        public UserGroup Rank { get => ServerRoles.Group; set => ServerRoles.SetGroup(value, value != null ? value.Permissions > 0UL : false,true); }
+        public UserGroup Rank { get => ServerRoles.Group; set => ServerRoles.SetGroup(value, value != null && value.Permissions > 0UL,true); }
 
         /// <summary>
         /// The name of the group the user has
@@ -565,18 +565,18 @@ namespace Synapse.Api
         /// <param name="port">The Port of the Server the Player should be send to</param>
         public void SendToServer(ushort port)
         {
-            PlayerStats component = Host.PlayerStats;
-            NetworkWriter writer = NetworkWriterPool.GetWriter();
+            var component = Host.PlayerStats;
+            var writer = NetworkWriterPool.GetWriter();
             writer.WriteSingle(1f);
             writer.WriteUInt16(port);
-            RpcMessage msg = new RpcMessage
+            var msg = new RpcMessage
             {
                 netId = component.netId,
                 componentIndex = component.ComponentIndex,
                 functionHash = Server.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
                 payload = writer.ToArraySegment()
             };
-            Connection.Send<RpcMessage>(msg, 0);
+            Connection.Send(msg);
             NetworkWriterPool.Recycle(writer);
         }
     }

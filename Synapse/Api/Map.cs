@@ -27,7 +27,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you a list of all rooms
         /// </summary>
-        public static List<Room> Rooms
+        public static IEnumerable<Room> Rooms
         {
             get
             {
@@ -179,7 +179,7 @@ namespace Synapse.Api
         {
             var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position,Quaternion.identity, 0, 0, 0);
 
-            GameObject gameObject = p.gameObject;
+            var gameObject = p.gameObject;
             gameObject.transform.localScale = scale;
 
             NetworkServer.UnSpawn(gameObject);
