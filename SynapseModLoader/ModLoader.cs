@@ -14,7 +14,7 @@ namespace SynapseModLoader
     /// </summary>
     public class ModLoader
     {
-        private static byte[] ReadFile(string path)
+        public static byte[] ReadFile(string path)
         {
             var fileStream = File.Open(path, FileMode.Open);
             byte[] result;
