@@ -110,7 +110,7 @@ namespace SynapseModLoaderPatcher
 
             Console.WriteLine("Synapse: Patch Complete!");
             
-            var publicModule = ModuleDefMD.Load(args[0]);
+            var publicModule = ModuleDefMD.Load("Assembly-CSharp-Synapse.dll");
 
             Console.WriteLine("Synapse-Public: Creating Publicized DLL");
 

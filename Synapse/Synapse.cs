@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using SynapseModLoader;
 
 namespace Synapse
 {
@@ -110,7 +111,7 @@ namespace Synapse
             Log.Info($"Loading {pluginPath}");
             try
             {
-                var file = ReadFile(pluginPath);
+                var file = ModLoader.ReadFile(pluginPath);
                 var assembly = Assembly.Load(file);
 
                 foreach (var type in assembly.GetTypes())
@@ -179,19 +180,6 @@ namespace Synapse
                 }
         }
         #endregion
-
-        private static byte[] ReadFile(string path)
-        {
-            var fileStream = File.Open(path, FileMode.Open);
-            byte[] result;
-            using (var memoryStream = new MemoryStream())
-            {
-                fileStream.CopyTo(memoryStream);
-                result = memoryStream.ToArray();
-            }
-            fileStream.Close();
-            return result;
-        }
     }
 
     internal static class Files
