@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
+using Utf8Json.Internal.DoubleConversion;
 using Object = UnityEngine.Object;
 
 namespace Synapse.Api
@@ -174,6 +175,24 @@ namespace Synapse.Api
         /// </summary>
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
+
+        public static WorkStation SpawnWorkStation(Vector3 position,Vector3 rotation,Vector3 size)
+        {
+            GameObject bench =
+                Object.Instantiate(
+                    NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
+            Offset offset = new Offset();
+            offset.position = position;
+            offset.rotation = rotation;
+            offset.scale = Vector3.one;
+            bench.gameObject.transform.localScale = size;
+
+            NetworkServer.Spawn(bench);
+            bench.GetComponent<WorkStation>().Networkposition = offset;
+            bench.AddComponent<WorkStationUpgrader>();
+
+            return bench.GetComponent<WorkStation>();
+        }
 
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
         {
