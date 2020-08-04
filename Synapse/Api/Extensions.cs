@@ -82,7 +82,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you the player object
         /// </summary>
-        public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
+        public static Player GetPlayer(this MonoBehaviour mono) => mono.gameObject.GetPlayer();
 
         /// <summary>
         /// Gives you the player object

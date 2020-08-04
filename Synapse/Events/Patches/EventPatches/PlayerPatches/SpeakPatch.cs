@@ -20,7 +20,7 @@ namespace Synapse.Events.Patches
                 var scpchat = __instance.SCPChat;
                 var spectator = __instance.SpectatorChat;
 
-                scp939 = SynapseConfigs.SpeakingScps.Contains((int)__instance.gameObject.GetPlayer().Role);
+                scp939 = SynapseConfigs.SpeakingScps.Contains((int)__instance.GetPlayer().Role);
 
                 Events.InvokeSpeakEvent(__instance, ref intercom, ref radio, ref scp939, ref scpchat, ref spectator);
 
