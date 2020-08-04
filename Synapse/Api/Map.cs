@@ -194,6 +194,14 @@ namespace Synapse.Api
             return bench.GetComponent<WorkStation>();
         }
 
+        public static void SpawnRagdoll(Vector3 Position,RoleType role,string killer = "World")
+        {
+            Server.Host.GetComponent<RagdollManager>().SpawnRagdoll(
+                Position, Quaternion.identity, Vector3.zero, (int)role,
+                new PlayerStats.HitInfo(1000f, killer, DamageTypes.Falldown, 1)
+                , false, killer, killer, 1);
+        }
+
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
         {
             var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position,Quaternion.identity, 0, 0, 0);
