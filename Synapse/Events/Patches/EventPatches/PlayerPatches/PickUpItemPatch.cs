@@ -15,18 +15,14 @@ namespace Synapse.Events.Patches
             {
                 if (__instance.Completor.ValidateUpdate())
                 {
-                    if (NetworkTime.time >= __instance.SessionPipe.Session.FinishTime)
-                    {
-                        bool allow = true;
+                    if (!(NetworkTime.time >= __instance.SessionPipe.Session.FinishTime)) return false;
+                    var allow = true;
 
-                        Events.InvokePickupItemEvent(__instance.GetPlayer(),__instance.Completor.TargetPickup, ref allow);
+                    Events.InvokePickupItemEvent(__instance.GetPlayer(),__instance.Completor.TargetPickup, ref allow);
 
-                        if (allow)
-                        {
-                            __instance.Completor.Complete();
-                            return false;
-                        }
-                    }
+                    if (!allow) return false;
+                    __instance.Completor.Complete();
+                    return false;
                 }
                 else
                 {

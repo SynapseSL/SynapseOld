@@ -24,9 +24,9 @@ namespace Synapse.Events.Patches
                 
                 __instance.OnInteract();
                 
-                if (__instance._sr.BypassMode) allowTheAccess = true;
+                if (__instance._sr.BypassMode) {}
                 else if (door.PermissionLevels.HasPermission(Door.AccessRequirements.Checkpoints) &&
-                         __instance._ccm.CurRole.team == Team.SCP) allowTheAccess = true;
+                         __instance._ccm.CurRole.team == Team.SCP) {}
                 else
                 {
                     try

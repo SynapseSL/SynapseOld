@@ -126,7 +126,7 @@ namespace Synapse.Events
         public static void InvokeCheckRoundEnd(ref bool forceEnd, ref bool allow, ref RoundSummary.LeadingTeam team,
             ref bool teamChanged)
         {
-            var ev = new CheckRoundEndEvent()
+            var ev = new CheckRoundEndEvent
             {
                 Allow = allow,
                 ForceEnd = forceEnd,

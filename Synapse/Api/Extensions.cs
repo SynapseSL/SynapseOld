@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using CommandSystem;
-using Harmony;
-using Mirror;
 using Synapse.Api.Enums;
 using Synapse.Api.Plugin;
 using UnityEngine;
@@ -85,7 +82,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you the player object
         /// </summary>
-        public static Player GetPlayer(this MonoBehaviour mono) => mono.GetComponent<Player>();
+        public static Player GetPlayer(this MonoBehaviour mono) => mono.gameObject.GetPlayer();
 
         /// <summary>
         /// Gives you the player object

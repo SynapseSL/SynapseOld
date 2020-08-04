@@ -9,8 +9,8 @@ namespace Synapse.Api
     public static class Server
     {
         private static MethodInfo _sendSpawnMessage;
-        private static Broadcast broadcast;
-        private static BanPlayer banPlayer;
+        private static Broadcast _broadcast;
+        private static BanPlayer _banPlayer;
 
 
         public static Player Host => Player.Host;
@@ -43,10 +43,10 @@ namespace Synapse.Api
         {
             get
             {
-                if (broadcast == null)
-                    broadcast = Host.GetComponent<Broadcast>();
+                if (_broadcast == null)
+                    _broadcast = Host.GetComponent<Broadcast>();
 
-                return broadcast;
+                return _broadcast;
             }
         }
 
@@ -54,10 +54,10 @@ namespace Synapse.Api
         {
             get
             {
-                if (banPlayer == null)
-                    banPlayer = Host.GetComponent<BanPlayer>();
+                if (_banPlayer == null)
+                    _banPlayer = Host.GetComponent<BanPlayer>();
 
-                return banPlayer;
+                return _banPlayer;
             }
         }
 
