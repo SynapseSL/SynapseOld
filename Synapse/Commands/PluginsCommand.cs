@@ -15,7 +15,7 @@ namespace Synapse.Commands
             "pl",
         };
 
-        public string Description { get; } = "A Command to Relaod the Configs of Synapse";
+        public string Description { get; } = "Gives you all Plugins installed on the Server";
 
         public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string respone)
         {
