@@ -61,11 +61,9 @@ namespace Synapse.Events
         public delegate void OnConsoleCommand(ConsoleCommandEvent ev);
         public static event OnConsoleCommand ConsoleCommandEvent;
 
-        internal static void InvokeConsoleCommandEvent(Player player, string command, out string color,
-            out string returning)
+        internal static void InvokeConsoleCommandEvent(Player player, string command, out bool allow)
         {
-            color = "red";
-            returning = "";
+            allow = true;
             if (ConsoleCommandEvent == null) return;
 
             var ev = new ConsoleCommandEvent
@@ -75,9 +73,6 @@ namespace Synapse.Events
             };
 
             ConsoleCommandEvent.Invoke(ev);
-
-            color = ev.Color;
-            returning = ev.ReturnMessage;
         }
 
         public delegate void TeamRespawn(TeamRespawnEvent ev);

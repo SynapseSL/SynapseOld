@@ -5,6 +5,7 @@ using System;
 
 namespace Synapse.Commands
 {
+    [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ReloadPermissionsCommand : ICommand
     {
         public string Command { get; } = "reloadpermissions";

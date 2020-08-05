@@ -1,6 +1,7 @@
 ﻿using CommandSystem;
 using CommandSystem.Commands;
 using Harmony;
+using Synapse.Commands;
 
 namespace Synapse.Events.Patches.SynapsePatches
 {
@@ -13,6 +14,8 @@ namespace Synapse.Events.Patches.SynapsePatches
             __instance.RegisterCommand(new BuildInfoCommand());
             __instance.RegisterCommand(ConfigCommand.Create());
             __instance.RegisterCommand(new HelpCommand(__instance));
+            //Synapse Commands
+            __instance.RegisterCommand(new PluginsCommand());
             return false;
         }
     }
@@ -23,6 +26,8 @@ namespace Synapse.Events.Patches.SynapsePatches
         public static bool Prefix(GameConsoleCommandHandler __instance)
         {
             __instance.RegisterCommand(new HelpCommand(__instance));
+            //Synapse Commands
+            __instance.RegisterCommand(new PluginsCommand());
             return false;
         }
     }
@@ -37,6 +42,10 @@ namespace Synapse.Events.Patches.SynapsePatches
             __instance.RegisterCommand(ConfigCommand.Create());
             __instance.RegisterCommand(new HelpCommand(__instance));
             __instance.RegisterCommand(new IntercomTextCommand());
+            //Synapse Commands
+            __instance.RegisterCommand(new ReloadConfigsCommand());
+            __instance.RegisterCommand(new ReloadPermissionsCommand());
+            __instance.RegisterCommand(new PluginsCommand());
             return false;
         }
     }
