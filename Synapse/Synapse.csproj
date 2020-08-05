@@ -83,6 +83,8 @@
     <Compile Include="Api\Extensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Commands\ReloadConfigsCommand.cs" />
+    <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\TeslaTriggerEvent.cs" />
     <Compile Include="Events\Patches\SynapsePatches\CommandsPatch.cs" />

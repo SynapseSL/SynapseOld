@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using Synapse.Api;
-using Synapse.Api.Enums;
 using Synapse.Events.Classes;
 using Synapse.Config;
 using UnityEngine;
@@ -14,7 +12,6 @@ namespace Synapse.Events
         public EventHandlers()
         {
             Events.SyncDataEvent += OnSyncData;
-            Events.RemoteCommandEvent += OnRemoteCommand;
             Events.DoorInteractEvent += OnDoorInteract;
             Events.PlayerJoinEvent += OnPlayerJoin;
         }
@@ -46,39 +43,6 @@ namespace Synapse.Events
                 ev.Player.Role != RoleType.Scientist &&
                 !(Vector3.Distance(ev.Player.Position, ev.Player.GetComponent<Escape>().worldPosition) >= Escape.radius))
                 ev.Player.Hub.characterClassManager.CmdRegisterEscape();
-        }
-
-        private static void OnRemoteCommand(RemoteCommandEvent ev)
-        {
-            var args = ev.Command.Split(' ');
-            switch (args[0].ToUpper())
-            {
-                case "RELOADPERMISSION":
-                    ev.Allow = false;
-                    if (!ev.Player.CheckPermission("sy.reload.permission"))
-                    {
-                        ev.Sender.RaMessage("You have no Permission for Reload Permissions", false,
-                            RaCategory.AdminTools);
-                        return;
-                    }
-
-                    PermissionReader.ReloadPermission();
-                    ev.Sender.RaMessage("Permissions Reloaded!", true, RaCategory.ServerConfigs);
-                    return;
-
-                case "RELOADCONFIGS":
-                    ev.Allow = false;
-                    if (!ev.Player.CheckPermission("sy.reload.configs"))
-                    {
-                        ev.Sender.RaMessage("You have no Permission for Reload Configs", false,
-                            RaCategory.AdminTools);
-                        return;
-                    }
-
-                    ConfigManager.ReloadAllConfigs();
-                    ev.Sender.RaMessage("Configs Reloaded!", true, RaCategory.ServerConfigs);
-                    return;
-            }
         }
     }
 }
