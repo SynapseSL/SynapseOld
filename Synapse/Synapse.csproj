@@ -83,6 +83,7 @@
     <Compile Include="Api\Extensions.cs" />
     <Compile Include="Api\Enums\RaCategory.cs" />
     <Compile Include="Api\Map.cs" />
+    <Compile Include="Commands\PluginInfoCommand.cs" />
     <Compile Include="Commands\PluginsCommand.cs" />
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />

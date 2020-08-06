@@ -16,6 +16,7 @@ namespace Synapse.Events.Patches.SynapsePatches
             __instance.RegisterCommand(new HelpCommand(__instance));
             //Synapse Commands
             __instance.RegisterCommand(new PluginsCommand());
+            __instance.RegisterCommand(new PluginInfoCommand());
             return false;
         }
     }
@@ -28,6 +29,7 @@ namespace Synapse.Events.Patches.SynapsePatches
             __instance.RegisterCommand(new HelpCommand(__instance));
             //Synapse Commands
             __instance.RegisterCommand(new PluginsCommand());
+            __instance.RegisterCommand(new PluginInfoCommand());
             return false;
         }
     }
@@ -46,6 +48,7 @@ namespace Synapse.Events.Patches.SynapsePatches
             __instance.RegisterCommand(new ReloadConfigsCommand());
             __instance.RegisterCommand(new ReloadPermissionsCommand());
             __instance.RegisterCommand(new PluginsCommand());
+            __instance.RegisterCommand(new PluginInfoCommand());
             return false;
         }
     }
