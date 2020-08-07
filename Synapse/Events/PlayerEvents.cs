@@ -428,5 +428,21 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+
+        public delegate void OnKeyPress(KeyPressEvent ev);
+        public static event OnKeyPress KeyPressEvent;
+        internal static void InvokeKeyPressEvent(Player player, KeyCode key)
+        {
+            if (KeyPressEvent == null) return;
+
+            var ev = new KeyPressEvent()
+            {
+                Player = player,
+                Key = key
+            };
+
+            KeyPressEvent.Invoke(ev);
+        }
     }
 }
