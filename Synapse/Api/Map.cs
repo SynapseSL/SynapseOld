@@ -21,7 +21,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you a list of all lifts
         /// </summary>
-        public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
+        public static List<Lift> Lifts => Server.GetObjectsOf<Lift>();
 
         private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 

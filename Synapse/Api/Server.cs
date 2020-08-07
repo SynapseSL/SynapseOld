@@ -2,8 +2,9 @@
 using Mirror;
 using RemoteAdmin;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace Synapse.Api
 {
@@ -71,7 +72,7 @@ namespace Synapse.Api
         public static ClientCommandHandler ClientCommandHandler => QueryProcessor.DotCommandHandler;
 
 
-        public static TObject[] GetObjectsOf<TObject>() where TObject : UnityEngine.Object => UnityEngine.Object.FindObjectsOfType<TObject>();
+        public static List<TObject> GetObjectsOf<TObject>() where TObject : UnityEngine.Object => UnityEngine.Object.FindObjectsOfType<TObject>().ToList();
 
         public static int GetMethodHash(Type invokeClass, string methodName) => invokeClass.FullName.GetStableHashCode() * 503 + methodName.GetStableHashCode();
     }
