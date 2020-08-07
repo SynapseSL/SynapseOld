@@ -45,7 +45,14 @@ namespace Synapse.Commands
                         return false;
                     }
 
-                    Events.Events.InvokeKeyPressEvent(sender.GetPlayer(), key2);
+                    try
+                    {
+                        Events.Events.InvokeKeyPressEvent(sender.GetPlayer(), key2);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"KeyPressEvent Error: {e} ");
+                    }
                     respone = "Key was accepted";
                     return true;
                 default:
