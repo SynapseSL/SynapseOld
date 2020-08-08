@@ -579,5 +579,36 @@ namespace Synapse.Api
             Connection.Send(msg);
             NetworkWriterPool.Recycle(writer);
         }
+
+        public void DimScreen()
+        {
+            var component = RoundSummary.singleton;
+            var writer = NetworkWriterPool.GetWriter();
+            var msg = new RpcMessage
+            {
+                netId = component.netId,
+                componentIndex = component.ComponentIndex,
+                functionHash = Server.GetMethodHash(typeof(RoundSummary), "RpcDimScreen"),
+                payload = writer.ToArraySegment()
+            };
+            Connection.Send(msg);
+            NetworkWriterPool.Recycle(writer);
+        }
+
+        public void ShakeScreen(bool achieve = false)
+        {
+            var component = Warhead.Controller;
+            var writer = NetworkWriterPool.GetWriter();
+            writer.WriteBoolean(achieve);
+            var msg = new RpcMessage
+            {
+                netId = component.netId,
+                componentIndex = component.ComponentIndex,
+                functionHash = Server.GetMethodHash(typeof(AlphaWarheadController), "RpcShake"),
+                payload = writer.ToArraySegment()
+            };
+            Connection.Send(msg);
+            NetworkWriterPool.Recycle(writer);
+        }
     }
 }

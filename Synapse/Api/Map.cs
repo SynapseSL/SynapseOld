@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
-using Utf8Json.Internal.DoubleConversion;
 using Object = UnityEngine.Object;
 
 namespace Synapse.Api

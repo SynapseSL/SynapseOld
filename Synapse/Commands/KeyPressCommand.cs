@@ -28,6 +28,12 @@ namespace Synapse.Commands
                 return false;
             }
 
+            if (arguments.Count < 1)
+            {
+                respone = "Use .key sync in order to sync your binds and use all Features of the Plugins!";
+                return false;
+            }
+
             switch (arguments.FirstOrDefault().ToUpper())
             {
                 case "SYNC":
