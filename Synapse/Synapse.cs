@@ -50,20 +50,9 @@ namespace Synapse
                 Log.Error("Synapse failed to Start.Restart the Server");
             }
         }
-        internal static void Start()
+        private static void Start()
         {
             LoadDependencies();
-
-            //Clears all the Commands so that the base game refresh command will be removed
-            Server.ClientCommandHandler.ClearCommands();
-            Server.GameCoreCommandHandler.ClearCommands();
-            Server.RaCommandHandler.ClearCommands();
-
-            HarmonyPatch();
-            //Adding all Vanilla Commands back to the Handler but now with the Harmony Patch which removes the command
-            Server.ClientCommandHandler.LoadGeneratedCommands();
-            Server.GameCoreCommandHandler.LoadGeneratedCommands();
-            Server.RaCommandHandler.LoadGeneratedCommands();
 
             foreach (var plugin in Directory.GetFiles(Files.ServerPluginDirectory))
             {
@@ -71,7 +60,8 @@ namespace Synapse
 
                 if (plugin.EndsWith(".dll")) LoadPlugin(plugin);
             }
-            
+
+            HarmonyPatch();
             ConfigManager.InitializeConfigs();
             ServerConsole.ReloadServerName();
             _eventHandler = new EventHandlers();
@@ -85,6 +75,7 @@ namespace Synapse
             }
 
             OnEnable();
+            OnReloadCommands();
         }
 
 
@@ -138,7 +129,6 @@ namespace Synapse
                     };
 
                     p.Assembly = assembly;
-                    p.RegisterCommands();
 
                     plugins.Add(p);
                     if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor == MajorVersion * 10 + MinorVerion) Log.Info($"Successfully loaded {p.Details.Name}");
@@ -173,6 +163,26 @@ namespace Synapse
                     plugin.Translation = new Translation { Plugin = plugin };
                     plugin.OwnPluginFolder = Path.Combine(Files.ServerPluginDirectory, plugin.Details.Name);
                     plugin.OnEnable();
+                }
+                catch (Exception e)
+                {
+                    Log.Error($"Plugin {plugin.Details.Name} threw an exception while enabling {e}");
+                }
+        }
+        internal static void OnReloadCommands()
+        {
+            Server.ClientCommandHandler.ClearCommands();
+            Server.GameCoreCommandHandler.ClearCommands();
+            Server.RaCommandHandler.ClearCommands();
+
+            Server.ClientCommandHandler.LoadGeneratedCommands();
+            Server.GameCoreCommandHandler.LoadGeneratedCommands();
+            Server.RaCommandHandler.LoadGeneratedCommands();
+
+            foreach (var plugin in plugins)
+                try
+                {
+                    plugin.RegisterCommands();
                 }
                 catch (Exception e)
                 {

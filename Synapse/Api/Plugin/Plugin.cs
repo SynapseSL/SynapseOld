@@ -15,9 +15,10 @@ namespace Synapse.Api.Plugin
         // ReSharper disable once NotAccessedField.Global
         public static YamlConfig Config;
 
+        [Obsolete("Please use public override void ReloadConfigs() now!")]
         public delegate void OnConfigReload();
+        [Obsolete("Please use public override void ReloadConfigs() now!")]
         public event OnConfigReload ConfigReloadEvent;
-        internal void InvokeConfigReloadEvent() => ConfigReloadEvent?.Invoke();
 
         // ReSharper disable once UnusedAutoPropertyAccessor.Global
         public Translation Translation { get; internal set; }
@@ -81,5 +82,7 @@ namespace Synapse.Api.Plugin
                 }
             }
         }
+
+        public virtual void ReloadConfigs() => ConfigReloadEvent.Invoke();
     }
 }
