@@ -393,6 +393,11 @@ namespace Synapse.Api
 
         public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
+        /// <summary>
+        /// If the Client sends a DnT Signal, useful for storing data
+        /// </summary>
+        public bool DoNotTrack => ServerRoles.DoNotTrack;
+
         //Methods
         /// <summary>
         /// Kicks the player
