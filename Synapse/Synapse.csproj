@@ -90,7 +90,9 @@
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
     <Compile Include="Events\Classes\KeyPressEvent.cs" />
+    <Compile Include="Events\Classes\Scp106CreatePortalEvent.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\TeslaTriggerEvent.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp106CreatePortalPatch.cs" />
     <Compile Include="Events\Patches\SynapsePatches\CommandsPatch.cs" />
     <Compile Include="Synapse.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
