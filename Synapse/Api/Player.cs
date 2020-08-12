@@ -516,6 +516,8 @@ namespace Synapse.Api
         /// <param name="other"></param>
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
+        public void DropAllItems() => Inventory.ServerDropAll();
+
         public void DropItem(Inventory.SyncItemInfo item)
         {
             Inventory.SetPickup(item.id, item.durability, Position, Inventory.camera.transform.rotation, item.modSight, item.modBarrel, item.modOther);
