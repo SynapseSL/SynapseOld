@@ -248,7 +248,7 @@ namespace Synapse.Api
             get
             {
                 var playerPos = Position;
-                var end = playerPos - new Vector3(0f, 10f, 0f);
+                var end = playerPos - new Vector3(0f, 30f, 0f);
                 var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
                 
                 if (!flag || rayCastHit.transform == null)
