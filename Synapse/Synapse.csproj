@@ -132,6 +132,7 @@
     <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp106ContainmentPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\RoundPatches\TeamRespawnPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerEscapePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerHealPatch.cs" />
     <Compile Include="Events\Classes\PlayerCuffedEvent.cs" />
     <Compile Include="Events\Classes\ConsoleCommandEvent.cs" />
     <Compile Include="Events\Classes\DoorInteractEvent.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Events\Classes\Scp049RecallEvent.cs" />
     <Compile Include="Events\Classes\PlayerSpeakEvent.cs" />
     <Compile Include="Events\Classes\SyncDataEvent.cs" />
+    <Compile Include="Events\Classes\PlayerHealEvent.cs" />
     <Compile Include="Events\MapEvents.cs" />
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerCuffPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\DoorInteractPatch.cs" />
