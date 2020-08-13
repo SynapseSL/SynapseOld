@@ -20,7 +20,7 @@ namespace Synapse.Api
         /// <summary>
         /// Gives you a list of all lifts
         /// </summary>
-        public static List<Lift> Lifts => Object.FindObjectsOfType<Lift>().ToList();
+        public static List<Lift> Lifts => Server.GetObjectsOf<Lift>();
 
         private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
@@ -174,6 +174,32 @@ namespace Synapse.Api
         /// </summary>
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
+
+        public static WorkStation SpawnWorkStation(Vector3 position,Vector3 rotation,Vector3 size)
+        {
+            GameObject bench =
+                Object.Instantiate(
+                    NetworkManager.singleton.spawnPrefabs.Find(p => p.gameObject.name == "Work Station"));
+            Offset offset = new Offset();
+            offset.position = position;
+            offset.rotation = rotation;
+            offset.scale = Vector3.one;
+            bench.gameObject.transform.localScale = size;
+
+            NetworkServer.Spawn(bench);
+            bench.GetComponent<WorkStation>().Networkposition = offset;
+            bench.AddComponent<WorkStationUpgrader>();
+
+            return bench.GetComponent<WorkStation>();
+        }
+
+        public static void SpawnRagdoll(Vector3 Position,RoleType role,string killer = "World")
+        {
+            Server.Host.GetComponent<RagdollManager>().SpawnRagdoll(
+                Position, Quaternion.identity, Vector3.zero, (int)role,
+                new PlayerStats.HitInfo(1000f, killer, DamageTypes.Falldown, 1)
+                , false, killer, killer, 1);
+        }
 
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
         {

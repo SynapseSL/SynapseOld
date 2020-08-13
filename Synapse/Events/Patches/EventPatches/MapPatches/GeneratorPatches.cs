@@ -15,18 +15,10 @@ namespace Synapse.Events.Patches
 			{
 				switch (command)
 				{
-					case PlayerInteract.Generator079Operations.Door:
-
-
-
-						break;
-
 					case PlayerInteract.Generator079Operations.Tablet:
 
 						if (__instance.isTabletConnected || !__instance.isDoorOpen || __instance._localTime <= 0f || Generator079.mainGenerator.forcedOvercharge)
-						{
 							return false;
-						}
 						Inventory component = person.GetComponent<Inventory>();
 						using (SyncList<Inventory.SyncItemInfo>.SyncListEnumerator enumerator = component.items.GetEnumerator())
 						{
@@ -45,17 +37,16 @@ namespace Synapse.Events.Patches
 								}
 							}
 						}
-						break;
+						return false;
 
 					case PlayerInteract.Generator079Operations.Cancel:
-						if (!__instance.isTabletConnected) break;
+						if (!__instance.isTabletConnected) return false;
 
 						var allow = true;
 						Events.InvokeGeneratorEjected(person.GetPlayer(), __instance, ref allow);
-						if (!allow) break;
-						return true;
+						return allow;
 				}
-				return false;
+				return true;
 			}
 			catch (Exception e)
 			{

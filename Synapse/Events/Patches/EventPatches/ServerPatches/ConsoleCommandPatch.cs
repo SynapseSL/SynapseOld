@@ -9,20 +9,13 @@ namespace Synapse.Events.Patches
     public class ConsoleCommandPatch
     {
         // ReSharper disable once InconsistentNaming
-        public static bool Prefix(QueryProcessor __instance, ref string query, bool encrypted)
+        public static bool Prefix(QueryProcessor __instance, string query)
         {
             try
             {
-                Events.InvokeConsoleCommandEvent(__instance.GetPlayer(), query, out var color,
-                    out var returning);
+                Events.InvokeConsoleCommandEvent(__instance.GetPlayer(), query, out var allow);
 
-                if (string.IsNullOrEmpty(color))
-                    color = "red";
-
-                if (!string.IsNullOrEmpty(returning))
-                    __instance.GCT.SendToClient(__instance.connectionToClient, returning, color);
-
-                return false;
+                return allow;
             }
             catch (Exception e)
             {

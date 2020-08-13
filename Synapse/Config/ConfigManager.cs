@@ -19,7 +19,7 @@ namespace Synapse.Config
             foreach (var plugin in Synapse.plugins)
                 try
                 {
-                    plugin.InvokeConfigReloadEvent();
+                    plugin.ReloadConfigs();
                 }
                 catch (Exception e)
                 {
