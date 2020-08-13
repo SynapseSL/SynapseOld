@@ -12,6 +12,9 @@ namespace Synapse.Events.Classes
         
         public bool Slow { get; set; }
         
+        /// <summary>
+        /// The time before the grenade gets launched. This value can not be higher than the throwingAnimationTime;
+        /// </summary>
         public double FuseTime { get; set; }
 
         public bool Allow { get; set; }
