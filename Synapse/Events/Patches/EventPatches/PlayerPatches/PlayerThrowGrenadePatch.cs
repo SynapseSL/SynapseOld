@@ -39,10 +39,8 @@ namespace Synapse.Events.Patches
                 if (!useAllow) return false;
 
                 Events.InvokePlayerThrowGrenadeEvent(player, item, ref slowThrow, ref time, out var allow);
-                
-                
+
                 time += NetworkTime.time;
-                
                 
                 return allow;
 
