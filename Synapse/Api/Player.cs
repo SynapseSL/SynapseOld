@@ -248,7 +248,7 @@ namespace Synapse.Api
             get
             {
                 var playerPos = Position;
-                var end = playerPos - new Vector3(0f, 10f, 0f);
+                var end = playerPos - new Vector3(0f, 30f, 0f);
                 var flag = Physics.Linecast(playerPos, end, out var rayCastHit, -84058629);
                 
                 if (!flag || rayCastHit.transform == null)
@@ -393,6 +393,11 @@ namespace Synapse.Api
 
         public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
+        /// <summary>
+        /// If the Client sends a DnT Signal, useful for storing data
+        /// </summary>
+        public bool DoNotTrack => ServerRoles.DoNotTrack;
+
         //Methods
         /// <summary>
         /// Kicks the player
@@ -511,6 +516,8 @@ namespace Synapse.Api
         /// <param name="other"></param>
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
+        public void DropAllItems() => Inventory.ServerDropAll();
+
         public void DropItem(Inventory.SyncItemInfo item)
         {
             Inventory.SetPickup(item.id, item.durability, Position, Inventory.camera.transform.rotation, item.modSight, item.modBarrel, item.modOther);
@@ -574,6 +581,37 @@ namespace Synapse.Api
                 netId = component.netId,
                 componentIndex = component.ComponentIndex,
                 functionHash = Server.GetMethodHash(typeof(PlayerStats), "RpcRoundrestartRedirect"),
+                payload = writer.ToArraySegment()
+            };
+            Connection.Send(msg);
+            NetworkWriterPool.Recycle(writer);
+        }
+
+        public void DimScreen()
+        {
+            var component = RoundSummary.singleton;
+            var writer = NetworkWriterPool.GetWriter();
+            var msg = new RpcMessage
+            {
+                netId = component.netId,
+                componentIndex = component.ComponentIndex,
+                functionHash = Server.GetMethodHash(typeof(RoundSummary), "RpcDimScreen"),
+                payload = writer.ToArraySegment()
+            };
+            Connection.Send(msg);
+            NetworkWriterPool.Recycle(writer);
+        }
+
+        public void ShakeScreen(bool achieve = false)
+        {
+            var component = Warhead.Controller;
+            var writer = NetworkWriterPool.GetWriter();
+            writer.WriteBoolean(achieve);
+            var msg = new RpcMessage
+            {
+                netId = component.netId,
+                componentIndex = component.ComponentIndex,
+                functionHash = Server.GetMethodHash(typeof(AlphaWarheadController), "RpcShake"),
                 payload = writer.ToArraySegment()
             };
             Connection.Send(msg);

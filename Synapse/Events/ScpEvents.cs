@@ -88,5 +88,22 @@ namespace Synapse.Events
             newlvl = ev.NewLvl;
             allow = ev.Allow;
         }
+
+        public delegate void OnScp106CreatePortal(Scp106CreatePortalEvent ev);
+
+        public static event OnScp106CreatePortal Scp106CreatePortalEvent;
+
+        internal static void InvokeScp106CreatePortalEvent(Player player, ref bool allow)
+        {
+            var ev = new Scp106CreatePortalEvent
+            {
+                Allow = allow,
+                Player = player
+            };
+            
+            Scp106CreatePortalEvent?.Invoke(ev);
+
+            allow = ev.Allow;
+        }
     }
 }

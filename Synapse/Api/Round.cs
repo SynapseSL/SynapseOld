@@ -6,9 +6,12 @@ namespace Synapse.Api
 {
     public static class Round
     {
+        [Obsolete("Please use RoundLength")]
         public static TimeSpan RoundLenght => RoundStart.RoundLenght;
 
-        public static DateTime StartedTime => DateTime.Now - RoundLenght;
+        public static TimeSpan RoundLength => RoundStart.RoundLenght;
+
+        public static DateTime StartedTime => DateTime.Now - RoundLength;
 
         public static bool IsStarted => RoundSummary.RoundInProgress();
 
