@@ -5,6 +5,9 @@
         private static AlphaWarheadController _controller;
         private static AlphaWarheadNukesitePanel _nukeSitePanel;
 
+        /// <summary>
+        /// Gives you the Decontamination Controller
+        /// </summary>
         public static AlphaWarheadController Controller
         {
             get
@@ -16,6 +19,9 @@
             }
         }
 
+        /// <summary>
+        /// Gives you the NukesiktePanel
+        /// </summary>
         public static AlphaWarheadNukesitePanel NukeSitePanel
         {
             get
@@ -27,8 +33,14 @@
             }
         }
 
+        /// <summary>
+        /// Get / Set the LeverStatus
+        /// </summary>
         public static bool LeverStatus { get => NukeSitePanel.Networkenabled; set => NukeSitePanel.Networkenabled = value; }
 
+        /// <summary>
+        /// The Time to Detonation
+        /// </summary>
         public static float DetonationTimer
         {
             get => Controller.NetworktimeToDetonation;
@@ -36,17 +48,17 @@
         }
 
         /// <summary>
-        /// Is the nuke detonated?
+        /// Is the Nuke Detonated?
         /// </summary>
         public static bool IsNukeDetonated => Controller.detonated;
 
         /// <summary>
-        /// Is the nuke in progress?
+        /// Is the Nuke in Progress?
         /// </summary>
         public static bool IsNukeInProgress => Controller.inProgress;
 
         /// <summary>
-        /// Starts the nuke
+        /// Starts the Nuke
         /// </summary>
         public static void StartNuke()
         {
@@ -55,15 +67,18 @@
         }
 
         /// <summary>
-        /// Stops the nuke
+        /// Stops the Nuke
         /// </summary>
         public static void StopNuke() => Controller.CancelDetonation();
 
         /// <summary>
-        /// Detonates the nuke
+        /// Detonates the Nuke
         /// </summary>
         public static void DetonateNuke() => Controller.Detonate();
 
+        /// <summary>
+        /// Shakes the Screen for all player like when the Nuke explodes
+        /// </summary>
         public static void Shake() => Controller.RpcShake(true);
     }
 }

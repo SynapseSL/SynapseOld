@@ -102,6 +102,9 @@ namespace Synapse.Api
         /// </summary>
         public string NickName { get => NicknameSync.Network_myNickSync; }
 
+        /// <summary>
+        /// Get / Set the Displayed Name of the User
+        /// </summary>
         public string DisplayName { get => NicknameSync.DisplayName; set => NicknameSync.DisplayName = value; }
 
         /// <summary>
@@ -140,12 +143,10 @@ namespace Synapse.Api
         /// </summary>
         public bool Bypass { get => ServerRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
 
-
         /// <summary>
         /// Get / Set the Players GodMode
         /// </summary>
         public bool GodMode { get => ClassManager.GodMode; set => ClassManager.GodMode = value; }
-
 
         /// <summary>
         /// Modify the size of the Player
@@ -362,6 +363,9 @@ namespace Synapse.Api
         /// </summary>
         public Camera079 Camera { get => Hub.scp079PlayerScript.currentCamera; set => Hub.scp079PlayerScript?.RpcSwitchCamera(value.cameraId, false); }
 
+        /// <summary>
+        /// Gives you the Ping of the Player to the Server
+        /// </summary>
         public int Ping => LiteNetLib4MirrorServer.Peers[Connection.connectionId].Ping;
 
         /// <summary>
@@ -389,8 +393,14 @@ namespace Synapse.Api
         /// </summary>
         public bool IsDead => Team == Team.RIP;
 
+        /// <summary>
+        /// The Jail object of the Player
+        /// </summary>
         public Jail Jail => GetComponent<Jail>();
 
+        /// <summary>
+        /// Gets/Sets the UnitName of the Player
+        /// </summary>
         public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
         /// <summary>
@@ -516,8 +526,15 @@ namespace Synapse.Api
         /// <param name="other"></param>
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
+        /// <summary>
+        /// Drops the Entire Inventory of the Player
+        /// </summary>
         public void DropAllItems() => Inventory.ServerDropAll();
 
+        /// <summary>
+        /// Drops a Item from the PlayerInventory
+        /// </summary>
+        /// <param name="item"></param>
         public void DropItem(Inventory.SyncItemInfo item)
         {
             Inventory.SetPickup(item.id, item.durability, Position, Inventory.camera.transform.rotation, item.modSight, item.modBarrel, item.modOther);
@@ -587,6 +604,9 @@ namespace Synapse.Api
             NetworkWriterPool.Recycle(writer);
         }
 
+        /// <summary>
+        /// Makes the Screen of the Player for the entire Round black
+        /// </summary>
         public void DimScreen()
         {
             var component = RoundSummary.singleton;
@@ -602,6 +622,10 @@ namespace Synapse.Api
             NetworkWriterPool.Recycle(writer);
         }
 
+        /// <summary>
+        /// Shakes the Screen of the Player like when the Warhead explodes
+        /// </summary>
+        /// <param name="achieve"></param>
         public void ShakeScreen(bool achieve = false)
         {
             var component = Warhead.Controller;
