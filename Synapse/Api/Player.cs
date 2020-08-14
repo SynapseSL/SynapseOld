@@ -239,7 +239,7 @@ namespace Synapse.Api
                 }
             }
         }
-
+        
         /// <summary>
         /// The Room where the player currently is
         /// </summary>
@@ -271,6 +271,19 @@ namespace Synapse.Api
             }
             set => Position = value.Position;
         }
+
+        /// <summary>
+        /// The position of the player relative to the position of the room he is currently in
+        /// </summary>
+        public Vector3 RelativePosition
+        {
+            get
+            {
+                return Position - Room.Position;
+            }
+            set => Position = Room.Position + value;
+        }
+
 
         /// <summary>
         /// The NetworkConnection of the player (often used by vanilla methods)

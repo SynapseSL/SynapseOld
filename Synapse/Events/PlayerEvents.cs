@@ -466,5 +466,31 @@ namespace Synapse.Events
             amount = ev.Amount;
 
         }
+        
+        public delegate void OnPlayerThrowGrenade(PlayerThrowGrenadeEvent ev);
+
+        public static event OnPlayerThrowGrenade PlayerThrowGrenadeEvent;
+        internal static void InvokePlayerThrowGrenadeEvent(Player player, ItemType type, ref bool slow, ref double time, out bool allow)
+        {
+            allow = true;
+
+            if (PlayerThrowGrenadeEvent == null) return;
+            
+            var ev = new PlayerThrowGrenadeEvent
+            {
+                Player = player,
+                Grenade = type,
+                Slow = slow,
+                FuseTime = time,
+                Allow = allow
+            };
+            
+            PlayerThrowGrenadeEvent.Invoke(ev);
+
+            allow = ev.Allow; 
+            slow = ev.Slow;
+            time = ev.FuseTime;
+
+        }
     }
 }
