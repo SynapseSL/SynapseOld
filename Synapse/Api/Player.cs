@@ -239,7 +239,7 @@ namespace Synapse.Api
                 }
             }
         }
-
+        
         /// <summary>
         /// The Room where the player currently is
         /// </summary>

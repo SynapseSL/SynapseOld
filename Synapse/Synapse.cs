@@ -17,11 +17,11 @@ namespace Synapse
     {
         #region Version
         private const int MajorVersion = 1;
-        private const int MinorVerion = 2;
-        private const int Patch = 0;
+        private const int MinorVersion = 2;
+        private const int Patch = 1;
 
-        public static int VersionNumber => MajorVersion * 100 + MinorVerion * 10 + Patch;
-        public static string Version => $"{MajorVersion}.{MinorVerion}.{Patch}";
+        public static int VersionNumber => MajorVersion * 100 + MinorVersion * 10 + Patch;
+        public static string Version => $"{MajorVersion}.{MinorVersion}.{Patch}";
         #endregion
 
         private static bool _isLoaded;
@@ -124,16 +124,16 @@ namespace Synapse
                         Name = assembly.GetName().Name,
                         Version = assembly.ImageRuntimeVersion,
                         SynapseMajor = MajorVersion,
-                        SynapseMinor = MinorVerion,
+                        SynapseMinor = MinorVersion,
                         SynapsePatch = Patch
                     };
 
                     p.Assembly = assembly;
 
                     plugins.Add(p);
-                    if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor == MajorVersion * 10 + MinorVerion) Log.Info($"Successfully loaded {p.Details.Name}");
+                    if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor == MajorVersion * 10 + MinorVersion) Log.Info($"Successfully loaded {p.Details.Name}");
 
-                    else if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor > MajorVersion * 10 + MinorVerion) Log.Warn($"The Plugin {p.Details.Name} is for the newer Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
+                    else if (p.Details.SynapseMajor * 10 + p.Details.SynapseMinor > MajorVersion * 10 + MinorVersion) Log.Warn($"The Plugin {p.Details.Name} is for the newer Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
 
                     else Log.Warn($"The Plugin {p.Details.Name} is for the older Synapse version {p.Details.GetVersionString()} but was succesfully loaded(bugs can occure)");
                 }

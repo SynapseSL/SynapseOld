@@ -11,23 +11,41 @@ namespace Synapse.Events.Patches
     {
         public static bool Prefix(PlayerInteract __instance, GameObject doorId)
         {
-            var allowTheAccess = true;
-            Door door = null;
             try
             {
-                if (!__instance._playerInteractRateLimit.CanExecute() ||
-                    (__instance._hc.CufferId > 0 && !PlayerInteract.CanDisarmedInteract) || doorId == null ||
-                    __instance._ccm.CurClass == RoleType.None || __instance._ccm.CurClass == RoleType.Spectator ||
-                    !doorId.TryGetComponent(out door) || !((door.Buttons.Count == 0)
-                        ? __instance.ChckDis(doorId.transform.position)
-                        : door.Buttons.Any(item => __instance.ChckDis(item.button.transform.position)))) return false;
+                var allowTheAccess = true;
+                Door door = null;
+
+                if (!__instance._playerInteractRateLimit.CanExecute() || (__instance._hc.CufferId > 0 && !PlayerInteract.CanDisarmedInteract))
+                {
+                    return false;
+                }
+
+                if (doorId == null)
+                {
+                    return false;
+                }
+
+                if (__instance._ccm.CurClass == RoleType.None || __instance._ccm.CurClass == RoleType.Spectator)
+                {
+                    return false;
+                }
+
+                if (!doorId.TryGetComponent(out door))
+                {
+                    return false;
+                }
+
                 
+                if ((door.Buttons.Count == 0) ? (!__instance.ChckDis(doorId.transform.position)) : Enumerable.All(door.Buttons, item => !__instance.ChckDis(item.button.transform.position)))
+                {
+                    return false;
+                }
+
                 __instance.OnInteract();
                 
-                if (__instance._sr.BypassMode) {}
-                else if (door.PermissionLevels.HasPermission(Door.AccessRequirements.Checkpoints) &&
-                         __instance._ccm.CurRole.team == Team.SCP) {}
-                else
+                if (!__instance._sr.BypassMode && !(door.PermissionLevels.HasPermission(Door.AccessRequirements.Checkpoints) &&
+                         __instance._ccm.CurRole.team == Team.SCP))
                 {
                     try
                     {
@@ -51,8 +69,8 @@ namespace Synapse.Events.Patches
                 }
                 
                 Events.InvokeDoorInteraction(__instance.gameObject.GetPlayer(), door, ref allowTheAccess);
-                
-                if(allowTheAccess) door.ChangeState(__instance._sr.BypassMode);
+
+                if (allowTheAccess) door.ChangeState(__instance._sr.BypassMode);
                 else __instance.RpcDenied(doorId);
 
                 return false;
@@ -60,11 +78,8 @@ namespace Synapse.Events.Patches
             catch (Exception e)
             {
                 Log.Error($"DoorInteraction Error: {e}");
-                
-                if(allowTheAccess && door != null)
-                    door.ChangeState(__instance._sr.BypassMode);
-                else __instance.RpcDenied(doorId);
-                return false;
+
+                return true;
             }
         }
     }
