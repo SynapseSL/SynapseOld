@@ -15,13 +15,6 @@ namespace Synapse.Events
             Events.SyncDataEvent += OnSyncData;
             Events.DoorInteractEvent += OnDoorInteract;
             Events.PlayerJoinEvent += OnPlayerJoin;
-            Events.KeyPressEvent += OnKeyPress;
-        }
-
-        private void OnKeyPress(KeyPressEvent ev)
-        {
-            if (ev.Key == KeyCode.Alpha1)
-                Warhead.Locked = true;
         }
 
         // Methods

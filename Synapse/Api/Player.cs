@@ -344,6 +344,21 @@ namespace Synapse.Api
         public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
 
         /// <summary>
+        /// Get/Set if the Rank/Badge of the Player is hidden
+        /// </summary>
+        public bool HideRank
+        { 
+            get => string.IsNullOrEmpty(ServerRoles.HiddenBadge);
+            set
+            {
+                if (value)
+                    ClassManager.CmdRequestHideTag();
+                else
+                    ClassManager.CallCmdRequestShowTag(false);
+            }
+        }
+
+        /// <summary>
         /// The Permission of the Player
         /// </summary>
         public ulong Permission { get => ServerRoles.Permissions; set => ServerRoles.Permissions = value; }
@@ -504,17 +519,6 @@ namespace Synapse.Api
         /// <param name="success"></param>
         /// <param name="type"></param>
         public void SendRAConsoleMessage(string message, bool success = true, RaCategory type = RaCategory.None) => CommandSender.RaMessage(message, success, type);
-
-        /// <summary>
-        /// Hides for normal player the RankName the player has
-        /// </summary>
-        public void HideTag() => ClassManager.CallCmdRequestHideTag();
-
-        /// <summary>
-        /// Shows everyone the RankName the player has
-        /// </summary>
-        /// <param name="global"></param>
-        public void ShowTag(bool global = false) => ClassManager.CallCmdRequestShowTag(global);
 
         /// <summary>
         /// Gives the player a item
