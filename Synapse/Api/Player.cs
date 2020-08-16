@@ -186,6 +186,11 @@ namespace Synapse.Api
         public Vector2 Rotation { get => MovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
 
         /// <summary>
+        /// Get / Set the Last Position the Player died
+        /// </summary>
+        public Vector3 DeathPosition { get => ClassManager.DeathPosition; set => ClassManager.DeathPosition = value; }
+
+        /// <summary>
         /// The health of the player
         /// </summary>
         public float Health { get => PlayerStats.Health; set => Hub.playerStats.Health = value; }
