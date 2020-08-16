@@ -20,6 +20,56 @@ namespace Synapse.Api
         /// </summary>
         public static bool IsLocked{ get => RoundSummary.RoundLock; set => RoundSummary.RoundLock = value; }
 
+           /// <summary>
+        /// Gets or sets the amount of Respawntickets for the MTF-Team
+        /// Please be careful when settings the amount of the ticket since this method ignores whether or
+        /// not the ticket amount should be locked to zero or not 
+        /// </summary>
+        public static int MtfTickets
+        {
+            get { 
+                RespawnTickets.Singleton._tickets.TryGetValue(SpawnableTeamType.NineTailedFox, out var tickets); 
+                return tickets; 
+            }
+
+            set => RespawnTickets.Singleton._tickets[SpawnableTeamType.NineTailedFox] = value;
+        }
+        
+        /// <summary>
+        /// Gets or sets the amount of Respawntickets for the Chaos-Team
+        /// Please be careful when settings the amount of the ticket since this method ignores whether or
+        /// not the ticket amount should be locked to zero or not 
+        /// </summary>
+        public static int ChaosTickets
+        {
+            get { 
+                RespawnTickets.Singleton._tickets.TryGetValue(SpawnableTeamType.ChaosInsurgency, out var tickets); 
+                return tickets; 
+            }
+
+            set => RespawnTickets.Singleton._tickets[SpawnableTeamType.ChaosInsurgency] = value;
+        }
+
+        /// <summary>
+        /// Grants Respawntickets to the MTF-Team 
+        /// </summary>
+        /// <param name="tickets"></param> The amount of tickets granted
+        /// <param name="overrideLocks"></param> Whether or not a existing lock should be ignored
+        public static void GrantMtfTickets(int tickets, bool overrideLocks = false)
+        {
+            RespawnTickets.Singleton.GrantTickets(SpawnableTeamType.NineTailedFox, tickets, overrideLocks);
+        }
+        
+        /// <summary>
+        /// Grants Respawntickets to the Chaos-Team 
+        /// </summary>
+        /// <param name="tickets"></param> The amount of tickets granted
+        /// <param name="overrideLocks"></param> Whether or not a existing lock should be ignored
+        public static void GrantChaosTickets(int tickets, bool overrideLocks = false)
+        {
+            RespawnTickets.Singleton.GrantTickets(SpawnableTeamType.ChaosInsurgency, tickets, overrideLocks);
+        }
+        
         public static int EscapedDs { get => RoundSummary.escaped_ds; set => RoundSummary.escaped_ds = value; }
 
         public static int EscapedScientists { get => RoundSummary.escaped_scientists; set => RoundSummary.escaped_scientists = value; }
