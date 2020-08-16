@@ -240,6 +240,11 @@ namespace Synapse.Api
                 }
             }
         }
+
+        /// <summary>
+        /// Gives you the Fraction of the Player
+        /// </summary>
+        public Fraction Fraction => ClassManager.Fraction;
         
         /// <summary>
         /// The Room where the player currently is
