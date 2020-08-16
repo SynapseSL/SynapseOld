@@ -116,6 +116,8 @@ namespace Synapse.Api
         /// <returns></returns>
         public static List<TObject> GetObjectsOf<TObject>() where TObject : UnityEngine.Object => UnityEngine.Object.FindObjectsOfType<TObject>().ToList();
 
+        public static TObject GetObjectOf<TObject>() where TObject : UnityEngine.Object => UnityEngine.Object.FindObjectOfType<TObject>();
+
         /// <summary>
         /// Gives you the MethodHash
         /// </summary>

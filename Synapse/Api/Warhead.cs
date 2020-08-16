@@ -4,6 +4,7 @@
     {
         private static AlphaWarheadController _controller;
         private static AlphaWarheadNukesitePanel _nukeSitePanel;
+        private static AlphaWarheadOutsitePanel _outsidepanel;
 
         /// <summary>
         /// Gives you the Decontamination Controller
@@ -27,11 +28,24 @@
             get
             {
                 if (_nukeSitePanel == null)
-                    _nukeSitePanel = Player.Host.GetComponent<AlphaWarheadNukesitePanel>();
+                    _nukeSitePanel = Server.GetObjectOf<AlphaWarheadNukesitePanel>();
 
                 return _nukeSitePanel;
             }
         }
+
+        public static AlphaWarheadOutsitePanel OutsitePanel
+        {
+            get
+            {
+                if (_outsidepanel == null)
+                    _outsidepanel = Server.GetObjectOf<AlphaWarheadOutsitePanel>();
+
+                return _outsidepanel;
+            }
+        }
+
+        public static bool Enabled { get => NukeSitePanel.Networkenabled; set => NukeSitePanel.Networkenabled = value; }
 
         /// <summary>
         /// Get / Set the LeverStatus
