@@ -645,5 +645,7 @@ namespace Synapse.Api
             Connection.Send(msg);
             NetworkWriterPool.Recycle(writer);
         }
+
+        public override string ToString() => NickName;
     }
 }
