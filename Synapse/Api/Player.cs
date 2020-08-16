@@ -394,6 +394,16 @@ namespace Synapse.Api
         public int Ping => LiteNetLib4MirrorServer.Peers[Connection.connectionId].Ping;
 
         /// <summary>
+        /// Gives you the AuthToken of the Player
+        /// </summary>
+        public string AuthToken => ClassManager.AuthToken;
+
+        /// <summary>
+        /// Gives you the time since the Player last died
+        /// </summary>
+        public float AliveTime => ClassManager.AliveTime;
+
+        /// <summary>
         /// The rotation float of the player
         /// </summary>
         public float RotationFloat => Hub.transform.rotation.eulerAngles.y;
