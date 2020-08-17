@@ -294,6 +294,8 @@ namespace Synapse.Api
         /// </summary>
         public Inventory.SyncListItemInfo Items { get => Inventory.items; set => Inventory.items = value; }
 
+        public Inventory.SyncItemInfo CurrentItem { get => Inventory.GetItemInHand(); }
+
         /// <summary>
         /// The person who cuffed the player
         /// </summary>
@@ -303,6 +305,7 @@ namespace Synapse.Api
             get => GetPlayer(Handcuffs.CufferId);
             set
             {
+                
                 var handcuff = value.Handcuffs;
 
                 if (handcuff == null) return;
