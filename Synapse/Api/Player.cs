@@ -9,6 +9,7 @@ using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
 using Synapse.Config;
+using Synapse.Events.Patches.SynapsePatches;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -464,10 +465,13 @@ namespace Synapse.Api
         /// <param name="damageType"></param>
         public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
 
-        [Obsolete("Does not work properly")]
+        /// <summary>
+        /// Changes The Role of the Player without Changing his Items/Position/Health
+        /// </summary>
+        /// <param name="role"></param>
         public void ChangeRoleAtPosition(RoleType role)
         {
-            //TODO: Fix this shit
+            RolePositionPatch.Lite = true;
             Hub.characterClassManager.SetClassIDAdv(role, true);
         }
 
