@@ -17,8 +17,8 @@ namespace Synapse
     {
         #region Version
         private const int MajorVersion = 1;
-        private const int MinorVersion = 2;
-        private const int Patch = 1;
+        private const int MinorVersion = 3;
+        private const int Patch = 0;
 
         public static int VersionNumber => MajorVersion * 100 + MinorVersion * 10 + Patch;
         public static string Version => $"{MajorVersion}.{MinorVersion}.{Patch}";

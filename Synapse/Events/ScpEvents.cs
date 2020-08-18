@@ -8,7 +8,6 @@ namespace Synapse.Events
         /// <summary>A Event which is activated when Scp049 respawns a Player</summary>
         public delegate void OnScp049Recall(Scp049RecallEvent ev);
         public static event OnScp049Recall Scp049RecallEvent;
-
         internal static void InvokeScp049RecallEvent(Player player, ref Ragdoll ragdoll, ref Player target,
             ref bool allow, ref RoleType role, ref float lives)
         {
@@ -53,7 +52,6 @@ namespace Synapse.Events
 
         public delegate void OnScp106Containment(Scp106ContainmentEvent ev);
         public static event OnScp106Containment Scp106ContainmentEvent;
-
         internal static void InvokeScp106ContainmentEvent(Player player, ref bool allow)
         {
             if (Scp106ContainmentEvent == null) return;
@@ -90,9 +88,7 @@ namespace Synapse.Events
         }
 
         public delegate void OnScp106CreatePortal(Scp106CreatePortalEvent ev);
-
         public static event OnScp106CreatePortal Scp106CreatePortalEvent;
-
         internal static void InvokeScp106CreatePortalEvent(Player player, ref bool allow)
         {
             var ev = new Scp106CreatePortalEvent
@@ -102,6 +98,25 @@ namespace Synapse.Events
             };
             
             Scp106CreatePortalEvent?.Invoke(ev);
+
+            allow = ev.Allow;
+        }
+
+        public delegate void OnScp096AddTarget(Scp096AddTarget ev);
+        public static event OnScp096AddTarget Scp096AddTarget;
+        internal static void InvokeScp096AddTarget(Player player,Player shyguy,PlayableScps.Scp096PlayerState state,ref bool allow)
+        {
+            if (Scp096AddTarget == null) return;
+
+            var ev = new Scp096AddTarget()
+            {
+                Player = player,
+                ShyGuy = shyguy,
+                RageState = state,
+                Allow = allow
+            };
+
+            Scp096AddTarget.Invoke(ev);
 
             allow = ev.Allow;
         }
