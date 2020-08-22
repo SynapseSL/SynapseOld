@@ -47,6 +47,9 @@ namespace Synapse.Api
             }
         }
 
+        /// <summary>
+        /// Get / Set the Scale of the Dummy
+        /// </summary>
         public Vector3 Scale
         {
             get => gameObject.transform.localScale;
