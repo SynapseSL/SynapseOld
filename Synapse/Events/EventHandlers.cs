@@ -66,6 +66,7 @@ namespace Synapse.Events
 
                 Timing.CallDelayed(2f, () =>
                 {
+                    dm.Scale = Vector3.one * 2;
                     dm.BadgeName = "TestBadge";
                 });
 

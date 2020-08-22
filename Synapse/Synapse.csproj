@@ -49,7 +49,7 @@
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
     </Reference>
-    <Reference Include="NorthwoodLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="NorthwoodLib">
       <HintPath>..\..\Synapse_Dependencies\NorthwoodLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />

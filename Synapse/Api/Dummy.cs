@@ -33,7 +33,6 @@ namespace Synapse.Api
             set => gameObject.GetComponent<NicknameSync>().Network_myNickSync = value;
         }
 
-
         /// <summary>
         /// Get / Set the Current Position of the Dummy
         /// </summary>
@@ -48,6 +47,16 @@ namespace Synapse.Api
             }
         }
 
+        public Vector3 Scale
+        {
+            get => gameObject.transform.localScale;
+            set
+            {
+                Despawn();
+                gameObject.transform.localScale = value;
+                Spawn();
+            }
+        }
 
         /// <summary>
         /// Get / Set the Current Item the Dummy is holding
