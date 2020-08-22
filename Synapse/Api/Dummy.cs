@@ -106,6 +106,7 @@ namespace Synapse.Api
             gameObject.GetComponent<ServerRoles>().MyColor = badgecolor;
             obj.transform.localScale = Vector3.one;
             obj.transform.position = pos;
+            obj.transform.rotation = rot;
             obj.GetComponent<QueryProcessor>().NetworkPlayerId = 9999;
             obj.GetComponent<QueryProcessor>().PlayerId = 9999;
 
