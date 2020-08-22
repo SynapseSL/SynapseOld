@@ -3,6 +3,7 @@ using Synapse.Events.Classes;
 using Synapse.Config;
 using UnityEngine;
 using Synapse.Api;
+using MEC;
 
 namespace Synapse.Events
 {
@@ -15,8 +16,54 @@ namespace Synapse.Events
             Events.SyncDataEvent += OnSyncData;
             Events.DoorInteractEvent += OnDoorInteract;
             Events.PlayerJoinEvent += OnPlayerJoin;
+
+            //KeyPressEvent for Testing many different things easy with a singel Key Press!
+            #if DEBUG
+            Events.KeyPressEvent += OnKey;
+            #endif
         }
 
+        private void OnKey(KeyPressEvent ev)
+        {
+            if (ev.Key == KeyCode.Alpha1)
+            {
+                var dm = new Dummy(ev.Player.Position, Quaternion.identity, ev.Player.Role, "first","First","yellow");
+                dm.Name = "second";
+                dm.HeldItem = ItemType.GunLogicer;
+                var pos = ev.Player.Position;
+                pos.y += 2;
+                dm.Position = pos;
+                dm.Role = RoleType.Scientist;
+
+                Timing.CallDelayed(2f, () =>
+                 {
+                     dm.BadgeName = "TestBadge";
+                 });
+
+                Timing.CallDelayed(5f, () =>
+                {
+                    dm.BadgeColor = "red";
+                });
+
+                Timing.CallDelayed(10f, () => dm.Destroy());
+            }
+            if (ev.Key == KeyCode.Alpha2)
+            {
+                var msg = "";
+                foreach (var player in Player.GetAllPlayers())
+                    msg += $"\n{player}";
+
+                ev.Player.SendConsoleMessage(msg);
+            }
+            if (ev.Key == KeyCode.Alpha3)
+            {
+                var msg = "";
+                foreach (var player in ReferenceHub.GetAllHubs())
+                    msg += $"\n{player}";
+
+                ev.Player.SendConsoleMessage(msg);
+            }
+        }
         // Methods
         private void OnPlayerJoin(PlayerJoinEvent ev)
         {

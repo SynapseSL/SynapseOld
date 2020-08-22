@@ -15,7 +15,6 @@ namespace Synapse.Api
         private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
 
-
         /// <summary>
         /// Activates/Deactivates the FriendlyFire on the server
         /// </summary>
