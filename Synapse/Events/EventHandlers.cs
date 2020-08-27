@@ -4,6 +4,8 @@ using Synapse.Config;
 using UnityEngine;
 using Synapse.Api;
 using MEC;
+using Grenades;
+using Mirror;
 
 namespace Synapse.Events
 {
@@ -17,10 +19,43 @@ namespace Synapse.Events
             Events.DoorInteractEvent += OnDoorInteract;
             Events.PlayerJoinEvent += OnPlayerJoin;
 
-            //KeyPressEvent for Testing many different things easy with a singel Key Press!
             #if DEBUG
             Events.KeyPressEvent += OnKey;
+            Events.ShootEvent += OnShoot;
             #endif
+        }
+
+        private void OnShoot(ShootEvent ev)
+        {
+            var cam = ev.Player.Hub.PlayerCameraReference;
+            Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit where, 40f);
+            if (where.transform.TryGetComponent<Grenade>(out var grenade))
+            {
+                grenade.NetworkfuseTime = 0;
+                grenade.ServersideExplosion();
+            }
+
+            else if (where.transform.TryGetComponent<Pickup>(out var pickup))
+            {
+                if (pickup.itemId == ItemType.GrenadeFrag)
+                {
+                    var pos = pickup.position;
+                    pickup.position = Vector3.zero;
+                    pickup.Delete();
+
+                    var gm = Server.Host.GetComponent<GrenadeManager>();
+                    var grenade2 = gm.availableGrenades.FirstOrDefault(g => g.inventoryID == ItemType.GrenadeFrag);
+                    var component = Object.Instantiate(grenade2.grenadeInstance).GetComponent<Grenade>();
+                    component.InitData(gm, Vector3.zero, Vector3.zero);
+                    component.transform.position = pos;
+
+                    
+                    NetworkServer.Spawn(component.gameObject);
+
+                    component.NetworkfuseTime = 0f;
+                    component.ServersideExplosion();
+                }
+            }
         }
 
         // Methods

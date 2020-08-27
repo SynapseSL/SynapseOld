@@ -22,8 +22,12 @@ namespace Synapse.Events.Patches.EventPatches.PlayerPatches
                      __instance._hub.inventory.items[itemIndex].durability <= 0.0))
                     return false;
 
+                Player targetplayer = null;
+                if (target != null)
+                    targetplayer = target.GetPlayer();
+
                 //Event Invoke
-                Events.InvokeShootEvent(__instance.GetPlayer(), target.GetPlayer(), ref targetPos, out var allow);
+                Events.InvokeShootEvent(__instance.gameObject.GetPlayer(), targetplayer, ref targetPos, out var allow);
 
                 return allow;
             }
