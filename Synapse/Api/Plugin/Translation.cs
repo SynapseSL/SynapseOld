@@ -8,12 +8,15 @@ namespace Synapse.Api.Plugin
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public class Translation
     {
+        private Dictionary<string, string> _rawtranslation;
         private Dictionary<string, string> _translation = new Dictionary<string, string>();
         private string _translationPath;
         internal Plugin Plugin;
 
         public void CreateTranslations(Dictionary<string,string> translations)
         {
+            _rawtranslation = translations;
+
             _translationPath = Path.Combine(Files.ServerConfigDirectory, Plugin.Details.Name + "-translation.txt");
             if (!File.Exists(_translationPath))
                 File.Create(_translationPath).Close();
@@ -48,6 +51,12 @@ namespace Synapse.Api.Plugin
             }
 
             _translation = dictionary;
+        }
+
+        public void ReloadTranslations()
+        {
+            if (_rawtranslation != null)
+                CreateTranslations(_rawtranslation);
         }
 
         public string GetTranslation(string translationName)
