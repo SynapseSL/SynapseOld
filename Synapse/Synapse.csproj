@@ -91,11 +91,13 @@
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\Classes\ShootEvent.cs" />
     <Compile Include="Events\Classes\Scp096AddTarget.cs" />
     <Compile Include="Events\Classes\KeyPressEvent.cs" />
     <Compile Include="Events\Classes\PlayerThrowGrenadeEvent.cs" />
     <Compile Include="Events\Classes\Scp106CreatePortalEvent.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\TeslaTriggerEvent.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\ShootPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerThrowGrenadePatch.cs" />
     <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp096Target.cs" />
     <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp106CreatePortalPatch.cs" />
