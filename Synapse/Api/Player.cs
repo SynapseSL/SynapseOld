@@ -86,6 +86,8 @@ namespace Synapse.Api
 
         public HintDisplay HintDisplay => Hub.hints;
 
+        public Scp106Controller Scp106Controller => this.GetComponent<Scp106Controller>();
+
         /// <summary>
         /// The CommandSender objects of the Player
         /// </summary>

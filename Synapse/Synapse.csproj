@@ -70,6 +70,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Scp106Controller.cs" />
     <Compile Include="Api\MapPoint.cs" />
     <Compile Include="Api\Dummy.cs" />
     <Compile Include="Api\Plugin\PluginDetails.cs" />
