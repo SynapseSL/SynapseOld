@@ -88,6 +88,8 @@ namespace Synapse.Api
 
         public Scp106Controller Scp106Controller => this.GetComponent<Scp106Controller>();
 
+        public Scp079Controller Scp079Controller => this.GetComponent<Scp079Controller>();
+
         /// <summary>
         /// The CommandSender objects of the Player
         /// </summary>
