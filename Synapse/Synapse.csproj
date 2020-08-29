@@ -91,6 +91,10 @@
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\RoundEvents.cs" />
+    <Compile Include="Events\Scp096Events.cs" />
+    <Compile Include="Events\Scp106Events.cs" />
+    <Compile Include="Events\Scp079Events.cs" />
     <Compile Include="Events\Classes\ShootEvent.cs" />
     <Compile Include="Events\Classes\Scp096AddTarget.cs" />
     <Compile Include="Events\Classes\KeyPressEvent.cs" />
@@ -174,7 +178,7 @@
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\SyncDataPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\WarheadDetonationPatch.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
-    <Compile Include="Events\ScpEvents.cs" />
+    <Compile Include="Events\Scp049Events.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Config\PermissionReader.cs" />
     <Compile Include="Api\Plugin\Plugin.cs" />
