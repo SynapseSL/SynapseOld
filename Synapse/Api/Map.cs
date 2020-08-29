@@ -12,6 +12,9 @@ namespace Synapse.Api
     [SuppressMessage("ReSharper", "UnusedMember.Global")]
     public static class Map
     {
+        private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
+
+
         /// <summary>
         /// Activates/Deactivates the FriendlyFire on the server
         /// </summary>
@@ -21,8 +24,6 @@ namespace Synapse.Api
         /// Gives you a list of all lifts
         /// </summary>
         public static List<Lift> Lifts => Server.GetObjectsOf<Lift>();
-
-        private static Broadcast BroadcastComponent => Player.Host.GetComponent<Broadcast>();
 
         /// <summary>
         /// Gives you a list of all rooms
@@ -37,6 +38,9 @@ namespace Synapse.Api
             }
         }
 
+        /// <summary>
+        /// Get/Sets the Text of the Intercom
+        /// </summary>
         public static string IntercomText
         {
             get => Server.Host.GetComponent<Intercom>().CustomContent;
@@ -175,6 +179,38 @@ namespace Synapse.Api
         public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
             => Player.Host.Inventory.SetPickup(itemType, durability, position, rotation, sight, barrel, other);
 
+        /// <summary>
+        /// Spawns a Item on the Map with a specific scale
+        /// </summary>
+        /// <param name="itemType"></param>
+        /// <param name="durability"></param>
+        /// <param name="position"></param>
+        /// <param name="scale"></param>
+        /// <param name="rotation"></param>
+        /// <param name="sight"></param>
+        /// <param name="barrel"></param>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
+        {
+            var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position, Quaternion.identity, 0, 0, 0);
+
+            var gameObject = p.gameObject;
+            gameObject.transform.localScale = scale;
+
+            NetworkServer.UnSpawn(gameObject);
+            NetworkServer.Spawn(p.gameObject);
+
+            return p;
+        }
+
+        /// <summary>
+        /// Spawns a WorkStation on the Map
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="rotation"></param>
+        /// <param name="size"></param>
+        /// <returns>The Workstation</returns>
         public static WorkStation SpawnWorkStation(Vector3 position,Vector3 rotation,Vector3 size)
         {
             GameObject bench =
@@ -193,25 +229,18 @@ namespace Synapse.Api
             return bench.GetComponent<WorkStation>();
         }
 
+        /// <summary>
+        /// Spawns a Ragdoll on the Map
+        /// </summary>
+        /// <param name="Position"></param>
+        /// <param name="role"></param>
+        /// <param name="killer"></param>
         public static void SpawnRagdoll(Vector3 Position,RoleType role,string killer = "World")
         {
             Server.Host.GetComponent<RagdollManager>().SpawnRagdoll(
                 Position, Quaternion.identity, Vector3.zero, (int)role,
                 new PlayerStats.HitInfo(1000f, killer, DamageTypes.Falldown, 1)
                 , false, killer, killer, 1);
-        }
-
-        public static Pickup SpawnItem(ItemType itemType, float durability, Vector3 position, Vector3 scale, Quaternion rotation = default, int sight = 0, int barrel = 0, int other = 0)
-        {
-            var p = Server.Host.Inventory.SetPickup(itemType, -4.656647E+11f, position,Quaternion.identity, 0, 0, 0);
-
-            var gameObject = p.gameObject;
-            gameObject.transform.localScale = scale;
-
-            NetworkServer.UnSpawn(gameObject);
-            NetworkServer.Spawn(p.gameObject);
-
-            return p;
         }
 
         /// <summary>

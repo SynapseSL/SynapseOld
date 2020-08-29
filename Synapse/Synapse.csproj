@@ -49,7 +49,7 @@
     <Reference Include="Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\..\Synapse_Dependencies\Mirror.dll</HintPath>
     </Reference>
-    <Reference Include="NorthwoodLib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="NorthwoodLib">
       <HintPath>..\..\Synapse_Dependencies\NorthwoodLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -70,6 +70,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Scp079Controller.cs" />
+    <Compile Include="Api\Scp106Controller.cs" />
+    <Compile Include="Api\MapPoint.cs" />
+    <Compile Include="Api\Dummy.cs" />
     <Compile Include="Api\Plugin\PluginDetails.cs" />
     <Compile Include="Api\Server.cs" />
     <Compile Include="Api\Decontamination.cs" />
@@ -89,12 +93,23 @@
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\Classes\PocketDimensionLeave.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\PocketDimensionLeavePatch.cs" />
+    <Compile Include="Events\RoundEvents.cs" />
+    <Compile Include="Events\Scp096Events.cs" />
+    <Compile Include="Events\Scp106Events.cs" />
+    <Compile Include="Events\Scp079Events.cs" />
+    <Compile Include="Events\Classes\ShootEvent.cs" />
+    <Compile Include="Events\Classes\Scp096AddTarget.cs" />
     <Compile Include="Events\Classes\KeyPressEvent.cs" />
     <Compile Include="Events\Classes\PlayerThrowGrenadeEvent.cs" />
     <Compile Include="Events\Classes\Scp106CreatePortalEvent.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\TeslaTriggerEvent.cs" />
+    <Compile Include="Events\Patches\EventPatches\PlayerPatches\ShootPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\PlayerThrowGrenadePatch.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp096Target.cs" />
     <Compile Include="Events\Patches\EventPatches\ScpPatches\Scp106CreatePortalPatch.cs" />
+    <Compile Include="Events\Patches\SynapsePatches\RolePositionPatch.cs" />
     <Compile Include="Events\Patches\SynapsePatches\CommandsPatch.cs" />
     <Compile Include="Synapse.cs" />
     <Compile Include="Events\Classes\PlayerTagEvent.cs" />
@@ -167,7 +182,7 @@
     <Compile Include="Events\Patches\EventPatches\PlayerPatches\SyncDataPatch.cs" />
     <Compile Include="Events\Patches\EventPatches\MapPatches\WarheadDetonationPatch.cs" />
     <Compile Include="Events\PlayerEvents.cs" />
-    <Compile Include="Events\ScpEvents.cs" />
+    <Compile Include="Events\Scp049Events.cs" />
     <Compile Include="Events\ServerEvents.cs" />
     <Compile Include="Config\PermissionReader.cs" />
     <Compile Include="Api\Plugin\Plugin.cs" />

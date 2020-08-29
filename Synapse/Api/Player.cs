@@ -9,6 +9,7 @@ using RemoteAdmin;
 using Searching;
 using Synapse.Api.Enums;
 using Synapse.Config;
+using Synapse.Events.Patches.SynapsePatches;
 using UnityEngine;
 
 namespace Synapse.Api
@@ -85,6 +86,10 @@ namespace Synapse.Api
 
         public HintDisplay HintDisplay => Hub.hints;
 
+        public Scp106Controller Scp106Controller => this.GetComponent<Scp106Controller>();
+
+        public Scp079Controller Scp079Controller => this.GetComponent<Scp079Controller>();
+
         /// <summary>
         /// The CommandSender objects of the Player
         /// </summary>
@@ -102,6 +107,9 @@ namespace Synapse.Api
         /// </summary>
         public string NickName { get => NicknameSync.Network_myNickSync; }
 
+        /// <summary>
+        /// Get / Set the Displayed Name of the User
+        /// </summary>
         public string DisplayName { get => NicknameSync.DisplayName; set => NicknameSync.DisplayName = value; }
 
         /// <summary>
@@ -140,12 +148,10 @@ namespace Synapse.Api
         /// </summary>
         public bool Bypass { get => ServerRoles.BypassMode; set => Hub.serverRoles.BypassMode = value; }
 
-
         /// <summary>
         /// Get / Set the Players GodMode
         /// </summary>
         public bool GodMode { get => ClassManager.GodMode; set => ClassManager.GodMode = value; }
-
 
         /// <summary>
         /// Modify the size of the Player
@@ -183,6 +189,11 @@ namespace Synapse.Api
         /// The rotation of the player
         /// </summary>
         public Vector2 Rotation { get => MovementSync.RotationSync; set => Hub.playerMovementSync.RotationSync = value; }
+
+        /// <summary>
+        /// Get / Set the Last Position the Player died
+        /// </summary>
+        public Vector3 DeathPosition { get => ClassManager.DeathPosition; set => ClassManager.DeathPosition = value; }
 
         /// <summary>
         /// The health of the player
@@ -239,6 +250,11 @@ namespace Synapse.Api
                 }
             }
         }
+
+        /// <summary>
+        /// Gives you the Fraction of the Player
+        /// </summary>
+        public Fraction Fraction => ClassManager.Fraction;
         
         /// <summary>
         /// The Room where the player currently is
@@ -282,6 +298,8 @@ namespace Synapse.Api
         /// </summary>
         public Inventory.SyncListItemInfo Items { get => Inventory.items; set => Inventory.items = value; }
 
+        public Inventory.SyncItemInfo CurrentItem { get => Inventory.GetItemInHand(); }
+
         /// <summary>
         /// The person who cuffed the player
         /// </summary>
@@ -291,6 +309,7 @@ namespace Synapse.Api
             get => GetPlayer(Handcuffs.CufferId);
             set
             {
+                
                 var handcuff = value.Handcuffs;
 
                 if (handcuff == null) return;
@@ -343,6 +362,21 @@ namespace Synapse.Api
         public string RankName { get => Rank.BadgeText; set => Hub.serverRoles.SetText(value); }
 
         /// <summary>
+        /// Get/Set if the Rank/Badge of the Player is hidden
+        /// </summary>
+        public bool HideRank
+        { 
+            get => string.IsNullOrEmpty(ServerRoles.HiddenBadge);
+            set
+            {
+                if (value)
+                    ClassManager.CmdRequestHideTag();
+                else
+                    ClassManager.CallCmdRequestShowTag(false);
+            }
+        }
+
+        /// <summary>
         /// The Permission of the Player
         /// </summary>
         public ulong Permission { get => ServerRoles.Permissions; set => ServerRoles.Permissions = value; }
@@ -358,11 +392,19 @@ namespace Synapse.Api
         public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
 
         /// <summary>
-        /// The current camera the player uses (Scp079 only, if not null)
+        /// Gives you the Ping of the Player to the Server
         /// </summary>
-        public Camera079 Camera { get => Hub.scp079PlayerScript.currentCamera; set => Hub.scp079PlayerScript?.RpcSwitchCamera(value.cameraId, false); }
-
         public int Ping => LiteNetLib4MirrorServer.Peers[Connection.connectionId].Ping;
+
+        /// <summary>
+        /// Gives you the AuthToken of the Player
+        /// </summary>
+        public string AuthToken => ClassManager.AuthToken;
+
+        /// <summary>
+        /// Gives you the time since the Player last died
+        /// </summary>
+        public float AliveTime => ClassManager.AliveTime;
 
         /// <summary>
         /// The rotation float of the player
@@ -389,8 +431,14 @@ namespace Synapse.Api
         /// </summary>
         public bool IsDead => Team == Team.RIP;
 
+        /// <summary>
+        /// The Jail object of the Player
+        /// </summary>
         public Jail Jail => GetComponent<Jail>();
 
+        /// <summary>
+        /// Gets/Sets the UnitName of the Player
+        /// </summary>
         public string UnitName { get => ClassManager.NetworkCurUnitName; set => ClassManager.NetworkCurUnitName = value; }
 
         /// <summary>
@@ -419,10 +467,13 @@ namespace Synapse.Api
         /// <param name="damageType"></param>
         public void Kill(DamageTypes.DamageType damageType = default) => Hub.playerStats.HurtPlayer(new PlayerStats.HitInfo(-1f, "WORLD", damageType, 0), gameObject);
 
-        [Obsolete("Does not work properly")]
+        /// <summary>
+        /// Changes The Role of the Player without Changing his Items/Position/Health
+        /// </summary>
+        /// <param name="role"></param>
         public void ChangeRoleAtPosition(RoleType role)
         {
-            //TODO: Fix this shit
+            RolePositionPatch.Lite = true;
             Hub.characterClassManager.SetClassIDAdv(role, true);
         }
 
@@ -496,17 +547,6 @@ namespace Synapse.Api
         public void SendRAConsoleMessage(string message, bool success = true, RaCategory type = RaCategory.None) => CommandSender.RaMessage(message, success, type);
 
         /// <summary>
-        /// Hides for normal player the RankName the player has
-        /// </summary>
-        public void HideTag() => ClassManager.CallCmdRequestHideTag();
-
-        /// <summary>
-        /// Shows everyone the RankName the player has
-        /// </summary>
-        /// <param name="global"></param>
-        public void ShowTag(bool global = false) => ClassManager.CallCmdRequestShowTag(global);
-
-        /// <summary>
         /// Gives the player a item
         /// </summary>
         /// <param name="itemType"></param>
@@ -516,8 +556,15 @@ namespace Synapse.Api
         /// <param name="other"></param>
         public void GiveItem(ItemType itemType, float duration = float.NegativeInfinity, int sight = 0, int barrel = 0, int other = 0) => Hub.inventory.AddNewItem(itemType, duration, sight, barrel, other);
 
+        /// <summary>
+        /// Drops the Entire Inventory of the Player
+        /// </summary>
         public void DropAllItems() => Inventory.ServerDropAll();
 
+        /// <summary>
+        /// Drops a Item from the PlayerInventory
+        /// </summary>
+        /// <param name="item"></param>
         public void DropItem(Inventory.SyncItemInfo item)
         {
             Inventory.SetPickup(item.id, item.durability, Position, Inventory.camera.transform.rotation, item.modSight, item.modBarrel, item.modOther);
@@ -587,6 +634,9 @@ namespace Synapse.Api
             NetworkWriterPool.Recycle(writer);
         }
 
+        /// <summary>
+        /// Makes the Screen of the Player for the entire Round black
+        /// </summary>
         public void DimScreen()
         {
             var component = RoundSummary.singleton;
@@ -602,6 +652,10 @@ namespace Synapse.Api
             NetworkWriterPool.Recycle(writer);
         }
 
+        /// <summary>
+        /// Shakes the Screen of the Player like when the Warhead explodes
+        /// </summary>
+        /// <param name="achieve"></param>
         public void ShakeScreen(bool achieve = false)
         {
             var component = Warhead.Controller;
@@ -617,5 +671,7 @@ namespace Synapse.Api
             Connection.Send(msg);
             NetworkWriterPool.Recycle(writer);
         }
+
+        public override string ToString() => NickName;
     }
 }

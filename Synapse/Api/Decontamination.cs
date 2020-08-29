@@ -5,8 +5,14 @@ namespace Synapse.Api
 {
     public static class Decontamination
     {
+        /// <summary>
+        /// Gives you the Decontamination Controller
+        /// </summary>
         public static DecontaminationController Controller => DecontaminationController.Singleton;
 
+        /// <summary>
+        /// Is the Decontamination Countdown disabled?
+        /// </summary>
         public static bool IsDecontaminationDisabled 
         { 
             get => Controller._disableDecontamination; 
@@ -21,6 +27,9 @@ namespace Synapse.Api
             }
         }
 
+        /// <summary>
+        /// Is the Decontamination in Progress?
+        /// </summary>
         public static bool IsDecontaminationInProgress => Controller._decontaminationBegun;
 
         /// <summary>

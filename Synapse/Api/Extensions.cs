@@ -97,5 +97,13 @@ namespace Synapse.Api
         public static string GetVersionString(this PluginDetails details) => $"{details.SynapseMajor}.{details.SynapseMinor}.{details.SynapsePatch}";
 
         public static int GetVersionNumber(this PluginDetails details) => details.SynapseMajor * 100 + details.SynapseMinor * 10 + details.SynapsePatch;
+
+        public static MapPoint GetMapPoint(this YamlConfig config,string key,MapPoint def = null)
+        {
+            if (MapPoint.TryParse(config.GetString(key),out var point))
+                return point;
+
+            return def;
+        }
     }
 }

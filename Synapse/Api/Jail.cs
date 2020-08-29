@@ -88,6 +88,7 @@ namespace Synapse.Api
             player.Role = Role;
             Timing.CallDelayed(0.2f, () => player.Position = Position);
             player.Health = Health;
+            player.ClearInventory();
 
             foreach (var item in Items)
                 player.Inventory.items.Add(item);

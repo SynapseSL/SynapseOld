@@ -13,6 +13,8 @@ namespace Synapse.Events.Patches
 
             if (__instance.GetComponent<Jail>() == null) __instance.gameObject.AddComponent<Jail>();
 
+            if (__instance.GetComponent<Scp106Controller>() == null) __instance.gameObject.AddComponent<Scp106Controller>();
+
             try
             {
                 Events.InvokeLoadComponents(__instance.gameObject);

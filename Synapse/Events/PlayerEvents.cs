@@ -492,5 +492,26 @@ namespace Synapse.Events
             time = ev.FuseTime;
 
         }
+
+
+        public delegate void OnShoot(ShootEvent ev);
+        public static event OnShoot ShootEvent;
+        internal static void InvokeShootEvent(Player player,Player target,ref Vector3 targetpos,out bool allow)
+        {
+            allow = true;
+            if (ShootEvent == null) return;
+
+            var ev = new ShootEvent
+            {
+                Player = player,
+                Target = target,
+                TargetPosition = targetpos
+            };
+
+            ShootEvent.Invoke(ev);
+
+            allow = ev.Allow;
+            targetpos = ev.TargetPosition;
+        }
     }
 }
