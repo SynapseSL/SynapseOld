@@ -91,6 +91,8 @@
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadPermissionsCommand.cs" />
     <Compile Include="Config\ConfigManager.cs" />
+    <Compile Include="Events\Classes\PocketDimensionLeave.cs" />
+    <Compile Include="Events\Patches\EventPatches\ScpPatches\PocketDimensionLeavePatch.cs" />
     <Compile Include="Events\RoundEvents.cs" />
     <Compile Include="Events\Scp096Events.cs" />
     <Compile Include="Events\Scp106Events.cs" />

@@ -53,5 +53,25 @@ namespace Synapse.Events
 
             allow = ev.Allow;
         }
+
+        public delegate void OnPocketDimensionLeave(PocketDimensionLeave ev);
+        public static event OnPocketDimensionLeave PocketDimensionLeaveEvent;
+        internal static void InvokePocketDimensionLeave(Player player, ref PocketDimensionTeleport.PDTeleportType type, out bool allow)
+        {
+            allow = true;
+            if (PocketDimensionLeaveEvent == null) return;
+
+            var ev = new PocketDimensionLeave
+            {
+                Allow = true,
+                Player = player,
+                TeleportType = type
+            };
+
+            PocketDimensionLeaveEvent.Invoke(ev);
+
+            allow = ev.Allow;
+            type = ev.TeleportType;
+        }
     }
 }
