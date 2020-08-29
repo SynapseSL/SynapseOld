@@ -390,11 +390,6 @@ namespace Synapse.Api
         public bool IsIntercomMuted { get => ClassManager.NetworkIntercomMuted; set => ClassManager.NetworkIntercomMuted = value; }
 
         /// <summary>
-        /// The current camera the player uses (Scp079 only, if not null)
-        /// </summary>
-        public Camera079 Camera { get => Hub.scp079PlayerScript.currentCamera; set => Hub.scp079PlayerScript?.RpcSwitchCamera(value.cameraId, false); }
-
-        /// <summary>
         /// Gives you the Ping of the Player to the Server
         /// </summary>
         public int Ping => LiteNetLib4MirrorServer.Peers[Connection.connectionId].Ping;
