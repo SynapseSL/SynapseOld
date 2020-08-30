@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Harmony;
 using Mirror;
@@ -14,77 +15,85 @@ namespace Synapse.Events.Patches
         public static bool Prefix(CharacterClassManager __instance, RoleType classid, GameObject ply,
             bool lite = false, bool escape = false)
         {
-            if (!NetworkServer.active) return false;
-            if (!ply.GetPlayer().ClassManager.IsVerified) return false;
-
-            var inventory =
-                lite ? new List<ItemType>(0) : __instance.Classes.SafeGet(classid).startItems.ToList();
-            Events.InvokePlayerSetClassEvent(ply.GetPlayer(), ref classid, ref inventory);
-            ply.GetPlayer().ClassManager.SetClassIDAdv(classid, lite, escape);
-            ply.GetPlayer().Health = __instance.Classes.SafeGet(classid).maxHP;
-
-            if (lite) return false;
-            var inv = ply.GetPlayer().Inventory;
-            var list = ListPool<Inventory.SyncItemInfo>.Shared.Rent();
-
-            if (escape && __instance.KeepItemsAfterEscaping)
+            try
             {
-                list.AddRange(inv.items);
-            }
-            
-            inv.items.Clear();
-            foreach (var id in inventory)
-            {
-                inv.AddNewItem(id);
-            }
+                if (!NetworkServer.active) return false;
+                if (!ply.GetPlayer().ClassManager.IsVerified) return false;
 
-            if (!escape || !__instance.KeepItemsAfterEscaping) return false;
-            foreach (var syncItemInfo in list)
-            {
-                if (__instance.PutItemsInInvAfterEscaping)
+                var inventory =
+                    lite ? new List<ItemType>(0) : __instance.Classes.SafeGet(classid).startItems.ToList();
+                Events.InvokePlayerSetClassEvent(ply.GetPlayer(), ref classid, ref inventory);
+                ply.GetPlayer().ClassManager.SetClassIDAdv(classid, lite, escape);
+                ply.GetPlayer().Health = __instance.Classes.SafeGet(classid).maxHP;
+
+                if (lite) return false;
+                var inv = ply.GetPlayer().Inventory;
+                var list = ListPool<Inventory.SyncItemInfo>.Shared.Rent();
+
+                if (escape && __instance.KeepItemsAfterEscaping)
                 {
-                    var itemById = inv.GetItemByID(syncItemInfo.id);
-                    var flag = false;
-                    var categories = __instance._search.categories;
-                    var i = 0;
+                    list.AddRange(inv.items);
+                }
 
-                    while (i < categories.Length)
+                inv.items.Clear();
+                foreach (var id in inventory)
+                {
+                    inv.AddNewItem(id);
+                }
+
+                if (!escape || !__instance.KeepItemsAfterEscaping) return false;
+                foreach (var syncItemInfo in list)
+                {
+                    if (__instance.PutItemsInInvAfterEscaping)
                     {
-                        var invCat = categories[i];
-                        if (invCat.itemType == itemById.itemCategory && itemById.itemCategory != ItemCategory.None)
+                        var itemById = inv.GetItemByID(syncItemInfo.id);
+                        var flag = false;
+                        var categories = __instance._search.categories;
+                        var i = 0;
+
+                        while (i < categories.Length)
                         {
-                            var num = inv.items.Count(syncItemInfo2 => inv.GetItemByID(syncItemInfo2.id).itemCategory == itemById.itemCategory);
-
-                            if (num >= invCat.maxItems)
+                            var invCat = categories[i];
+                            if (invCat.itemType == itemById.itemCategory && itemById.itemCategory != ItemCategory.None)
                             {
-                                flag = true;
+                                var num = inv.items.Count(syncItemInfo2 => inv.GetItemByID(syncItemInfo2.id).itemCategory == itemById.itemCategory);
+
+                                if (num >= invCat.maxItems)
+                                {
+                                    flag = true;
+                                }
+
+                                break;
                             }
-
-                            break;
+                            i++;
                         }
-                        i++;
-                    }
 
-                    if (inv.items.Count >= 8 || flag)
+                        if (inv.items.Count >= 8 || flag)
+                        {
+                            inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
+                                Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
+                                syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
+                        }
+                        else
+                        {
+                            inv.AddNewItem(syncItemInfo.id, syncItemInfo.durability, syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
+                        }
+                    }
+                    else
                     {
                         inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
                             Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
                             syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
                     }
-                    else
-                    {
-                        inv.AddNewItem(syncItemInfo.id, syncItemInfo.durability, syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
-                    }
                 }
-                else
-                {
-                    inv.SetPickup(syncItemInfo.id, syncItemInfo.durability, __instance._pms.RealModelPosition,
-                        Quaternion.Euler(__instance._pms.Rotations.x, __instance._pms.Rotations.y, 0f),
-                        syncItemInfo.modSight, syncItemInfo.modBarrel, syncItemInfo.modOther);
-                }
-            }
 
-            return false;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Log.Error($"PlayerSetClass Event Error: {e}");
+                return true;
+            }
         }
     }
 }
