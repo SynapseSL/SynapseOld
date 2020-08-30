@@ -62,6 +62,8 @@ namespace Synapse.Api
         /// </summary>
         public static int ActivatedGenerators => Generator079.mainGenerator.totalVoltage;
 
+        public static Vector3 PocketPosition => Vector3.down * 1998.5f;
+
         // Methods
         /// <summary>Gives the position of the door with that name</summary>
         /// <param name="doorName">Name of the Door you want</param>
