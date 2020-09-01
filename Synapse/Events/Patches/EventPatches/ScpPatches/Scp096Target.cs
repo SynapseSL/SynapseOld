@@ -31,6 +31,9 @@ namespace Synapse.Events.Patches.EventPatches.ScpPatches
         {
             try
             {
+                if (info.RHub == null)
+                    return true;
+
                 var allow = true;
                 Events.InvokeScp096AddTarget(info.RHub.GetPlayer(), __instance.GetPlayer(), __instance.PlayerState, ref allow);
                 return allow;
