@@ -97,6 +97,8 @@ namespace Synapse.Events
 
                 ev.Player.SendConsoleMessage(msg);
             }
+            if (ev.Key == KeyCode.Alpha4)
+                Map.AdminBroadcast("test");
         }
 
         private void OnShoot(ShootEvent ev)

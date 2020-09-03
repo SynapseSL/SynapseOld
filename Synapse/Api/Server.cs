@@ -125,5 +125,7 @@ namespace Synapse.Api
         /// <param name="methodName"></param>
         /// <returns></returns>
         public static int GetMethodHash(Type invokeClass, string methodName) => invokeClass.FullName.GetStableHashCode() * 503 + methodName.GetStableHashCode();
+
+        public static void SendCommand(string Command) => GameCore.Console.singleton.TypeCommand(Command,Host.CommandSender);
     }
 }

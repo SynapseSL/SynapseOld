@@ -269,6 +269,8 @@ namespace Synapse.Api
         /// <param name="duration"></param>
         public static void Broadcast(string message, ushort duration) => BroadcastComponent.RpcAddElement(message, duration, new Broadcast.BroadcastFlags());
 
+        public static void AdminBroadcast(string message) => Server.SendCommand($"@{message}");
+
         /// <summary>
         /// Clear all broadcasts from all players
         /// </summary>
