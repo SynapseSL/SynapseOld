@@ -14,6 +14,8 @@ namespace Synapse.Events.Patches.SynapsePatches
             //Synapse Commands
             __instance.RegisterCommand(new PluginsCommand());
             __instance.RegisterCommand(new PluginInfoCommand());
+            __instance.RegisterCommand(new ReloadPermissionsCommand());
+            __instance.RegisterCommand(new ReloadConfigsCommand());
         }
     }
 

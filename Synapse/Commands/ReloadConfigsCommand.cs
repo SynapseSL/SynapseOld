@@ -5,6 +5,7 @@ using System;
 
 namespace Synapse.Commands
 {
+    [CommandHandler(typeof(GameConsoleCommandHandler))]
     [CommandHandler(typeof(RemoteAdminCommandHandler))]
     public class ReloadConfigsCommand : ICommand
     {
