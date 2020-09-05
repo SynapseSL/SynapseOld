@@ -86,6 +86,8 @@ namespace Synapse.Api
 
         public HintDisplay HintDisplay => Hub.hints;
 
+        public Transform CameraReference => Hub.PlayerCameraReference;
+
         public Scp106Controller Scp106Controller => this.GetComponent<Scp106Controller>();
 
         public Scp079Controller Scp079Controller => this.GetComponent<Scp079Controller>();
@@ -321,6 +323,17 @@ namespace Synapse.Api
                 }
 
                 Handcuffs.NetworkCufferId = value.PlayerId;
+            }
+        }
+
+        public GameObject LookingAt
+        {
+            get
+            {
+                if (!Physics.Raycast(CameraReference.transform.position, CameraReference.transform.forward, out RaycastHit raycastthit,100f))
+                    return null;
+
+                return raycastthit.transform.gameObject;
             }
         }
 

@@ -99,6 +99,17 @@ namespace Synapse.Events
             }
             if (ev.Key == KeyCode.Alpha4)
                 Map.AdminBroadcast("test");
+            if (ev.Key == KeyCode.Alpha5)
+            {
+                ev.Player.GiveTextHint(ev.Player.LookAt.name);
+                var go = ev.Player.LookAt;
+                Timing.CallDelayed(1f, () => 
+                {
+                    NetworkServer.UnSpawn(go);
+                    go.transform.position = Vector3.zero;
+                    NetworkServer.Spawn(go);
+                });
+            }
         }
 
         private void OnShoot(ShootEvent ev)
