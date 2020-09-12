@@ -2,6 +2,8 @@
 ### **The new SCP: Secret Laboratory Plugin loader**
 Synapse is a new found project created by two german official community Server-Hosters. We used Harmony to create a framework which makes us easier to implement new functions, game updates and overall a new experience a player.
 
+**This Legacy Code is depcreated. [Please use this repo!](https://github.com/SynapseSL/Synapse)**
+
 ## **Features & Configs**
 
 Synapse itself has a ton of features some of these include:
@@ -30,5 +32,6 @@ First of all we need to thank [SCP: Secret Laboratory](https://scpslgame.com) an
 
 We also need to thank the [Harmony](https://github.com/pardeike/Harmony) guys for developing a Runtime .NET Patcher.
 
+A lot of the ground work of this repository is done by [Exiled](https://github.com/galaxy119/EXILED) and the Exiled Development Team. Thank you for teaching us! :)
 
 #### **Created by Dimenzio and SirRoob**
